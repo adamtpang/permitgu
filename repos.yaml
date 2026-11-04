@@ -1,0 +1,19 @@
+# repos.yaml v0 - see github.com/adamtpang/repo-connect
+repo: permit.gu
+is: PermitGU, an unofficial demo of a Guam permit guide with sourced step-by-step routes and AI answers, named and branded by EJ Calvo
+url: https://permitgu.vercel.app
+cluster: guam-gov
+
+provides:
+  - id: guam-permit-kb
+    what: Markdown knowledge base of Guam permit topics generated from the route pages
+    at: kb
+  - id: sourced-ask-endpoint
+    what: Vercel Function that routes a question with Jev and answers from the KB with numbered external citations
+    at: api/ask.mjs
+
+stack: [static html, vercel functions, openrouter, jev]
+
+kin:
+  - repo: dogeguam
+    why: both are Guam government demos built for the incoming Ada/Calvo administration and are Anchor Marianas proof of work; PermitGU shows a better citizen service, dogeguam shows where GovGuam money goes, and they are pitched to the same transition team
