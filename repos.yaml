@@ -8,6 +8,9 @@ provides:
   - id: guam-permit-kb
     what: Markdown knowledge base of Guam permit topics generated from the route pages
     at: kb
+  - id: permit-roadmap
+    what: PermitSF-style roadmap (front door, days to permit, online tracking, one intake, a clock in law) with sources
+    at: roadmap.html
   - id: sourced-ask-endpoint
     what: Vercel Function that routes a question with Jev and answers from the KB with numbered external citations
     at: api/ask.mjs
@@ -17,3 +20,4 @@ stack: [static html, vercel functions, openrouter, jev]
 kin:
   - repo: dogeguam
     why: both are Guam government demos built for the incoming Ada/Calvo administration and are Anchor Marianas proof of work; PermitGU shows a better citizen service, dogeguam shows where GovGuam money goes, and they are pitched to the same transition team
+    links: [roadmap.html links dogeguam /vital/housing; dogeguam housing vital, /command and /memo link here]

@@ -22,7 +22,7 @@
     ['Get help, check a permit, or appeal', '/help', 'Permit center, status, appeals, agencies'],
     ['Other government services', '/#all', 'Licenses, IDs, bills, and more'],
   ];
-  var MORE = [['How it works', '/how-it-works'], ['Suggest a correction', '/corrections'], ['Privacy', '/privacy'], ['About', '/about']];
+  var MORE = [['How it works', '/how-it-works'], ['Roadmap', '/roadmap'], ['Suggest a correction', '/corrections'], ['Privacy', '/privacy'], ['About', '/about']];
   document.querySelectorAll('.check,.open').forEach(function (gap) {
     var link = document.createElement('a');
     link.href = '/corrections?topic=' + encodeURIComponent(document.title.split('|')[0].trim());

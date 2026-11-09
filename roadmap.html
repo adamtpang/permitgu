@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap | PermitGU (unofficial demo)</title>
+<meta name="description" content="What a full PermitGU would do, modeled on PermitSF: one front door, published permit times, online filing and tracking. Not a Government of Guam website.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon-48.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#012d5c">
+<link rel="canonical" href="https://permitgu.vercel.app/roadmap">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PermitGU">
+<meta property="og:url" content="https://permitgu.vercel.app/roadmap">
+<meta property="og:title" content="Roadmap | PermitGU (unofficial demo)">
+<meta property="og:description" content="What a full PermitGU would do, modeled on PermitSF: one front door, published permit times, online filing and tracking. Not a Government of Guam website.">
+<meta property="og:image" content="https://permitgu.vercel.app/social-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PermitGU, an unofficial Guam permit guide">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="styles.css">
+<script data-posthog-fleet>(function(){if(window.__posthogFleet)return;window.__posthogFleet=1;var s=document.createElement('script');s.async=true;s.src='https://us-assets.i.posthog.com/static/array.js';s.onload=function(){if(!window.posthog||!window.posthog.init)return;window.posthog.init('phc_FCpCP9mIsb9IcxpX0Qqi6FmJ48sVvscAYIrZmtRHIq4',{api_host:'https://us.i.posthog.com',person_profiles:'identified_only',capture_pageview:'history_change',capture_pageleave:true,autocapture:false,disable_session_recording:true,disable_surveys:true,loaded:function(p){p.register({site:location.hostname})}});};document.head.appendChild(s);})();</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="demo"><strong>Unofficial demo.</strong> Not affiliated with the Government of Guam. Always confirm requirements with the agency before you apply.</div>
+<div class="wrap">
+<nav class="nav"><a class="brand" href="/" aria-label="PermitGU home"><img class="mark" src="logo-mark.png" width="36" height="36" alt=""><span class="wm">Permit<b>GU</b></span><span class="demo-pill">Demo</span></a>
+<span class="navlinks"><a class="hide-sm" href="/how-it-works">How it works</a><a class="pill" href="/#all">Browse all</a></span></nav>
+<main class="prose" id="main">
+<h1>Roadmap</h1>
+<p><a href="https://www.sf.gov/permitsf" target="_blank" rel="noopener">PermitSF</a> is not mainly a website. It is San Francisco&rsquo;s permit reform program, and its plain-language guide is one button on it. The program has four parts: one front door to every permit, published time targets for each department and permit type, online filing with a public tracker, and changes to the law. San Francisco announced a batch of reforms every 100 days in the first year (<a href="https://www.sf.gov/news-mayor-lurie-delivers-on-key-pieces-of-permitsf-announces-legislation-with-major-reforms-to-cut-red-tape-drive-economic-recovery" target="_blank" rel="noopener">first 100 days</a>).</p>
+<p>PermitGU today covers the first part. This page shows what a full Guam version would add, and what it needs from people who run the permits.</p>
+<ol class="steps">
+<li><h2>1. One front door (live)</h2>
+<p>Seven sourced routes (<a href="/build">build</a>, <a href="/typhoon-repair">typhoon repair</a>, <a href="/clear-grade">clear and grade</a>, <a href="/food-truck">food truck</a>, <a href="/events">events</a>, <a href="/zoning">zoning</a>, <a href="/public-spaces">roads and driveways</a>), <a href="/help">help and appeals</a>, and <a href="/ask">answers</a> drawn only from those sources. Every step links its official source, and anything we could not confirm is marked.</p></li>
+<li><h2>2. Published days to permit (next)</h2>
+<p>Nobody on Guam publishes how long a permit takes. The Department of Public Works says a single-family permit can clear in five to seven working days, but other agencies add reviews outside its control (<a href="https://www.postguam.com/news/local/abandoned-cars-faster-building-permits-focus-of-dpw-oversight/article_ada0be78-2518-4c0b-a828-fb1954c5608b.html" target="_blank" rel="noopener">Guam Daily Post</a>). Contractors testified to delays of weeks to years (<a href="https://www.islapublic.org/news/2025-10-12/testimony-supports-allowing-outside-help-for-permit-reviews" target="_blank" rel="noopener">Isla Public Media</a>). A monthly count of days to permit, by agency and permit type, is the measure to watch. DOGE Guam tracks it on its <a href="https://dogeguam.vercel.app/vital/housing" target="_blank" rel="noopener">housing vital</a>.</p>
+<div class="check">Not yet available: permit counts or dates from DPW, Guam EPA, Land Management, Public Health, or Fire. Without them, a time dashboard cannot be built.</div></li>
+<li><h2>3. File online and track it</h2>
+<p>DPW planned an online platform so contractors and homeowners could follow a building permit in real time. The bid died in a procurement protest, and DPW said it might bid it again or build it with the Bureau of Statistics and Plans (<a href="https://www.postguam.com/news/local/abandoned-cars-faster-building-permits-focus-of-dpw-oversight/article_ada0be78-2518-4c0b-a828-fb1954c5608b.html" target="_blank" rel="noopener">Guam Daily Post</a>). PermitGU can link each route to that tracker once one exists.</p></li>
+<li><h2>4. One intake across agencies</h2>
+<p>One project can need reviews from more than one agency: a house with a septic system needs Guam EPA clearance on its DPW building permit (<a href="/clear-grade">clear and grade</a>). DPW, Public Health, Land Management, Guam EPA, and Fire already sit together at the <a href="/help">permit center</a>. San Francisco merged customer service across its permit departments and took a reviewer out of routing where it added nothing. The Guam equivalent starts with a list of which agency reviews what, for each permit, and in what order.</p></li>
+<li><h2>5. Law that sets a clock</h2>
+<p><a href="https://guamlegislature.gov/38th_Guam_Legislature/Bills_Introduced_38th/Bill%20No.%20133-38%20(COR)%20Referred%20Version.pdf" target="_blank" rel="noopener">Bill 133-38</a> would let agencies use outside reviewers and conditionally approve a permit that is not decided within 90 days of a complete application. PermitGU would explain any such rule in plain words on each route.</p>
+<div class="check">Not yet confirmed: the bill&rsquo;s status after its October 2025 hearing.</div></li>
+</ol>
+<div class="open"><strong>What this needs (help wanted)</strong>
+<ul><li>Permit counts, submit dates, and approval dates by agency, even a sample.</li><li>Current fee schedules in dollars from DPW and Guam EPA.</li><li>Where applicants get stuck, from permit-counter staff and contractors.</li><li>An agency contact to confirm each route before it is called official.</li></ul></div>
+<p>PermitGU is an unofficial demo. Nothing on this page is a Government of Guam plan or commitment.</p>
+</main>
+<footer class="foot">
+<nav aria-label="Footer"><a href="/how-it-works">How it works</a><a href="/privacy">Privacy</a><a href="/about">About</a></nav>
+<p>PermitGU is an unofficial demo, not affiliated with the Government of Guam, inspired by America.gov and PermitSF. Steps are summarized from official sources and may change, so confirm with the agency before you apply. Not legal advice.</p>
+</footer>
+</div>
+<script src="menu.js" defer></script>
+</body>
+</html>
