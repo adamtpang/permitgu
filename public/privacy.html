@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy | PermitGU (unofficial demo)</title>
-<meta name="description" content="What PermitGU does and does not collect. Not a Government of Guam website.">
+<meta name="description" content="What the PermitGU guides and the unofficial building-permit tracker collect. Not a Government of Guam website.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon-48.png" type="image/png">
@@ -32,9 +32,12 @@
 <span class="navlinks"><a class="hide-sm" href="/how-it-works">How it works</a><a class="pill" href="/#all">Browse all</a></span></nav>
 <main class="prose" id="main">
 <h1>Privacy</h1>
-<p>PermitGU has no accounts or logins. The correction draft form works only in your browser and does not submit or save its contents. Here is what happens when you visit.</p>
+<p>The guides and Ask PermitGU need no account. The correction draft form works only in your browser and does not submit or save its contents. The building-permit tracker is separate: it stores an account and an application when you sign in. Here is what happens when you visit.</p>
+<h2>Building-permit tracker</h2>
+<p>If you start an application, sign-in uses Supabase Auth. Citizens get an email code. Staff use a password and an authenticator app. The application, the steps, and uploaded plans are stored in a Supabase Postgres database and a private storage bucket controlled by this demo, not by the Government of Guam. Nothing in the tracker is sent to a Government of Guam system. Permit GU does not take payments.</p>
+<p>Keep only what a permit file needs: the lot description, ownership, scope, declared valuation, license and seal numbers you type, and the files you upload. A recommended retention period, not an automatic deletion job, is seven years after a final status for the application and files, and ten years for the audit log. Dad or counsel can override that. Do not upload a real ID or a real plan set on this unofficial demo unless you accept that it sits in the project owner's Supabase project.</p>
 <h2>What we count</h2>
-<p>We use PostHog for basic usage statistics: page visits, page exits, answer topics and models, errors, and helpfulness ratings. We do not include your question text or correction drafts in analytics events. PostHog may receive browser information and an IP address and use a browser identifier. Session recording, surveys, and automatic click tracking are turned off. There are no user accounts or identified-person profiles on PermitGU.</p>
+<p>We use PostHog for basic usage statistics: page visits, page exits, answer topics and models, errors, and helpfulness ratings. We do not include your question text or correction drafts in analytics events. PostHog may receive browser information and an IP address and use a browser identifier. Session recording, surveys, and automatic click tracking are turned off. The tracker account is not sent to PostHog.</p>
 <h2>Questions you ask</h2>
 <p>Typing in the homepage box filters the routes inside your browser. When you send a question to <a href="/ask">Ask PermitGU</a>, it goes to our server and on to <a href="https://openrouter.ai/privacy" target="_blank" rel="noopener">OpenRouter</a>, which passes it to the AI model providers that write the answer (currently Google and Anthropic) and to TypeSafe, whose Jev model picks the right topic. PermitGU does not store your questions or answers, and your conversation disappears when you leave the page. Those providers handle your question under their own privacy terms, so please don&rsquo;t include personal details such as your name, address, or ID numbers.</p>
 <p>If you use the microphone button, your browser&rsquo;s built-in speech recognition turns your voice into text. In some browsers, such as Chrome, that audio is processed by the browser maker.</p>

@@ -11,6 +11,7 @@
     bar.appendChild(nav);
   }
   var LINKS = [
+    ['Track a building permit', '/apply', 'Unofficial one-family tracker'],
     ['Ask PermitGU', '/ask', 'Get an answer from official sources'],
     ['Start a food truck', '/food-truck', 'Full route'],
     ['Repair typhoon damage', '/typhoon-repair', 'Full route'],

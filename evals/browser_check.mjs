@@ -24,7 +24,7 @@ try {
   assert.equal((await fetch(base + '/.env.local')).status, 404);
   assert.equal((await fetch(base + '/api/_kb.mjs')).status, 404);
   browser = await chromium.launch({ executablePath: process.env.EDGE_PATH || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', headless: true });
-  const pages = fs.readdirSync(root).filter((name) => name.endsWith('.html'));
+  const pages = fs.readdirSync(path.join(root, 'public')).filter((name) => name.endsWith('.html'));
   let count = 0;
   for (const colorScheme of ['light', 'dark']) {
     for (const width of [320, 375, 768, 1280]) {
