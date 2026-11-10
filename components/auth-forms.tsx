@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { recordAuthEvent } from "@/lib/actions";
 import { createBrowserSupabase } from "@/lib/supabase/browser";
 import { Button, Input, Label } from "@/components/ui";
 
@@ -30,7 +31,10 @@ export function CitizenSignIn({ nextPath }: { nextPath: string }) {
     setError("");
     const { error: authError } = await supabase!.auth.verifyOtp({ email, token: code, type: "email" });
     if (authError) setError(authError.message);
-    else router.push(nextPath);
+    else {
+      await recordAuthEvent("sign_in");
+      router.push(nextPath);
+    }
   }
 
   return (
@@ -101,6 +105,7 @@ export function StaffSignIn() {
     if (challenge.error) return setError(challenge.error.message);
     const verified = await supabase!.auth.mfa.verify({ factorId, challengeId: challenge.data.id, code });
     if (verified.error) return setError(verified.error.message);
+    await recordAuthEvent("sign_in");
     router.push("/review");
   }
 

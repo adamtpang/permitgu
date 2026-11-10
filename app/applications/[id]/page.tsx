@@ -2,9 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { addComment, downloadDocument, respondToInfo, saveDraft, submitDraft, uploadDocument, withdraw } from "@/lib/actions";
 import { SetupNotice } from "@/components/shell";
-import { FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
+import { ClearanceBoard, CurrentStepBanner, EventTimeline, FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
 import { Button, Input, Textarea } from "@/components/ui";
+import { requestMeta } from "@/lib/request-meta";
 import { one, session } from "@/lib/session";
+import type { TrackerStep } from "@/lib/tracker-model";
 import { formatCents } from "@/lib/workflow";
 
 export const metadata = { title: "Application" };
@@ -28,10 +30,30 @@ export default async function ApplicationPage({
   const { data: documents } = await current.supabase.from("documents").select("id, kind, file_name, byte_size, scan_status").eq("application_id", id);
   const { data: requests } = await current.supabase.from("info_requests").select("id, body, response, created_at").eq("application_id", id).order("created_at");
   const { data: comments } = await current.supabase.from("comments").select("id, body, visibility, created_at").eq("application_id", id).order("created_at");
-  const { data: events } = await current.supabase.from("audit_log").select("id, action, memo, created_at, visibility").eq("application_id", id).order("id", { ascending: false }).limit(20);
+  const { data: events } = await current.supabase.from("audit_log").select("id, action, memo, created_at, actor_role").eq("application_id", id).order("id", { ascending: false }).limit(40);
+  const meta = await requestMeta();
+  await current.supabase.rpc("record_event", {
+    p_application_id: id,
+    p_action: "view_application",
+    p_entity: "application",
+    p_entity_id: id,
+    p_memo: "Opened the tracker",
+    p_ip: meta.ip,
+    p_user_agent: meta.userAgent,
+  });
 
   const ordered = [...(steps ?? [])].sort((a, b) => (one(a.workflow_steps)?.sort_order ?? 0) - (one(b.workflow_steps)?.sort_order ?? 0));
-  const active = ordered.find((step) => ["queued", "in_progress", "info_requested"].includes(step.status));
+  const trackerSteps: TrackerStep[] = ordered.map((step) => ({
+    id: step.id,
+    name: one(step.workflow_steps)?.name ?? "Step",
+    agency: one(step.agencies)?.acronym ?? "Agency",
+    agencyName: one(step.agencies)?.name ?? "Agency",
+    status: step.status,
+    routing: one(step.workflow_steps)?.routing ?? "",
+    sort: one(step.workflow_steps)?.sort_order ?? 0,
+    uncertainty: one(step.workflow_steps)?.uncertainty ?? null,
+    memo: step.memo,
+  }));
   const draft = application.status === "draft";
 
   return (
@@ -45,9 +67,8 @@ export default async function ApplicationPage({
       </header>
       {query.error ? <p className="text-sm text-bad" role="alert">{query.error}</p> : null}
       <PizzaTracker status={application.status} />
-      <p className="text-ink2">
-        {active ? `${one(active.agencies)?.acronym ?? "An agency"} has ${one(active.workflow_steps)?.name ?? "a step"}.` : "No agency is currently queued."}
-      </p>
+      <CurrentStepBanner steps={trackerSteps} />
+      <ClearanceBoard steps={trackerSteps} />
       {(application.status === "fees_due" || application.fees_due_cents != null || application.fees_paid_at) ? (
         <FeeCallout cents={application.fees_due_cents} paid={Boolean(application.fees_paid_at)} />
       ) : null}
@@ -166,14 +187,7 @@ export default async function ApplicationPage({
         </form>
       </section>
 
-      <section className="grid gap-2">
-        <h2 className="font-serif text-3xl font-normal">Activity</h2>
-        <ul className="grid gap-2 text-sm text-ink2">
-          {(events ?? []).map((event) => (
-            <li key={event.id}>{new Date(event.created_at).toLocaleString()} · {event.action.replaceAll("_", " ")}{event.memo ? ` · ${event.memo}` : ""}</li>
-          ))}
-        </ul>
-      </section>
+      <EventTimeline events={(events ?? []).map((event) => ({ id: String(event.id), action: event.action, memo: event.memo, createdAt: event.created_at, actorRole: event.actor_role }))} />
 
       {!["occupancy_issued", "denied", "withdrawn", "expired"].includes(application.status) ? (
         <form action={withdraw} className="grid max-w-md gap-2">

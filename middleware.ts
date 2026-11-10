@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { staffAccessDecision } from "@/lib/access";
 
 export async function middleware(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -20,8 +21,19 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  await supabase.auth.getUser();
-  return response;
+  const { data } = await supabase.auth.getUser();
+  const level = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+  const decision = staffAccessDecision({
+    pathname: request.nextUrl.pathname,
+    configured: true,
+    signedIn: Boolean(data.user),
+    aal: level.data?.currentLevel ?? null,
+  });
+  if (decision === "allow") return response;
+  const next = request.nextUrl.clone();
+  next.pathname = "/staff/sign-in";
+  next.searchParams.set("next", request.nextUrl.pathname);
+  return NextResponse.redirect(next);
 }
 
 export const config = {

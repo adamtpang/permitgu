@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { assessFees, denyApplication, expireApplication, issuePermit, markFeesPaid, requestInfo, reviewStep, routeStepAction } from "@/lib/actions";
+import { assessFees, assignStep, denyApplication, expireApplication, issuePermit, markFeesPaid, requestInfo, reviewStep, routeStepAction } from "@/lib/actions";
 import { SetupNotice } from "@/components/shell";
-import { FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
+import { ClearanceBoard, CurrentStepBanner, EventTimeline, FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
 import { Button, Input, Textarea } from "@/components/ui";
+import { requestMeta } from "@/lib/request-meta";
 import { one, staffSession } from "@/lib/session";
+import type { TrackerStep } from "@/lib/tracker-model";
 
 export const metadata = { title: "Review application" };
 
@@ -24,8 +26,31 @@ export default async function ReviewDetailPage({
 
   const { data: application } = await current.supabase.from("applications").select("*").eq("id", id).maybeSingle();
   if (!application) notFound();
-  const { data: steps } = await current.supabase.from("application_steps").select("id, status, memo, agency_id, agencies(code, acronym, name), workflow_steps(code, name, routing, sort_order, uncertainty)").eq("application_id", id);
+  const { data: steps } = await current.supabase.from("application_steps").select("id, status, memo, agency_id, assignee_id, agencies(code, acronym, name), workflow_steps(code, name, routing, sort_order, uncertainty)").eq("application_id", id);
+  const { data: events } = await current.supabase.from("audit_log").select("id, action, memo, created_at, actor_role").eq("application_id", id).order("id", { ascending: false }).limit(40);
+  const meta = await requestMeta();
+  await current.supabase.rpc("record_event", {
+    p_application_id: id,
+    p_action: "view_application",
+    p_entity: "application",
+    p_entity_id: id,
+    p_memo: "Staff opened the file",
+    p_ip: meta.ip,
+    p_user_agent: meta.userAgent,
+  });
+  const { data: directory } = await current.supabase.from("memberships").select("user_id, agency_id, role, profiles(full_name)").in("role", ["reviewer", "agency_admin"]);
   const ordered = [...(steps ?? [])].sort((a, b) => (one(a.workflow_steps)?.sort_order ?? 0) - (one(b.workflow_steps)?.sort_order ?? 0));
+  const trackerSteps: TrackerStep[] = ordered.map((step) => ({
+    id: step.id,
+    name: one(step.workflow_steps)?.name ?? "Step",
+    agency: one(step.agencies)?.acronym ?? "Agency",
+    agencyName: one(step.agencies)?.name ?? "Agency",
+    status: step.status,
+    routing: one(step.workflow_steps)?.routing ?? "",
+    sort: one(step.workflow_steps)?.sort_order ?? 0,
+    uncertainty: one(step.workflow_steps)?.uncertainty ?? null,
+    memo: step.memo,
+  }));
   const back = `/review/${id}`;
 
   return (
@@ -38,6 +63,8 @@ export default async function ReviewDetailPage({
       </header>
       {query.error ? <p className="text-sm text-bad" role="alert">{query.error}</p> : null}
       <PizzaTracker status={application.status} />
+      <CurrentStepBanner steps={trackerSteps} />
+      <ClearanceBoard steps={trackerSteps} />
       <FeeCallout cents={application.fees_due_cents} paid={Boolean(application.fees_paid_at)} />
 
       <ol className="grid gap-4">
@@ -54,6 +81,21 @@ export default async function ReviewDetailPage({
               </div>
               {workflow?.uncertainty ? <p className="mt-2 text-sm text-ink2">{workflow.uncertainty}</p> : null}
               {step.memo ? <p className="mt-2 text-sm">Note: {step.memo}</p> : null}
+              {(current.isSuper || current.staff.some((member) => member.role === "agency_admin" && member.agency_id === step.agency_id) || current.lead) ? (
+                <form action={assignStep} className="mt-3 flex flex-wrap items-center gap-2">
+                  <input type="hidden" name="return_to" value={back} />
+                  <input type="hidden" name="step_id" value={step.id} />
+                  <label className="text-sm" htmlFor={`assignee-${step.id}`}>Assign</label>
+                  <select id={`assignee-${step.id}`} name="assignee" defaultValue={step.assignee_id ?? ""} className="rounded-2xl border border-line bg-paper px-3 py-2">
+                    <option value="">Unassigned</option>
+                    {(directory ?? []).filter((member) => member.agency_id === step.agency_id).map((member) => (
+                      <option key={member.user_id} value={member.user_id}>{one(member.profiles)?.full_name ?? member.user_id}</option>
+                    ))}
+                  </select>
+                  <Input name="memo" placeholder="Why this assignment" aria-label="Assignment memo" className="max-w-xs" />
+                  <Button type="submit" variant="outline">Save assignment</Button>
+                </form>
+              ) : null}
               {canRoute ? (
                 <div className="mt-3 flex flex-wrap gap-2">
                   <Action form={routeStepAction} step={step.id} back={back} status="queued" label="Route to this agency" />
@@ -130,6 +172,7 @@ export default async function ReviewDetailPage({
           <p className="text-sm text-muted">The three-month start rule from the building guide is not enforced automatically. A person marks expiry.</p>
         </section>
       ) : null}
+      <EventTimeline events={(events ?? []).map((event) => ({ id: String(event.id), action: event.action, memo: event.memo, createdAt: event.created_at, actorRole: event.actor_role }))} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { grantMembership, revokeMembership, updateWorkflow } from "@/lib/actions";
+import { addPermit, grantMembership, revokeMembership, updateWorkflow } from "@/lib/actions";
 import { InviteForm } from "@/components/invite-form";
 import { SetupNotice } from "@/components/shell";
 import { Button, Input, Textarea } from "@/components/ui";
@@ -38,7 +38,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
       {query.notice ? <p className="text-sm text-ink2" role="status">{query.notice}</p> : null}
       <p className="max-w-2xl text-ink2">
         Routing changes what this demo queues. They do not create a new legal requirement. Keep the uncertainty note when a step is still unconfirmed.
-        {current.isSuper ? <> <Link href="/admin/export">Export the audit log</Link>.</> : null}
+        {current.isSuper ? <> <Link href="/admin/audit">Open the audit log</Link>.</> : null}
       </p>
       <section className="grid gap-3">
         <h2 className="font-serif text-3xl font-normal">Workflow template</h2>
@@ -101,6 +101,22 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
               <li key={event.id}>{event.created_at} · {event.visibility} · {event.action}{event.memo ? ` · ${event.memo}` : ""}</li>
             ))}
           </ul>
+        </section>
+      ) : null}
+      {current.isSuper ? (
+        <section className="grid max-w-xl gap-3">
+          <h2 className="font-serif text-3xl font-normal">Add a catalog permit</h2>
+          <p className="text-sm text-ink2">This writes a row. It does not invent a legal requirement. Leave it unverified until a source is checked.</p>
+          <form action={addPermit} className="grid gap-2">
+            <input type="hidden" name="return_to" value="/admin" />
+            <Input name="name" required placeholder="Permit name" aria-label="Permit name" />
+            <Input name="group_name" required placeholder="Life-event group" aria-label="Group" />
+            <Input name="agency_label" placeholder="Agency as printed" aria-label="Agency label" />
+            <Input name="agency_code" placeholder="Agency code, if it matches the directory" aria-label="Agency code" />
+            <Input name="source" placeholder="Official URL" aria-label="Source" />
+            <label className="text-sm"><input type="checkbox" name="unverified" defaultChecked /> Not yet confirmed</label>
+            <Button type="submit" variant="outline">Add to catalog</Button>
+          </form>
         </section>
       ) : null}
       <QuestionList />

@@ -35,7 +35,15 @@ supabase start
 supabase db reset
 ```
 
-`supabase/migrations` creates the tables, the private `application-documents` bucket, RLS, and the residential template. `supabase/seed.sql` adds fictional `example.com` people and one fake file. The local password for every seed account is `PermitGU-local-demo-1`. It is in git on purpose. **Do not run the seed on a public project.**
+`supabase/migrations` creates the tables, the private `application-documents` bucket (20 MB; PDF, PNG, JPEG, WebP), RLS, the residential workflow, and the agency and permit catalog from `docs/sources`. `supabase/seed.sql` has no password. It only attaches fictional `@example.com` roles when those users already exist.
+
+Demo users, local only:
+
+```bash
+SEED_PASSWORD='choose-at-least-8-characters' DATABASE_URL='postgresql://postgres:postgres@127.0.0.1:54322/postgres' node tools/seed_demo.mjs
+```
+
+Then `supabase db reset` is not required again. The seed file runs on reset and will attach roles if the users are already there. Do not commit `SEED_PASSWORD`. Do not point this at a public database.
 
 5. Env vars, in `.env.local` and on the Vercel preview (not production unless you mean to):
 
@@ -46,6 +54,7 @@ supabase db reset
 | `SUPABASE_SERVICE_ROLE_KEY` | Only to create a staff user from the admin page. Never expose it to the browser. |
 | `OPENROUTER_API_KEY` | `/api/ask`. Without it the route returns 503 `not_configured`. |
 | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Optional shared rate limit for `/api/ask`. |
+| `SEED_PASSWORD` | Local demo users only, via `tools/seed_demo.mjs`. Never commit it. |
 
 `NEXT_PUBLIC_*` values are baked in at build time. After adding them, redeploy the preview. Do not deploy this branch to production from here.
 
@@ -67,7 +76,7 @@ npm run build
 python tools/build_kb.py   # after a guide page changes
 ```
 
-`npm test` runs the workflow state-machine tests and the RLS tests. The RLS tests use PGlite plus the migration. They do not need Docker or a hosted project.
+`npm test` runs workflow transitions, catalog parsing, queue and audit filters, MFA route gating, upload checks, and PGlite tests for RLS, storage, assignee access, and the append-only audit log. No Docker or hosted project is required. `npm run build` succeeds with no env vars.
 
 ## What the preview still needs
 

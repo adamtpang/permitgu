@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "tsx --test lib/workflow.test.ts lib/files.test.ts tests/template-parity.test.ts tests/rls.test.ts",
+    "test": "tsx --test lib/*.test.ts tests/*.test.ts",
     "kb": "python tools/build_kb.py"
   },
   "dependencies": {

@@ -96,7 +96,9 @@ async function expectError(db: PGlite, uid: string, aal: string, sql: string, pa
 test("RLS isolates citizens, agency queues, and the audit log", async () => {
   const db = new PGlite();
   await db.exec(prelude);
-  await db.exec(fs.readFileSync("supabase/migrations/20261109235731_permit_gu_mvp.sql", "utf8"));
+  for (const name of fs.readdirSync("supabase/migrations").filter((file) => file.endsWith(".sql")).sort()) {
+    await db.exec(fs.readFileSync(`supabase/migrations/${name}`, "utf8"));
+  }
 
   await db.exec(`
     insert into auth.users (id, email, raw_user_meta_data) values

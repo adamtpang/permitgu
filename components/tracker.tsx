@@ -1,4 +1,5 @@
 import { PIPELINE, PIPELINE_LABEL } from "@/lib/template";
+import { agencyRollup, currentStep, timelineLabel, type TimelineEvent, type TrackerStep } from "@/lib/tracker-model";
 import { formatCents, type ApplicationStatus, type StepStatus } from "@/lib/workflow";
 
 const STEP_LABEL: Record<StepStatus, string> = {
@@ -56,6 +57,68 @@ export function PizzaTracker({ status }: { status: ApplicationStatus | string })
         </li>
       ) : null}
     </ol>
+  );
+}
+
+export function CurrentStepBanner({ steps }: { steps: TrackerStep[] }) {
+  const step = currentStep(steps);
+  return (
+    <p className="rounded-2xl border border-navy bg-soft px-4 py-3" aria-live="polite">
+      {step ? (
+        <>
+          <span className="text-xs uppercase tracking-wide text-muted">Current step</span>
+          <span className="mt-1 block text-lg font-medium text-ink">{step.agency} · {step.name}</span>
+          <span className="text-sm text-ink2">{label(step.status)}. {step.uncertainty ?? ""}</span>
+        </>
+      ) : (
+        <span>No agency is holding this file right now.</span>
+      )}
+    </p>
+  );
+}
+
+export function ClearanceBoard({ steps }: { steps: TrackerStep[] }) {
+  const groups = agencyRollup(steps);
+  return (
+    <section className="grid gap-3">
+      <h2 className="font-serif text-3xl font-normal">Agencies</h2>
+      <ul className="grid gap-3">
+        {groups.map((group) => (
+          <li key={group.agency} className="rounded-2xl border border-line px-4 py-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="font-medium">{group.agencyName}</span>
+              <StatusBadge status={group.status} />
+            </div>
+            <ul className="mt-2 grid gap-1 text-sm text-ink2">
+              {group.steps.map((step) => (
+                <li key={step.id} className="flex flex-wrap justify-between gap-2">
+                  <span>{step.name}</span>
+                  <span>{label(step.status)}</span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+export function EventTimeline({ events }: { events: TimelineEvent[] }) {
+  return (
+    <section className="grid gap-2">
+      <h2 className="font-serif text-3xl font-normal">Timeline</h2>
+      <ol className="grid gap-2">
+        {events.map((event) => (
+          <li key={event.id} className="rounded-2xl border border-line px-4 py-3 text-sm">
+            <span className="font-medium">{timelineLabel(event.action)}</span>
+            <span className="text-muted"> · {event.actorRole ?? "system"} · {new Date(event.createdAt).toLocaleString()}</span>
+            {event.memo ? <p className="mt-1 text-ink2">{event.memo}</p> : null}
+          </li>
+        ))}
+      </ol>
+      {events.length ? null : <p className="text-sm text-muted">No events yet.</p>}
+    </section>
   );
 }
 
