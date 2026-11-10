@@ -2,7 +2,7 @@
 
 Topic id: `build`. Page: https://permitgu.vercel.app/build
 
-New construction, additions, and fences go through one permit at Public Works. Here is what the Building Law asks for, in order.
+New construction, additions, and fences go through one permit at Public Works. Here is what the Building Law asks for, in order. For a private one-family house on public sewer, an unofficial tracker can follow the same path: start an application. The paper path is still valid. This site does not take fees.
 
 ## You will end up with
 

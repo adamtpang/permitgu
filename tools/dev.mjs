@@ -5,7 +5,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const REPO = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const ROOT = path.join(REPO, 'public');
 const PORT = Number(process.argv[2] || 4322);
 if (!process.env.OPENROUTER_API_KEY && process.env.KEY_ENV_FILE) {
   const line = fs.readFileSync(process.env.KEY_ENV_FILE, 'utf8').split(/\r?\n/).find((l) => l.startsWith('OPENROUTER_API_KEY='));

@@ -8,6 +8,7 @@ import html, json, os, re
 from html.parser import HTMLParser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PUBLIC = os.path.join(ROOT, 'public')
 SITE = 'https://permitgu.vercel.app'
 ROUTES = {
     'food-truck': 'food-truck.html',
@@ -40,7 +41,7 @@ def links(fragment):
 
 
 def route_md(slug, fname):
-    s = open(os.path.join(ROOT, fname), encoding='utf-8').read()
+    s = open(os.path.join(PUBLIC, fname), encoding='utf-8').read()
     title = text(re.search(r'<h1>(.*?)</h1>', s, re.S).group(1))
     intro = text(re.search(r'<header class="route-hero">.*?<p>(.*?)</p>', s, re.S).group(1))
     md = [f'# {title}', '', f'Topic id: `{slug}`. Page: {SITE}/{slug}', '', intro, '']
@@ -76,7 +77,7 @@ def route_md(slug, fname):
 
 
 def services_md():
-    s = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
+    s = open(os.path.join(PUBLIC, 'index.html'), encoding='utf-8').read()
     md = ['# Other Government of Guam services', '', 'Topic id: `services`. Official sites for common tasks that are not permit routes.', '']
     for k, href, body in re.findall(r'<a class="svc" data-k="([^"]*)" href="([^"]+)"[^>]*>(.*?)</a>', s, re.S):
         name = text(re.search(r'<b>(.*?)</b>', body, re.S).group(1))

@@ -47,7 +47,7 @@ def jev(q, k):
 
 # Baseline: the homepage keyword matcher, reimplemented over the same data-k keywords.
 def keyword_route(q):
-    s = open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read()
+    s = open(os.path.join(ROOT, 'public', 'index.html'), encoding='utf-8').read()
     items = []
     for k, body in re.findall(r'<(?:article class="card"|a class="svc") data-k="([^"]*)"(.*?)</(?:article|a)>', s, re.S):
         t = 'services'

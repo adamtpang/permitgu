@@ -1,0 +1,1702 @@
+{
+  "agencies": [
+    {
+      "code": "count",
+      "name": "Source",
+      "acronym": "Count",
+      "website": null,
+      "groupName": "What \"~51 agencies\" refers to",
+      "notes": null
+    },
+    {
+      "code": "58numberedrows",
+      "name": "DOA/HR 2023 Department/Agency Listing (GHI RFP attachment)",
+      "acronym": "58 numbered rows",
+      "website": null,
+      "groupName": "What \"~51 agencies\" refers to",
+      "notes": "[PDF](https://hr.doa.guam.gov/wp-hr-content/uploads/2023/05/FY2024-GHI-RFP-Amendment-III-Attachment-Department-Listing.pdf)"
+    },
+    {
+      "code": "70listings",
+      "name": "Guam Legislature GovGuam Web Directory",
+      "acronym": "~70 listings",
+      "website": null,
+      "groupName": "What \"~51 agencies\" refers to",
+      "notes": "[Directory](https://guamlegislature.gov/govguam-web-directory/)"
+    },
+    {
+      "code": "overlapslegislaturelist",
+      "name": "DOA Official Portal Directory",
+      "acronym": "Overlaps Legislature list",
+      "website": null,
+      "groupName": "What \"~51 agencies\" refers to",
+      "notes": "[doa.guam.gov/official-portal-directory](https://doa.guam.gov/official-portal-directory/)"
+    },
+    {
+      "code": "statutorychapters",
+      "name": "12 GCA Title 12 (Autonomous Agencies)",
+      "acronym": "Statutory chapters",
+      "website": null,
+      "groupName": "What \"~51 agencies\" refers to",
+      "notes": "[Justia Title 12 Div. 1](https://law.justia.com/codes/guam/2024/title-12/division-1/)"
+    },
+    {
+      "code": "bbmr",
+      "name": "Bureau of Budget & Management Research",
+      "acronym": "BBMR",
+      "website": "https://bbmr.guam.gov/",
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "bsp",
+      "name": "Bureau of Statistics and Plans",
+      "acronym": "BSP",
+      "website": "https://bsp.guam.gov/",
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "bwa",
+      "name": "Bureau of Women's Affairs",
+      "acronym": "BWA",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "cltc",
+      "name": "Chamorro Land Trust Commission",
+      "acronym": "CLTC",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "cme",
+      "name": "Office of the Chief Medical Examiner",
+      "acronym": "CME",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "csc",
+      "name": "Civil Service Commission",
+      "acronym": "CSC",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "caha",
+      "name": "Council on the Arts & Humanities Agency",
+      "acronym": "CAHA",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "cqa",
+      "name": "Customs and Quarantine Agency",
+      "acronym": "CQA",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "doa",
+      "name": "Department of Administration",
+      "acronym": "DOA",
+      "website": "https://doa.guam.gov/",
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "doag",
+      "name": "Department of Agriculture",
+      "acronym": "DoAg / AGR",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "dca",
+      "name": "Department of Chamorro Affairs",
+      "acronym": "DCA",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "doc",
+      "name": "Department of Corrections",
+      "acronym": "DOC",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "disid",
+      "name": "Department of Integrated Services for Individuals with Disabilities",
+      "acronym": "DISID",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "dol",
+      "name": "Department of Labor",
+      "acronym": "DOL / AHRD",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "dlm",
+      "name": "Department of Land Management",
+      "acronym": "DLM",
+      "website": "https://dlm.guam.gov/",
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "dma",
+      "name": "Department of Military Affairs",
+      "acronym": "DMA",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "dpr",
+      "name": "Department of Parks and Recreation",
+      "acronym": "DPR",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "dphss",
+      "name": "Department of Public Health & Social Services",
+      "acronym": "DPHSS",
+      "website": "https://dphss.guam.gov/",
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "dpw",
+      "name": "Department of Public Works",
+      "acronym": "DPW",
+      "website": "https://dpw.guam.gov/",
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "drt",
+      "name": "Department of Revenue & Taxation",
+      "acronym": "DRT",
+      "website": "https://www.guamtax.com/",
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "dya",
+      "name": "Department of Youth Affairs",
+      "acronym": "DYA",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "governmentethicscommission",
+      "name": "Government Ethics Commission",
+      "acronym": "(Ethics)",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "gbhwc",
+      "name": "Guam Behavioral Health and Wellness Center",
+      "acronym": "GBHWC",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "gcec",
+      "name": "Guam Commission for Educator Certification",
+      "acronym": "GCEC",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "getc",
+      "name": "Guam Educational Telecommunication Corporation (KGTF)",
+      "acronym": "GETC / KGTF",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "gec",
+      "name": "Guam Election Commission",
+      "acronym": "GEC",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "geo",
+      "name": "Guam Energy Office",
+      "acronym": "GEO",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "gepa",
+      "name": "Guam Environmental Protection Agency",
+      "acronym": "GEPA / Guam EPA",
+      "website": "https://epa.guam.gov/",
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "gfd",
+      "name": "Guam Fire Department",
+      "acronym": "GFD",
+      "website": "https://gfd.guam.gov/",
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "ghs",
+      "name": "Guam Homeland Security / Office of Civil Defense",
+      "acronym": "GHS / OCD",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "gpd",
+      "name": "Guam Police Department",
+      "acronym": "GPD",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "gpls",
+      "name": "Guam Public Library System",
+      "acronym": "GPLS",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "grta",
+      "name": "Guam Regional Transit Authority",
+      "acronym": "GRTA",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "gswa",
+      "name": "Guam Solid Waste Authority",
+      "acronym": "GSWA",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "vao",
+      "name": "Guam Veterans Affairs Office",
+      "acronym": "VAO",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "hrra",
+      "name": "Hagåtña Restoration & Redevelopment Authority",
+      "acronym": "HRRA",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "ltgov",
+      "name": "Office of the Lieutenant Governor",
+      "acronym": "LtGov",
+      "website": "https://governor.guam.gov/",
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "mcog",
+      "name": "Mayors' Council of Guam",
+      "acronym": "MCOG",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "otech",
+      "name": "Office of Technology",
+      "acronym": "OTECH",
+      "website": null,
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "gov",
+      "name": "Office of the Governor",
+      "acronym": "Gov",
+      "website": "https://governor.guam.gov/",
+      "groupName": "A. Line departments & non-autonomous agencies (DOA listing #1–40)",
+      "notes": null
+    },
+    {
+      "code": "governmentofguamretirementfund",
+      "name": "41–42",
+      "acronym": "Government of Guam Retirement Fund (retiree/survivor + staff rows)",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": "listed on directories"
+    },
+    {
+      "code": "gcc",
+      "name": "Guam Community College",
+      "acronym": "GCC",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "gdoe",
+      "name": "Guam Department of Education",
+      "acronym": "GDOE",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "geda",
+      "name": "Guam Economic Development Authority",
+      "acronym": "GEDA",
+      "website": "https://www.investguam.com/",
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "ghura",
+      "name": "Guam Housing and Urban Renewal Authority",
+      "acronym": "GHURA",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "ghc",
+      "name": "Guam Housing Corporation",
+      "acronym": "GHC",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "giaa",
+      "name": "A.B. Won Pat International Airport Authority / GIAA",
+      "acronym": "GIAA / Airport",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "legislature",
+      "name": "Guam Legislature (I Liheslaturan Guåhan)",
+      "acronym": "Legislature",
+      "website": "https://guamlegislature.gov/",
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "gmha",
+      "name": "Guam Memorial Hospital Authority",
+      "acronym": "GMHA",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "gpa",
+      "name": "Guam Power Authority",
+      "acronym": "GPA",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "gvb",
+      "name": "Guam Visitors Bureau",
+      "acronym": "GVB",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "gwa",
+      "name": "Guam Waterworks Authority",
+      "acronym": "GWA",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "oag",
+      "name": "Office of the Attorney General",
+      "acronym": "OAG",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "opa",
+      "name": "Office of the Public Auditor",
+      "acronym": "OPA",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "pag",
+      "name": "Port Authority of Guam",
+      "acronym": "PAG",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "pdsc",
+      "name": "Public Defender Service Corporation",
+      "acronym": "PDSC",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "uog",
+      "name": "University of Guam",
+      "acronym": "UOG",
+      "website": null,
+      "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
+      "notes": null
+    },
+    {
+      "code": "judiciary",
+      "name": "Judiciary of Guam",
+      "acronym": "Judiciary",
+      "website": null,
+      "groupName": "C. Legislative & judicial branches (and related)",
+      "notes": "Courts; Board of Law Examiners for attorney admission"
+    },
+    {
+      "code": "districtcourtofguamfederal",
+      "name": "District Court of Guam (federal)",
+      "acronym": "—",
+      "website": null,
+      "groupName": "C. Legislative & judicial branches (and related)",
+      "notes": "Federal, not GovGuam; listed in older Protocol Directory"
+    },
+    {
+      "code": "officeofthedelegatecongressmanmo",
+      "name": "Office of the Delegate (Congressman Moylan)",
+      "acronym": "—",
+      "website": null,
+      "groupName": "C. Legislative & judicial branches (and related)",
+      "notes": "Federal delegate — not a GovGuam agency"
+    },
+    {
+      "code": "gluc",
+      "name": "Guam Land Use Commission",
+      "acronym": "GLUC",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Zone change, variance, conditional use, subdivisions"
+    },
+    {
+      "code": "gspc",
+      "name": "Guam Seashore Protection Commission",
+      "acronym": "GSPC",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Seashore clearance"
+    },
+    {
+      "code": "arc",
+      "name": "Application Review Committee",
+      "acronym": "ARC",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Technical review for GLUC"
+    },
+    {
+      "code": "galc",
+      "name": "Guam Ancestral Lands Commission",
+      "acronym": "GALC",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Ancestral lands"
+    },
+    {
+      "code": "clb",
+      "name": "Contractors License Board",
+      "acronym": "CLB",
+      "website": "https://clb.guam.gov/",
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Contractor licenses"
+    },
+    {
+      "code": "peals",
+      "name": "PEALS Board (Engineers, Architects, Land Surveyors)",
+      "acronym": "PEALS",
+      "website": "https://peals.guam.gov/",
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "PE / architect / surveyor registration"
+    },
+    {
+      "code": "gboa",
+      "name": "Guam Board of Accountancy",
+      "acronym": "GBOA",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "CPA / accountancy"
+    },
+    {
+      "code": "abcboard",
+      "name": "Alcoholic Beverage Control Board",
+      "acronym": "ABC Board",
+      "website": "https://www.guamtax.com/abc/",
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Liquor licenses (via DRT)"
+    },
+    {
+      "code": "guamrealestatecommission",
+      "name": "Guam Real Estate Commission",
+      "acronym": "—",
+      "website": "https://guamrealestatecommission.com/",
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Real estate licenses"
+    },
+    {
+      "code": "commissionondecolonizationselfde",
+      "name": "Commission on Decolonization / Self-Determination",
+      "acronym": "—",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Policy commission"
+    },
+    {
+      "code": "kumisionifinochamoru",
+      "name": "Kumision i Fino' CHamoru",
+      "acronym": "—",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "CHamoru language"
+    },
+    {
+      "code": "gddc",
+      "name": "Guam Developmental Disabilities Council",
+      "acronym": "GDDC",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Council"
+    },
+    {
+      "code": "gpuc",
+      "name": "Guam Public Utilities Commission",
+      "acronym": "GPUC / PUC",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Utility regulation"
+    },
+    {
+      "code": "gpt",
+      "name": "Guam Preservation Trust",
+      "acronym": "GPT",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Historic preservation funding / related"
+    },
+    {
+      "code": "ghpo",
+      "name": "Historic Preservation Office (under DPR / statute)",
+      "acronym": "GHPO",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Certificate of approval for building permits"
+    },
+    {
+      "code": "hplo",
+      "name": "Health Professional Licensing Office boards (under DPHSS/HPLO)",
+      "acronym": "HPLO",
+      "website": "https://dphss.guam.gov/services/hplo",
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Physicians, nurses, pharmacy, dentistry, optometry, allied health, barbering/cosmetology, EMS, social work"
+    },
+    {
+      "code": "guamstateclearinghouse",
+      "name": "Guam State Clearinghouse",
+      "acronym": "—",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Federal consistency routing"
+    },
+    {
+      "code": "gmro",
+      "name": "Guam Medical Referral Office",
+      "acronym": "GMRO",
+      "website": null,
+      "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
+      "notes": "Medical referral"
+    },
+    {
+      "code": "tog",
+      "name": "Treasurer of Guam (under DOA)",
+      "acronym": "TOG",
+      "website": "https://doa.guam.gov/",
+      "groupName": "F. Utilities & authorities citizens interact with for clearances",
+      "notes": null
+    },
+    {
+      "code": "approxcount",
+      "name": "Group",
+      "acronym": "Approx. count",
+      "website": null,
+      "groupName": "Recommended totals (how to cite them)",
+      "notes": null
+    },
+    {
+      "code": "40",
+      "name": "Line / non-autonomous (DOA 1–40)",
+      "acronym": "40",
+      "website": null,
+      "groupName": "Recommended totals (how to cite them)",
+      "notes": null
+    },
+    {
+      "code": "18rows",
+      "name": "Autonomous / public corp rows (DOA 41–58)",
+      "acronym": "18 rows / 17 unique",
+      "website": null,
+      "groupName": "Recommended totals (how to cite them)",
+      "notes": null
+    },
+    {
+      "code": "57",
+      "name": "DOA total unique",
+      "acronym": "~57",
+      "website": null,
+      "groupName": "Recommended totals (how to cite them)",
+      "notes": null
+    },
+    {
+      "code": "20",
+      "name": "Boards & commissions (extra)",
+      "acronym": "~20+",
+      "website": null,
+      "groupName": "Recommended totals (how to cite them)",
+      "notes": null
+    },
+    {
+      "code": "1",
+      "name": "Mayors' Council (already in DOA)",
+      "acronym": "1",
+      "website": null,
+      "groupName": "Recommended totals (how to cite them)",
+      "notes": null
+    }
+  ],
+  "permits": [
+    {
+      "code": "application-for-permit-and-plan-review-building-permit",
+      "name": "Application for Permit and Plan Review (building permit)",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "DPW Building Inspection & Permits / BLPC",
+      "agencyCode": "dpw",
+      "source": "https://bsp.guam.gov/wp-content/uploads/2026/08/DPW-Application-for-Permit-and-Plan-Review-Fillable.pdf",
+      "unverified": false,
+      "trackable": true
+    },
+    {
+      "code": "clearing-grading-stockpiling-permit-often-with-gepa",
+      "name": "Clearing / grading / stockpiling permit (often with GEPA)",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "DPW + GEPA",
+      "agencyCode": "dpw",
+      "source": "https://epa.guam.gov/applications/ ; BSP Guidebook https://bsp.guam.gov/guam-development-guidebook/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "certificate-of-occupancy",
+      "name": "Certificate of occupancy",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "DPW",
+      "agencyCode": "dpw",
+      "source": "21 GCA Ch. 66 (via Building Law); process described in BSP Guidebook",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "zoning-examination-certification",
+      "name": "Zoning examination / certification",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "DLM",
+      "agencyCode": "dlm",
+      "source": "https://dlm.guam.gov/ ; DPW application §VI",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "historic-preservation-certificate-of-approval",
+      "name": "Historic Preservation certificate of approval",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "Guam Historic Preservation Officer",
+      "agencyCode": null,
+      "source": "https://www.territorialreview.org/statute/21-gca-76511",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "gwa-water-sewer-availability-connection-clearance",
+      "name": "GWA water/sewer availability / connection clearance",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "GWA",
+      "agencyCode": "gwa",
+      "source": "Listed on DPW application & GEPA Form A http://epa.guam.gov/wp-content/uploads/2026/08/FORM-A-Guam-EPA-Building-Permit-Application.pdf",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "gpa-power-clearance",
+      "name": "GPA power clearance",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "GPA",
+      "agencyCode": "gpa",
+      "source": "Listed on DPW application regulatory agencies section",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "gepa-building-permit-wastewater-anods-review",
+      "name": "GEPA building-permit / wastewater / ANODS review",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/ ; Form A above",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "dphss-public-health-clearance-as-routed",
+      "name": "DPHSS Public Health clearance (as routed)",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "DPHSS",
+      "agencyCode": "dphss",
+      "source": "Listed on DPW application",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "fire-prevention-bureau-plan-check-clearance",
+      "name": "Fire Prevention Bureau plan check / clearance",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "GFD",
+      "agencyCode": "gfd",
+      "source": "https://gfd.guam.gov/forms/ ; DPW application",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "contractor-s-license-board-clearance-as-routed",
+      "name": "Contractor's License Board clearance (as routed)",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "CLB",
+      "agencyCode": "clb",
+      "source": "https://clb.guam.gov/ ; DPW application",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "peals-stamp-registration-plans-by-pe-architect",
+      "name": "PEALS stamp / registration (plans by PE/architect)",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "PEALS",
+      "agencyCode": "peals",
+      "source": "https://peals.guam.gov/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "flood-elevation-flood-control-review-if-in-flood-zone",
+      "name": "Flood elevation / flood-control review (if in flood zone)",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "DPW (+ related)",
+      "agencyCode": "dpw",
+      "source": "DPW application plan-review fields",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "wetland-seashore-gluc-special-path-if-applicable",
+      "name": "Wetland / seashore / GLUC special path (if applicable)",
+      "groupName": "1. Build / renovate a home",
+      "agencyLabel": "DLM / GLUC / GSPC / USACE",
+      "agencyCode": "dlm",
+      "source": "DLM forms https://dlm.guam.gov/applications-and-forms/ ; BSP Guidebook",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "new-business-license-form-bl-01",
+      "name": "New business license (Form BL-01)",
+      "groupName": "2. Start / run a business",
+      "agencyLabel": "DRT General Licensing / BLPC",
+      "agencyCode": "drt",
+      "source": "https://www.govguamdocs.com/revtax/docs/PROCEDURESANDREQUIREMENTSFORNEWBL.pdf ; https://www.govguamdocs.com/revtax/docs/FormBL-01InstructionswithApplicationandQuestionnaire11192020.pdf",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "good-moral-character-questionnaire",
+      "name": "Good Moral Character Questionnaire",
+      "groupName": "2. Start / run a business",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "Same BL-01 PDF",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "dba-fictitious-name-certificate",
+      "name": "DBA / fictitious name certificate",
+      "groupName": "2. Start / run a business",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "https://bsp.guam.gov/blpc/ (DRT forms list)",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "entity-registration-corp-llc-lp-nonprofit-foreign",
+      "name": "Entity registration (corp, LLC, LP, nonprofit, foreign)",
+      "groupName": "2. Start / run a business",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "https://bsp.guam.gov/blpc/ ; https://www.investguam.com/establishing-a-business-in-guam/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "name-reservation",
+      "name": "Name reservation",
+      "groupName": "2. Start / run a business",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "BSP BLPC DRT forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "business-license-renewal-amendment-relocation-cancellation",
+      "name": "Business license renewal / amendment / relocation / cancellation",
+      "groupName": "2. Start / run a business",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "BSP BLPC DRT forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "tobacco-products-license",
+      "name": "Tobacco products license",
+      "groupName": "2. Start / run a business",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "BSP BLPC DRT forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "martial-arts-registration",
+      "name": "Martial arts registration",
+      "groupName": "2. Start / run a business",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "BSP BLPC DRT forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "guam-trademark-service-mark",
+      "name": "Guam trademark / service mark",
+      "groupName": "2. Start / run a business",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "BSP BLPC DRT forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "agency-clearances-on-bl-01-activity-specific-dlm-gvb-dpw-dpr-gfd-dphss-clb-gpd-c",
+      "name": "Agency clearances on BL-01 (activity-specific): DLM, GVB, DPW, DPR, GFD, DPHSS, CLB, GPD, Collections, GRT, etc.",
+      "groupName": "2. Start / run a business",
+      "agencyLabel": "Multiple",
+      "agencyCode": null,
+      "source": "BL-01 form checklist (routing matrix unverified per activity)",
+      "unverified": true,
+      "trackable": false
+    },
+    {
+      "code": "sanitary-permit-form-a-new-establishment",
+      "name": "Sanitary Permit (Form A) — new establishment",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS DEH",
+      "agencyCode": "dphss",
+      "source": "https://dphss.guam.gov/sanitary-permits ; https://dphss.guam.gov/forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "supplemental-form-b-food-establishment",
+      "name": "Supplemental Form B — food establishment",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS DEH",
+      "agencyCode": "dphss",
+      "source": "https://dphss.guam.gov/forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "sanitary-permit-renewal",
+      "name": "Sanitary Permit renewal",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS DEH",
+      "agencyCode": "dphss",
+      "source": "https://dphss.guam.gov/forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "temporary-food-service-establishment-tfse-sanitary-permit",
+      "name": "Temporary Food Service Establishment (TFSE) sanitary permit",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS DEH",
+      "agencyCode": "dphss",
+      "source": "https://dphss.guam.gov/forms ; https://bsp.guam.gov/blpc/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "temporary-workforce-housing-sanitary-dormitory-permit",
+      "name": "Temporary workforce housing sanitary / dormitory permit",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS DEH",
+      "agencyCode": "dphss",
+      "source": "https://bsp.guam.gov/blpc/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "chemical-toilet-sanitary-permit",
+      "name": "Chemical toilet sanitary permit",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS DEH",
+      "agencyCode": "dphss",
+      "source": "https://bsp.guam.gov/blpc/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "health-certificate-food-facility",
+      "name": "Health Certificate — food facility",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS DEH",
+      "agencyCode": "dphss",
+      "source": "https://dphss.guam.gov/forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "health-certificate-cosmetology-tattoo-therapeutic-massage",
+      "name": "Health Certificate — cosmetology / tattoo / therapeutic massage",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS DEH",
+      "agencyCode": "dphss",
+      "source": "https://dphss.guam.gov/forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "health-certificate-institutional-child-care-nursing-home-etc",
+      "name": "Health Certificate — institutional (child care, nursing home, etc.)",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS DEH",
+      "agencyCode": "dphss",
+      "source": "https://dphss.guam.gov/forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "health-certificate-laundry-dry-cleaning",
+      "name": "Health Certificate — laundry / dry cleaning",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS DEH",
+      "agencyCode": "dphss",
+      "source": "https://dphss.guam.gov/forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "guam-controlled-substances-registration-individual-institutional",
+      "name": "Guam Controlled Substances Registration (individual / institutional)",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS",
+      "agencyCode": "dphss",
+      "source": "https://bsp.guam.gov/blpc/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "pre-operational-inspection",
+      "name": "Pre-operational inspection",
+      "groupName": "3. Food / health establishments",
+      "agencyLabel": "DPHSS DEH",
+      "agencyCode": "dphss",
+      "source": "Sanitary Permit Form A instructions PDF on dphss.guam.gov",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "learner-s-permit-intermediate-full-driver-s-license",
+      "name": "Learner's permit / intermediate / full driver's license",
+      "groupName": "4. Driving / vehicles",
+      "agencyLabel": "DRT Motor Vehicle Division",
+      "agencyCode": "drt",
+      "source": "https://www.guamtax.com/about/mvd.html ; handbook https://www.govguamdocs.com/revtax/docs/GuamDRTDriversHandbook.pdf",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "real-id-guam-id",
+      "name": "REAL ID / Guam ID",
+      "groupName": "4. Driving / vehicles",
+      "agencyLabel": "DRT MVD",
+      "agencyCode": "drt",
+      "source": "https://www.guamtax.com/help/realIDpolicy.html",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "vehicle-initial-registration-transfer",
+      "name": "Vehicle initial registration / transfer",
+      "groupName": "4. Driving / vehicles",
+      "agencyLabel": "DRT Vehicle Registration Branch",
+      "agencyCode": "drt",
+      "source": "https://www.govguamdocs.com/revtax/docs/ApplicationforInitialRegistrationand_orTransfer(updated_10_29_2025).pdf",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "vehicle-registration-renewal",
+      "name": "Vehicle registration renewal",
+      "groupName": "4. Driving / vehicles",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "https://www.guamtax.com/efile/vehreg.html (MyGuamTax)",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "vehicle-safety-inspection-prerequisite",
+      "name": "Vehicle safety inspection (prerequisite)",
+      "groupName": "4. Driving / vehicles",
+      "agencyLabel": "Authorized stations / DRT rules",
+      "agencyCode": "drt",
+      "source": "Drivers handbook PDF",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "disabled-parking-placard-veteran-plates",
+      "name": "Disabled parking placard / veteran plates",
+      "groupName": "4. Driving / vehicles",
+      "agencyLabel": "DRT Vehicle Registration",
+      "agencyCode": "drt",
+      "source": "https://www.guamtax.com/about/mvd.html",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "motor-carrier-compliance-commercial",
+      "name": "Motor carrier compliance (commercial)",
+      "groupName": "4. Driving / vehicles",
+      "agencyLabel": "DRT Motor Carrier Branch",
+      "agencyCode": "drt",
+      "source": "https://www.guamtax.com/about/mvd.html",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "certification-of-zoning",
+      "name": "Certification of Zoning",
+      "groupName": "5. Land / property",
+      "agencyLabel": "DLM",
+      "agencyCode": "dlm",
+      "source": "Zoning Law / PermitGU zoning guide cites 21 GCA §61660; https://dlm.guam.gov/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "zone-change-gluc-form-02",
+      "name": "Zone change (GLUC Form 02)",
+      "groupName": "5. Land / property",
+      "agencyLabel": "GLUC / DLM",
+      "agencyCode": "dlm",
+      "source": "https://dlm.guam.gov/applications-and-forms/ ; https://bsp.guam.gov/blpc/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "zone-variance-gluc-form-03",
+      "name": "Zone variance (GLUC Form 03)",
+      "groupName": "5. Land / property",
+      "agencyLabel": "GLUC / DLM",
+      "agencyCode": "dlm",
+      "source": "Same",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "conditional-use-gluc-form-01",
+      "name": "Conditional use (GLUC Form 01)",
+      "groupName": "5. Land / property",
+      "agencyLabel": "GLUC / DLM",
+      "agencyCode": "dlm",
+      "source": "Same",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "subdivision-variance-tentative-final-subdivision-forms-04-06",
+      "name": "Subdivision variance / tentative / final subdivision (Forms 04–06)",
+      "groupName": "5. Land / property",
+      "agencyLabel": "GLUC / DLM",
+      "agencyCode": "dlm",
+      "source": "Same",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "tentative-development-plan-wetland-hpr-timeshare-forms-07-10",
+      "name": "Tentative development plan / wetland / HPR / timeshare (Forms 07–10)",
+      "groupName": "5. Land / property",
+      "agencyLabel": "GLUC / DLM",
+      "agencyCode": "dlm",
+      "source": "Same",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "seashore-clearance-gspc-form-01",
+      "name": "Seashore clearance (GSPC Form 01)",
+      "groupName": "5. Land / property",
+      "agencyLabel": "GSPC / DLM",
+      "agencyCode": "dlm",
+      "source": "https://bsp.guam.gov/blpc/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "landweb-parcel-title-survey-searches",
+      "name": "LandWeb parcel / title / survey searches",
+      "groupName": "5. Land / property",
+      "agencyLabel": "DLM",
+      "agencyCode": "dlm",
+      "source": "Referenced on PermitGU zoning page; LandWeb access details partially unverified",
+      "unverified": true,
+      "trackable": false
+    },
+    {
+      "code": "certificate-of-title-recording",
+      "name": "Certificate of title / recording",
+      "groupName": "5. Land / property",
+      "agencyLabel": "DLM",
+      "agencyCode": "dlm",
+      "source": "DLM services (verify exact form names with DLM)",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "real-property-tax-matters",
+      "name": "Real property tax matters",
+      "groupName": "5. Land / property",
+      "agencyLabel": "DRT Real Property (also at BLPC)",
+      "agencyCode": "drt",
+      "source": "https://dpw.guam.gov/blpc/ ; guamtax.com",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "chamorro-land-trust-ancestral-lands-actions",
+      "name": "Chamorro Land Trust / Ancestral Lands actions",
+      "groupName": "5. Land / property",
+      "agencyLabel": "CLTC / GALC",
+      "agencyCode": "cltc",
+      "source": "Directories; specific application set unverified this turn",
+      "unverified": true,
+      "trackable": false
+    },
+    {
+      "code": "clearing-grubbing-grading-stockpiling",
+      "name": "Clearing, grubbing, grading, stockpiling",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA (+ DPW path)",
+      "agencyCode": "dpw",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "soil-sand-aggregate-importation",
+      "name": "Soil / sand / aggregate importation",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "section-401-water-quality-certification-401a-b-c",
+      "name": "Section 401 Water Quality Certification (401A/B/C)",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "well-drilling-well-operating-uic-test-boring",
+      "name": "Well drilling / well operating / UIC / test boring",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "well-driller-s-license-limited-unlimited",
+      "name": "Well driller's license (limited / unlimited)",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "residential-commercial-holding-tank-type-4-anods",
+      "name": "Residential / commercial holding tank; Type 4 ANODS",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "air-pollution-construction-standby-generator-emission-unit",
+      "name": "Air pollution construction / standby generator / emission unit",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "solid-waste-collection-hardfill-landfill-processing-storage-transfer",
+      "name": "Solid waste collection / hardfill / landfill / processing / storage / transfer",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "ust-hazardous-waste-notification-rcra",
+      "name": "UST / hazardous waste notification / RCRA",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "pesticide-notice-of-arrival-restricted-use-licenses-noi",
+      "name": "Pesticide Notice of Arrival / restricted-use licenses / NOI",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "water-wastewater-operator-certification",
+      "name": "Water & wastewater operator certification",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "burial-at-sea-request",
+      "name": "Burial at sea request",
+      "groupName": "6. Environment",
+      "agencyLabel": "GEPA",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "burning-permit",
+      "name": "Burning permit",
+      "groupName": "6. Environment",
+      "agencyLabel": "GFD (issued by GFD; noted on GEPA page)",
+      "agencyCode": "gepa",
+      "source": "https://epa.guam.gov/applications/ ; https://gfd.guam.gov/forms/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "federal-consistency-coastal-management",
+      "name": "Federal consistency / coastal management",
+      "groupName": "6. Environment",
+      "agencyLabel": "BSP GCMP",
+      "agencyCode": "bsp",
+      "source": "https://bsp.guam.gov/guam-development-guidebook/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "usace-wetlands-navigable-waters-federal",
+      "name": "USACE wetlands / navigable waters (federal)",
+      "groupName": "6. Environment",
+      "agencyLabel": "USACE",
+      "agencyCode": "usace",
+      "source": "Noted on DPW application & BSP Guidebook",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "operations-permit",
+      "name": "Operations Permit",
+      "groupName": "7. Fire / safety",
+      "agencyLabel": "GFD Fire Prevention Bureau",
+      "agencyCode": "gfd",
+      "source": "https://gfd.guam.gov/forms/ (Operations Permit Application)",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "gfd-permit-application-application-for-permit",
+      "name": "GFD Permit Application / Application for Permit",
+      "groupName": "7. Fire / safety",
+      "agencyLabel": "GFD",
+      "agencyCode": "gfd",
+      "source": "https://gfd.guam.gov/forms/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "fire-prevention-plan-review-building",
+      "name": "Fire Prevention plan review (building)",
+      "groupName": "7. Fire / safety",
+      "agencyLabel": "GFD",
+      "agencyCode": "gfd",
+      "source": "DPW application; https://gfd.guam.gov/forms/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "gfd-fee-schedule",
+      "name": "GFD fee schedule",
+      "groupName": "7. Fire / safety",
+      "agencyLabel": "GFD",
+      "agencyCode": "gfd",
+      "source": "https://gfd.guam.gov/forms/ ; also listed on https://bsp.guam.gov/blpc/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "self-inspection-form",
+      "name": "Self-inspection form",
+      "groupName": "7. Fire / safety",
+      "agencyLabel": "GFD",
+      "agencyCode": "gfd",
+      "source": "https://gfd.guam.gov/forms/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "contractor-s-license",
+      "name": "Contractor's license",
+      "groupName": "8. Professional licensing",
+      "agencyLabel": "CLB",
+      "agencyCode": "clb",
+      "source": "https://clb.guam.gov/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "professional-engineer-architect-land-surveyor",
+      "name": "Professional engineer / architect / land surveyor",
+      "groupName": "8. Professional licensing",
+      "agencyLabel": "PEALS",
+      "agencyCode": "peals",
+      "source": "https://peals.guam.gov/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "cpa-accountancy",
+      "name": "CPA / accountancy",
+      "groupName": "8. Professional licensing",
+      "agencyLabel": "Guam Board of Accountancy",
+      "agencyCode": "count",
+      "source": "Legislature / DOA directories",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "real-estate-broker-salesperson",
+      "name": "Real estate broker / salesperson",
+      "groupName": "8. Professional licensing",
+      "agencyLabel": "Guam Real Estate Commission",
+      "agencyCode": null,
+      "source": "https://guamrealestatecommission.com/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "educator-certification",
+      "name": "Educator certification",
+      "groupName": "8. Professional licensing",
+      "agencyLabel": "GCEC",
+      "agencyCode": "gcec",
+      "source": "Directories",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "physicians-board-of-medical-examiners",
+      "name": "Physicians (Board of Medical Examiners)",
+      "groupName": "8. Professional licensing",
+      "agencyLabel": "DPHSS HPLO",
+      "agencyCode": "dphss",
+      "source": "https://dphss.guam.gov/services/hplo",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "nurses-board-of-nurse-examiners",
+      "name": "Nurses (Board of Nurse Examiners)",
+      "groupName": "8. Professional licensing",
+      "agencyLabel": "DPHSS HPLO",
+      "agencyCode": "dphss",
+      "source": "Same",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "pharmacy-dentistry-optometry-allied-health-ems-social-work-barbering-cosmetology",
+      "name": "Pharmacy / dentistry / optometry / allied health / EMS / social work / barbering & cosmetology boards",
+      "groupName": "8. Professional licensing",
+      "agencyLabel": "DPHSS HPLO",
+      "agencyCode": "dphss",
+      "source": "Same (nine boards listed)",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "attorney-admission",
+      "name": "Attorney admission",
+      "groupName": "8. Professional licensing",
+      "agencyLabel": "Judiciary / Board of Law Examiners",
+      "agencyCode": "judiciary",
+      "source": "SIU professional licensure summary https://professionallicensure.siu.edu/guam.php (confirm current Judiciary page)",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "alcoholic-beverage-licenses-import-manufacture-on-off-sale-etc",
+      "name": "Alcoholic beverage licenses (import, manufacture, on/off-sale, etc.)",
+      "groupName": "9. Events / alcohol / tobacco",
+      "agencyLabel": "DRT ABC Board",
+      "agencyCode": "drt",
+      "source": "https://www.guamtax.com/abc/ ; application PDFs under govguamdocs.com/revtax",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "fund-raising-event-application",
+      "name": "Fund raising event application",
+      "groupName": "9. Events / alcohol / tobacco",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "https://bsp.guam.gov/blpc/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "temporary-food-event-sanitary-permits",
+      "name": "Temporary food / event sanitary permits",
+      "groupName": "9. Events / alcohol / tobacco",
+      "agencyLabel": "DPHSS",
+      "agencyCode": "dphss",
+      "source": "https://dphss.guam.gov/forms",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "village-mayor-mcog-event-clearances",
+      "name": "Village mayor / MCOG event clearances",
+      "groupName": "9. Events / alcohol / tobacco",
+      "agencyLabel": "Mayors / MCOG",
+      "agencyCode": "mcog",
+      "source": "Unverified exact form set this turn",
+      "unverified": true,
+      "trackable": false
+    },
+    {
+      "code": "tobacco-products-license-87",
+      "name": "Tobacco products license",
+      "groupName": "9. Events / alcohol / tobacco",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "https://bsp.guam.gov/blpc/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "birth-death-marriage-certificates",
+      "name": "Birth / death / marriage certificates",
+      "groupName": "10. IDs / records / vital statistics",
+      "agencyLabel": "DPHSS Office of Vital Statistics",
+      "agencyCode": "dphss",
+      "source": "https://dphss.guam.gov/services/vital-statistics",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "driver-s-license-real-id-guam-id",
+      "name": "Driver's license / REAL ID / Guam ID",
+      "groupName": "10. IDs / records / vital statistics",
+      "agencyLabel": "DRT MVD",
+      "agencyCode": "drt",
+      "source": "https://www.guamtax.com/help/realIDpolicy.html",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "business-privilege-tax-accounts-grt",
+      "name": "Business privilege / tax accounts (GRT)",
+      "groupName": "10. IDs / records / vital statistics",
+      "agencyLabel": "DRT",
+      "agencyCode": "drt",
+      "source": "guamtax.com (account setup details vary)",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "passport-u-s",
+      "name": "Passport (U.S.)",
+      "groupName": "10. IDs / records / vital statistics",
+      "agencyLabel": "U.S. Department of State (federal)",
+      "agencyCode": null,
+      "source": "Not GovGuam — listed only as related life-event",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "treasurer-of-guam-fee-payments-blpc-cashier",
+      "name": "Treasurer of Guam fee payments (BLPC cashier)",
+      "groupName": "11. Other notable citizen/business approvals",
+      "agencyLabel": "TOG / DOA",
+      "agencyCode": "tog",
+      "source": "https://dpw.guam.gov/blpc/",
+      "unverified": false,
+      "trackable": false
+    },
+    {
+      "code": "guam-solid-waste-authority-service-related",
+      "name": "Guam Solid Waste Authority service / related",
+      "groupName": "11. Other notable citizen/business approvals",
+      "agencyLabel": "GSWA",
+      "agencyCode": "gswa",
+      "source": "DOA listing; specific permit URLs unverified",
+      "unverified": true,
+      "trackable": false
+    },
+    {
+      "code": "customs-related-clearances",
+      "name": "Customs-related clearances",
+      "groupName": "11. Other notable citizen/business approvals",
+      "agencyLabel": "CQA",
+      "agencyCode": "cqa",
+      "source": "Directories; detailed citizen DIY set unverified",
+      "unverified": true,
+      "trackable": false
+    },
+    {
+      "code": "police-clearances-as-required-on-some-licenses",
+      "name": "Police clearances (as required on some licenses)",
+      "groupName": "11. Other notable citizen/business approvals",
+      "agencyLabel": "GPD",
+      "agencyCode": "gpd",
+      "source": "Referenced on BL-01 checklist",
+      "unverified": false,
+      "trackable": false
+    }
+  ],
+  "requiredDocuments": [
+    {
+      "applicationTypeCode": "building_permit_residential_one_family",
+      "code": "plans",
+      "name": "Building plans",
+      "required": true,
+      "notes": "The DPW application asks for plans. The building official may waive them for minor work. This flow is a new house."
+    },
+    {
+      "applicationTypeCode": "building_permit_residential_one_family",
+      "code": "plot_plan",
+      "name": "Plot plan",
+      "required": true,
+      "notes": "Drawn from a boundary survey, as the building guide describes."
+    }
+  ]
+}
