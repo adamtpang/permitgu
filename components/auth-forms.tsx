@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { recordAuthEvent } from "@/lib/actions";
+import { nextCookie } from "@/lib/auth-callback";
 import { createBrowserSupabase } from "@/lib/supabase/browser";
 import { Button, Input, Label } from "@/components/ui";
 
@@ -18,9 +19,10 @@ export function CitizenSignIn({ nextPath }: { nextPath: string }) {
   async function send(event: React.FormEvent) {
     event.preventDefault();
     setError("");
+    document.cookie = nextCookie(nextPath, location.protocol === "https:");
     const { error: authError } = await supabase!.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${location.origin}/auth/callback?next=${encodeURIComponent(nextPath)}`, shouldCreateUser: true },
+      options: { emailRedirectTo: `${location.origin}/auth/callback`, shouldCreateUser: true },
     });
     if (authError) setError(authError.message);
     else setSent(true);
@@ -29,6 +31,10 @@ export function CitizenSignIn({ nextPath }: { nextPath: string }) {
   async function verify(event: React.FormEvent) {
     event.preventDefault();
     setError("");
+    if (!code) {
+      setError("Enter the code from the email, or use the link instead.");
+      return;
+    }
     const { error: authError } = await supabase!.auth.verifyOtp({ email, token: code, type: "email" });
     if (authError) setError(authError.message);
     else {
@@ -42,13 +48,14 @@ export function CitizenSignIn({ nextPath }: { nextPath: string }) {
       <form onSubmit={send} className="grid gap-3">
         <Label htmlFor="email">Email</Label>
         <Input id="email" type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} />
-        <Button type="submit">Email me a code</Button>
+        <Button type="submit">Email me a sign-in link</Button>
       </form>
       {sent ? (
         <form onSubmit={verify} className="grid gap-3">
-          <Label htmlFor="code">6-digit code</Label>
-          <Input id="code" inputMode="numeric" autoComplete="one-time-code" required value={code} onChange={(event) => setCode(event.target.value.trim())} />
-          <Button type="submit" variant="gu">Sign in</Button>
+          <p className="text-sm text-ink2">Click the link in the email, or enter the code if your email shows one.</p>
+          <Label htmlFor="code">Code, if the email shows one</Label>
+          <Input id="code" inputMode="numeric" autoComplete="one-time-code" value={code} onChange={(event) => setCode(event.target.value.trim())} />
+          <Button type="submit" variant="gu">Enter code</Button>
         </form>
       ) : null}
       {error ? <p className="text-sm text-bad" role="alert">{error}</p> : null}

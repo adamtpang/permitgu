@@ -1549,7 +1549,22 @@ on conflict (id) do update set
   file_size_limit = excluded.file_size_limit,
   allowed_mime_types = excluded.allowed_mime_types;
 
-alter table storage.objects enable row level security;
+-- Hosted Supabase already enables RLS on storage.objects, and the migration
+-- role is not the table owner (42501). Enable it only when this role owns the
+-- table, which is the case for local PGlite and the Supabase CLI.
+do $$
+begin
+  if exists (
+    select 1
+    from pg_class c
+    join pg_namespace n on n.oid = c.relnamespace
+    where n.nspname = 'storage'
+      and c.relname = 'objects'
+      and pg_get_userbyid(c.relowner) = current_user
+  ) then
+    execute 'alter table storage.objects enable row level security';
+  end if;
+end $$;
 
 drop policy if exists permitgu_documents_select on storage.objects;
 drop policy if exists permitgu_documents_insert on storage.objects;

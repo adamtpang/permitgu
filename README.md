@@ -20,7 +20,7 @@ Anything that is not confirmed from a public source is labeled on the step. See 
 
 1. Create a Supabase project. Do not commit its keys.
 2. In Authentication → Providers, keep email enabled. TOTP is the staff second factor. On hosted projects it is available in the Auth MFA settings. Local `supabase/config.toml` turns TOTP enroll and verify on.
-3. Add the site URL and `https://<your-preview>/auth/callback` to the Auth redirect allow list. The email template should include `{{ .Token }}` so the 6-digit code works, and the magic link should land on `/auth/callback`.
+3. Add the site URL and `https://<your-preview>/auth/callback` to the Auth redirect allow list. The default magic-link email is enough. It does not need `{{ .Token }}` or custom SMTP. `/auth/callback` accepts the link Supabase sends.
 4. Apply the database:
 
 ```bash
