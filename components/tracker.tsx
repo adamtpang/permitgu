@@ -1,3 +1,4 @@
+import { formatDuration, type Eta } from "@/lib/eta";
 import { PIPELINE, PIPELINE_LABEL } from "@/lib/template";
 import { agencyRollup, currentStep, timelineLabel, type TimelineEvent, type TrackerStep } from "@/lib/tracker-model";
 import { formatCents, type ApplicationStatus, type StepStatus } from "@/lib/workflow";
@@ -58,6 +59,47 @@ export function PizzaTracker({ status }: { status: ApplicationStatus | string })
       ) : null}
     </ol>
   );
+}
+
+export function EtaCallout({ eta }: { eta: Eta }) {
+  if (eta.kind === "done") return null;
+  return (
+    <section className="rounded-3xl border border-line p-5" aria-label="Estimated time">
+      <h2 className="font-serif text-3xl font-normal">Estimated time to permit</h2>
+      {eta.kind === "estimate" ? (
+        <>
+          <p className="mt-2 text-lg text-ink">
+            {eta.remainingSeconds === 0
+              ? "Due any time now."
+              : `${capitalize(formatDuration(eta.remainingSeconds))}, around ${eta.readyBy.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}.`}
+          </p>
+          <p className="mt-2 text-sm text-ink2">
+            An estimate, not a promise. It is the usual time each remaining step took on this tracker, based on at
+            least {eta.samples} finished files per step. It is not an official agency timeline, and it stops at permit
+            issuance.
+          </p>
+        </>
+      ) : eta.kind === "paused" ? (
+        <p className="mt-2 text-ink2">
+          {eta.reason === "applicant"
+            ? "The clock is waiting on your reply. An estimate returns once the agency has what it asked for."
+            : "No estimate while the file is not under review."}
+        </p>
+      ) : (
+        <p className="mt-2 text-ink2">
+          No estimate yet.{" "}
+          {eta.needed
+            ? `Only ${eta.known} of the ${eta.needed} remaining steps have enough finished files on this tracker to estimate from.`
+            : "No agency is holding this file right now."}{" "}
+          No agency has published timelines for these steps, so this tracker only estimates from its own history.
+        </p>
+      )}
+    </section>
+  );
+}
+
+function capitalize(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }
 
 export function CurrentStepBanner({ steps }: { steps: TrackerStep[] }) {

@@ -2,8 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { addComment, downloadDocument, respondToInfo, saveDraft, submitDraft, uploadDocument, withdraw } from "@/lib/actions";
 import { SetupNotice } from "@/components/shell";
-import { ClearanceBoard, CurrentStepBanner, EventTimeline, FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
+import { ClearanceBoard, CurrentStepBanner, EtaCallout, EventTimeline, FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
 import { Button, Input, Textarea } from "@/components/ui";
+import { estimateEta, stepEstimateLabel, type StepEstimate } from "@/lib/eta";
 import { requestMeta } from "@/lib/request-meta";
 import { one, session } from "@/lib/session";
 import type { TrackerStep } from "@/lib/tracker-model";
@@ -26,11 +27,18 @@ export default async function ApplicationPage({
 
   const { data: application } = await current.supabase.from("applications").select("*").eq("id", id).maybeSingle();
   if (!application) notFound();
-  const { data: steps } = await current.supabase.from("application_steps").select("id, status, memo, agency_id, agencies(acronym, name), workflow_steps(code, name, phase, routing, sort_order, uncertainty)").eq("application_id", id);
+  const { data: steps } = await current.supabase.from("application_steps").select("id, status, memo, agency_id, started_at, agencies(acronym, name), workflow_steps(code, name, phase, routing, sort_order, uncertainty)").eq("application_id", id);
   const { data: documents } = await current.supabase.from("documents").select("id, kind, file_name, byte_size, scan_status").eq("application_id", id);
   const { data: requests } = await current.supabase.from("info_requests").select("id, body, response, created_at").eq("application_id", id).order("created_at");
   const { data: comments } = await current.supabase.from("comments").select("id, body, visibility, created_at").eq("application_id", id).order("created_at");
   const { data: events } = await current.supabase.from("audit_log").select("id, action, memo, created_at, actor_role").eq("application_id", id).order("id", { ascending: false }).limit(40);
+  const { data: estimateRows } = await current.supabase.rpc("step_estimates");
+  const estimates: StepEstimate[] = (estimateRows ?? []).map((row: { code: string; samples: number; median_seconds: number }) => ({
+    code: row.code,
+    samples: row.samples,
+    medianSeconds: Number(row.median_seconds),
+  }));
+  const estimateByCode = new Map(estimates.map((estimate) => [estimate.code, estimate]));
   const meta = await requestMeta();
   await current.supabase.rpc("record_event", {
     p_application_id: id,
@@ -55,6 +63,17 @@ export default async function ApplicationPage({
     memo: step.memo,
   }));
   const draft = application.status === "draft";
+  const eta = estimateEta(
+    application.status,
+    ordered.map((step) => ({
+      code: one(step.workflow_steps)?.code ?? "",
+      phase: one(step.workflow_steps)?.phase ?? "",
+      routing: one(step.workflow_steps)?.routing ?? "",
+      status: step.status,
+      startedAt: step.started_at,
+    })),
+    estimates,
+  );
 
   return (
     <div className="grid gap-8">
@@ -67,6 +86,7 @@ export default async function ApplicationPage({
       </header>
       {query.error ? <p className="text-sm text-bad" role="alert">{query.error}</p> : null}
       <PizzaTracker status={application.status} />
+      {draft ? null : <EtaCallout eta={eta} />}
       <CurrentStepBanner steps={trackerSteps} />
       <ClearanceBoard steps={trackerSteps} />
       {(application.status === "fees_due" || application.fees_due_cents != null || application.fees_paid_at) ? (
@@ -87,6 +107,9 @@ export default async function ApplicationPage({
                   <StatusBadge status={step.status} />
                 </div>
                 <p className="text-sm text-muted">{agency?.name} · {workflow?.routing?.replaceAll("_", " ")}</p>
+                {["approved", "rejected", "waived", "n_a"].includes(step.status) || workflow?.phase === "inspection" || workflow?.phase === "occupancy" ? null : (
+                  <p className="mt-1 text-sm text-ink2">{stepEstimateLabel(estimateByCode.get(workflow?.code ?? ""))}</p>
+                )}
                 {workflow?.uncertainty ? <p className="mt-1 text-sm text-ink2">{workflow.uncertainty}</p> : null}
                 {step.memo ? <p className="mt-2 text-sm">Note: {step.memo}</p> : null}
               </li>
