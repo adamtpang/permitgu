@@ -19,7 +19,8 @@ export async function SiteHeader() {
   }
   return (
     <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-5 py-5">
-      <Link href="/" className="flex items-center gap-2 text-ink no-underline" aria-label="PermitGU home">
+      {/* The home page and guides are static files, not app routes, so they take a full page load. */}
+      <a href="/" className="flex items-center gap-2 text-ink no-underline" aria-label="PermitGU home">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo-mark.png" alt="" width={36} height={36} />
         <span className="font-brand text-xl font-extrabold tracking-tight">
@@ -28,7 +29,7 @@ export async function SiteHeader() {
         <span className="rounded-full border border-line px-2 py-0.5 text-[0.68rem] font-semibold uppercase tracking-wider text-ink2">
           Demo
         </span>
-      </Link>
+      </a>
       <nav className="flex flex-wrap items-center justify-end gap-2 text-sm" aria-label="Tracker">
         <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/permits">Catalog</Link>
         <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/apply">Apply</Link>

@@ -18,7 +18,7 @@ export default async function ApplyPage() {
         <p className="mt-4 text-lg text-ink2">
           This follows a new house on public sewer through DPW. It is not the paper application, and it does not
           take a fee. Septic, wetland, and seashore paths stay on the{" "}
-          <Link href="/clear-grade">clearing guide</Link> and the <Link href="/build">building guide</Link>.
+          <a href="/clear-grade">clearing guide</a> and the <a href="/build">building guide</a>.
         </p>
       </header>
       {!current.configured ? <SetupNotice /> : null}

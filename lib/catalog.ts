@@ -95,6 +95,9 @@ export function parseAgencies(markdown: string): DirectoryAgency[] {
       continue;
     }
     if (!line.trim().startsWith("|") || isDivider(line)) continue;
+    // Only the lettered directory sections list agencies. The tables that explain
+    // the "~51 agencies" figure and the recommended totals are counts, not agencies.
+    if (!/^[A-Z]\.\s/.test(group)) continue;
     const column = cells(line);
     if (column.length < 3) continue;
     const header = column[0].toLowerCase();
@@ -135,7 +138,10 @@ export function matchAgencyCode(label: string, agencies: DirectoryAgency[]) {
     if (lower.includes(needle)) return code;
   }
   const hit = agencies.find((agency) => lower.includes(agency.acronym.toLowerCase().split("/")[0].trim()));
-  return hit?.code ?? null;
+  if (hit) return hit.code;
+  // Fall back to the agency's full name, for labels that never use the acronym.
+  const named = agencies.find((agency) => agency.name.length > 8 && lower.includes(agency.name.toLowerCase()));
+  return named?.code ?? null;
 }
 
 export function parsePermits(markdown: string, agencies: DirectoryAgency[] = []): CatalogPermit[] {

@@ -1,46 +1,6 @@
 {
   "agencies": [
     {
-      "code": "count",
-      "name": "Source",
-      "acronym": "Count",
-      "website": null,
-      "groupName": "What \"~51 agencies\" refers to",
-      "notes": null
-    },
-    {
-      "code": "58numberedrows",
-      "name": "DOA/HR 2023 Department/Agency Listing (GHI RFP attachment)",
-      "acronym": "58 numbered rows",
-      "website": null,
-      "groupName": "What \"~51 agencies\" refers to",
-      "notes": "[PDF](https://hr.doa.guam.gov/wp-hr-content/uploads/2023/05/FY2024-GHI-RFP-Amendment-III-Attachment-Department-Listing.pdf)"
-    },
-    {
-      "code": "70listings",
-      "name": "Guam Legislature GovGuam Web Directory",
-      "acronym": "~70 listings",
-      "website": null,
-      "groupName": "What \"~51 agencies\" refers to",
-      "notes": "[Directory](https://guamlegislature.gov/govguam-web-directory/)"
-    },
-    {
-      "code": "overlapslegislaturelist",
-      "name": "DOA Official Portal Directory",
-      "acronym": "Overlaps Legislature list",
-      "website": null,
-      "groupName": "What \"~51 agencies\" refers to",
-      "notes": "[doa.guam.gov/official-portal-directory](https://doa.guam.gov/official-portal-directory/)"
-    },
-    {
-      "code": "statutorychapters",
-      "name": "12 GCA Title 12 (Autonomous Agencies)",
-      "acronym": "Statutory chapters",
-      "website": null,
-      "groupName": "What \"~51 agencies\" refers to",
-      "notes": "[Justia Title 12 Div. 1](https://law.justia.com/codes/guam/2024/title-12/division-1/)"
-    },
-    {
       "code": "bbmr",
       "name": "Bureau of Budget & Management Research",
       "acronym": "BBMR",
@@ -670,54 +630,6 @@
       "acronym": "TOG",
       "website": "https://doa.guam.gov/",
       "groupName": "F. Utilities & authorities citizens interact with for clearances",
-      "notes": null
-    },
-    {
-      "code": "approxcount",
-      "name": "Group",
-      "acronym": "Approx. count",
-      "website": null,
-      "groupName": "Recommended totals (how to cite them)",
-      "notes": null
-    },
-    {
-      "code": "40",
-      "name": "Line / non-autonomous (DOA 1–40)",
-      "acronym": "40",
-      "website": null,
-      "groupName": "Recommended totals (how to cite them)",
-      "notes": null
-    },
-    {
-      "code": "18rows",
-      "name": "Autonomous / public corp rows (DOA 41–58)",
-      "acronym": "18 rows / 17 unique",
-      "website": null,
-      "groupName": "Recommended totals (how to cite them)",
-      "notes": null
-    },
-    {
-      "code": "57",
-      "name": "DOA total unique",
-      "acronym": "~57",
-      "website": null,
-      "groupName": "Recommended totals (how to cite them)",
-      "notes": null
-    },
-    {
-      "code": "20",
-      "name": "Boards & commissions (extra)",
-      "acronym": "~20+",
-      "website": null,
-      "groupName": "Recommended totals (how to cite them)",
-      "notes": null
-    },
-    {
-      "code": "1",
-      "name": "Mayors' Council (already in DOA)",
-      "acronym": "1",
-      "website": null,
-      "groupName": "Recommended totals (how to cite them)",
       "notes": null
     }
   ],
@@ -1487,7 +1399,7 @@
       "name": "CPA / accountancy",
       "groupName": "8. Professional licensing",
       "agencyLabel": "Guam Board of Accountancy",
-      "agencyCode": "count",
+      "agencyCode": "gboa",
       "source": "Legislature / DOA directories",
       "unverified": false,
       "trackable": false
@@ -1497,7 +1409,7 @@
       "name": "Real estate broker / salesperson",
       "groupName": "8. Professional licensing",
       "agencyLabel": "Guam Real Estate Commission",
-      "agencyCode": null,
+      "agencyCode": "guamrealestatecommission",
       "source": "https://guamrealestatecommission.com/",
       "unverified": false,
       "trackable": false

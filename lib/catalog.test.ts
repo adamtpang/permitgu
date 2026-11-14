@@ -18,6 +18,10 @@ test("the agency and permit catalogs come from the source lists", () => {
   assert.ok(agencies.length >= 55, `agencies ${agencies.length}`);
   assert.ok(permits.length >= 90, `permits ${permits.length}`);
   assert.ok(agencies.some((agency) => agency.code === "dpw"));
+  // The tables that explain the agency count are not agencies.
+  assert.ok(agencies.every((agency) => /^[A-Z]\.\s/.test(agency.groupName)), "only lettered directory sections");
+  assert.equal(agencies.some((agency) => agency.code === "count" || /^\d+$/.test(agency.code)), false);
+  assert.equal(permits.find((permit) => permit.code === "cpa-accountancy")?.agencyCode, "gboa");
   assert.ok(agencies.some((agency) => agency.code === "ghpo"));
   const building = permits.find((permit) => permit.trackable);
   assert.equal(building?.agencyCode, "dpw");

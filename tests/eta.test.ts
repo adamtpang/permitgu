@@ -72,3 +72,20 @@ test("steps are timed, and estimates appear only after three finished files", as
   await assert.rejects(db.query("select * from public.step_estimates()"), /permission denied/);
   await db.exec("rollback");
 });
+
+test("the catalog cleanup removes count rows and keeps every real agency", async () => {
+  assert.ok(prelude);
+  const db = new PGlite();
+  await db.exec(prelude);
+  for (const name of fs.readdirSync("supabase/migrations").filter((file) => file.endsWith(".sql")).sort()) {
+    await db.exec(fs.readFileSync(`supabase/migrations/${name}`, "utf8"));
+  }
+  const junk = await db.query<{ n: string }>("select count(*)::text as n from public.agencies where code in ('count', '58numberedrows', 'approxcount', '40', '57', '20', '1')");
+  assert.equal(junk.rows[0].n, "0");
+  const total = await db.query<{ n: string }>("select count(*)::text as n from public.agencies");
+  assert.ok(Number(total.rows[0].n) >= 79, `agencies ${total.rows[0].n}`);
+  const cpa = await db.query<{ agency_code: string }>("select agency_code from public.permit_catalog where code = 'cpa-accountancy'");
+  assert.equal(cpa.rows[0].agency_code, "gboa");
+  const orphans = await db.query<{ n: string }>("select count(*)::text as n from public.permit_catalog p where p.agency_code is not null and not exists (select 1 from public.agencies a where a.code = p.agency_code)");
+  assert.equal(orphans.rows[0].n, "0");
+});
