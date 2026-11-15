@@ -11,7 +11,7 @@ export default async function SetPasswordPage() {
   const signedIn = "user" in current && current.user;
   return (
     <div className="grid max-w-xl gap-6">
-      <h1 className="font-serif text-5xl font-normal tracking-tight">Set a staff password</h1>
+      <h1 className="display pt-10">Set a staff password</h1>
       <p className="text-ink2">
         Staff sign-in needs a password and an authenticator app. An account that was opened with an email link has no
         password yet. Set one here, then sign in as staff. This is not a Government of Guam login.

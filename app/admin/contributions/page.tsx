@@ -26,7 +26,7 @@ export default async function ContributionsPage({ searchParams }: { searchParams
 
   return (
     <div className="grid gap-6">
-      <h1 className="font-serif text-5xl font-normal">Corrections inbox</h1>
+      <h1 className="display-sm pt-6">Corrections inbox</h1>
       <p className="max-w-2xl text-ink2">
         Sent from the &ldquo;Help fill this in&rdquo; form on the guide pages. Nothing here is verified. Check each one against an official source before changing a guide.
       </p>

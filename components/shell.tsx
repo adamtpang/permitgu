@@ -4,8 +4,8 @@ import { createClient } from "@/lib/supabase/server";
 export function UnofficialBanner() {
   return (
     <div className="border-b border-warnline bg-warn px-4 py-2 text-center text-sm text-ink2">
-      <strong className="text-ink">Unofficial demo.</strong> Not a Government of Guam website. Not affiliated with any
-      agency. No government seal. Confirm every requirement with the agency. Fees are paid in person.
+      <strong className="text-ink">Unofficial demo.</strong> Not affiliated with the Government of Guam. Always confirm
+      requirements with the agency before you apply.
     </div>
   );
 }
@@ -18,7 +18,7 @@ export async function SiteHeader() {
     email = data.user?.email ?? null;
   }
   return (
-    <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-5 py-5">
+    <header className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-5 py-4">
       {/* The home page and guides are static files, not app routes, so they take a full page load. */}
       <a href="/" className="flex items-center gap-2 text-ink no-underline" aria-label="PermitGU home">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -30,20 +30,29 @@ export async function SiteHeader() {
           Demo
         </span>
       </a>
-      <nav className="flex flex-wrap items-center justify-end gap-2 text-sm" aria-label="Tracker">
-        <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/permits">Catalog</Link>
-        <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/agencies">Agencies</Link>
-        <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/apply">Apply</Link>
-        <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/applications">Your file</Link>
-        <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/review">Staff</Link>
-        <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/admin">Admin</Link>
+      {/* On a phone the brand and the sign-in button share the first row, and the links scroll sideways on the second. */}
+      <div className="order-2 sm:order-3">
         {email ? (
           <form action="/sign-out" method="post">
-            <button className="rounded-full border border-line px-3 py-2" type="submit">Sign out</button>
+            <button className="inline-flex min-h-[44px] items-center rounded-full border border-line px-4 text-[0.95rem]" type="submit">Sign out</button>
           </form>
         ) : (
-          <Link className="rounded-full bg-ink px-3 py-2 text-paper no-underline" href="/sign-in">Sign in</Link>
+          <Link className="inline-flex min-h-[44px] items-center rounded-full bg-ink px-4 text-[0.95rem] font-medium text-paper no-underline" href="/sign-in">Sign in</Link>
         )}
+      </div>
+      <nav className="order-3 -mx-5 flex w-[calc(100%+2.5rem)] items-center gap-1 overflow-x-auto px-5 text-[0.95rem] sm:order-2 sm:mx-0 sm:ml-auto sm:w-auto sm:px-0" aria-label="Tracker">
+        {[
+          ["/apply", "Start a permit"],
+          ["/applications", "Your files"],
+          ["/permits", "Permits"],
+          ["/agencies", "Agencies"],
+          ["/review", "Staff"],
+          ...(email ? [["/admin", "Admin"]] : []),
+        ].map(([href, label]) => (
+          <Link key={href} className="inline-flex min-h-[44px] flex-none items-center whitespace-nowrap rounded-full px-3 text-ink no-underline hover:bg-soft" href={href}>
+            {label}
+          </Link>
+        ))}
       </nav>
     </header>
   );

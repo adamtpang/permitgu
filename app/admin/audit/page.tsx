@@ -34,7 +34,7 @@ export default async function AuditPage({
   const actions = [...new Set(rows.map((row) => row.action))].sort();
   return (
     <div className="grid gap-6">
-      <h1 className="font-serif text-5xl font-normal">Audit log</h1>
+      <h1 className="display-sm pt-6">Audit log</h1>
       <p className="max-w-2xl text-ink2">
         Append-only. Sign-ins, file views, uploads, downloads, status changes, assignments, comments, and catalog edits. The database rejects updates and deletes.
       </p>

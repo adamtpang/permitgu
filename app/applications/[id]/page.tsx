@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { addComment, downloadDocument, respondToInfo, saveDraft, saveLicenseDraft, submitDraft, uploadDocument, withdraw } from "@/lib/actions";
+import { Fold, PageHero, Section } from "@/components/layout";
 import { LicenseFields } from "@/components/license-form";
 import { SetupNotice } from "@/components/shell";
 import { fileTitle, licenseDetails, permitKind } from "@/lib/license";
 import { ClearanceBoard, CurrentStepBanner, EtaCallout, EventTimeline, FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
-import { Button, Input, Textarea } from "@/components/ui";
+import { Button, Input, Label, Textarea } from "@/components/ui";
 import { estimateEta, publishedTime, stepEstimateLabel, type StepEstimate } from "@/lib/eta";
 import { requestMeta } from "@/lib/request-meta";
 import { one, session } from "@/lib/session";
@@ -68,6 +69,9 @@ export default async function ApplicationPage({
     memo: step.memo,
   }));
   const draft = application.status === "draft";
+  const canUpload = draft || application.status === "awaiting_applicant";
+  const openRequests = (requests ?? []).filter((request) => !request.response);
+  const live = ordered.filter((step) => step.status !== "not_started");
   const eta = estimateEta(
     application.status,
     ordered.map((step) => ({
@@ -79,114 +83,59 @@ export default async function ApplicationPage({
     })),
     estimates,
   );
+  const place = kind.license
+    ? `${[license.street, license.village].filter(Boolean).join(", ") || "No address yet"}. Lot ${application.lot || "not given"}, block ${application.block || "not given"}.`
+    : `Tract ${application.tract || "not given"}, block ${application.block || "not given"}, zone ${application.zoning_district || "not given"}.`;
 
   return (
-    <div className="grid gap-8">
-      <header>
-        <p className="text-sm uppercase tracking-wide text-muted">Unofficial file</p>
-        <p className="mt-1 text-sm text-muted">{kind.typeName}</p>
-        <h1 className="mt-2 font-serif text-5xl font-normal">{fileTitle(type?.code, application)}</h1>
-        {kind.license ? (
-          <p className="mt-2 text-ink2">
-            {[license.street, license.village].filter(Boolean).join(", ") || "No address yet"}. Lot {application.lot || "not given"}, block {application.block || "not given"}.
-          </p>
-        ) : (
-          <p className="mt-2 text-ink2">Tract {application.tract || "—"}, block {application.block || "—"}, zone {application.zoning_district || "—"}.</p>
-        )}
-        <div className="mt-3"><StatusBadge status={application.status} /></div>
-        {application.permit_number ? <p className="mt-3 text-sm text-ink2">Demo number {application.permit_number}. {kind.numberNote}</p> : null}
-      </header>
-      {query.error ? <p className="text-sm text-bad" role="alert">{query.error}</p> : null}
-      <PizzaTracker status={application.status} pipeline={kind.pipeline} />
-      {draft ? null : <EtaCallout eta={eta} />}
-      <CurrentStepBanner steps={trackerSteps} />
-      <ClearanceBoard steps={trackerSteps} />
-      {(application.status === "fees_due" || application.fees_due_cents != null || application.fees_paid_at) ? (
-        <FeeCallout cents={application.fees_due_cents} paid={Boolean(application.fees_paid_at)} />
-      ) : null}
-      {application.valuation_cents != null ? <p className="text-sm text-muted">Declared valuation {formatCents(application.valuation_cents)}. Not a fee.</p> : null}
+    <div>
+      <PageHero eyebrow={`Unofficial file · ${kind.typeName}`} title={fileTitle(type?.code, application)} lede={place}>
+        <StatusBadge status={application.status} />
+        {application.permit_number ? <span className="text-[0.95rem] text-ink2">Demo number {application.permit_number}. {kind.numberNote}</span> : null}
+      </PageHero>
+      {query.error ? <p className="mb-6 rounded-2xl border border-bad px-4 py-3 text-bad" role="alert">{query.error}</p> : null}
 
-      <section className="grid gap-3">
-        <h2 className="font-serif text-3xl font-normal">Agency steps</h2>
-        <ol className="grid gap-3">
-          {ordered.map((step) => {
-            const workflow = one(step.workflow_steps);
-            const agency = one(step.agencies);
-            return (
-              <li key={step.id} className="rounded-2xl border border-line px-4 py-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="font-medium">{workflow?.name}</span>
-                  <StatusBadge status={step.status} />
-                </div>
-                <p className="text-sm text-muted">{agency?.name} · {workflow?.routing?.replaceAll("_", " ")}</p>
-                {["approved", "rejected", "waived", "n_a"].includes(step.status) || workflow?.phase === "inspection" || workflow?.phase === "occupancy" ? null : (
-                  <p className="mt-1 text-sm text-ink2">{stepEstimateLabel(estimateByCode.get(workflow?.code ?? ""))}</p>
-                )}
-                {publishedTime(workflow?.code ?? "") ? (
-                  <p className="mt-1 text-sm text-ink2">
-                    {publishedTime(workflow?.code ?? "")!.text}{" "}
-                    <a href={publishedTime(workflow?.code ?? "")!.source} target="_blank" rel="noopener noreferrer">Public Auditor report 25-05</a>
-                  </p>
-                ) : null}
-                {workflow?.uncertainty ? <p className="mt-1 text-sm text-ink2">{workflow.uncertainty}</p> : null}
-                {step.memo ? <p className="mt-2 text-sm">Note: {step.memo}</p> : null}
-              </li>
-            );
-          })}
-        </ol>
-      </section>
+      {draft ? null : (
+        <>
+          <Section>
+            <PizzaTracker status={application.status} pipeline={kind.pipeline} />
+          </Section>
+          <Section>
+            <div className="grid gap-5">
+              <CurrentStepBanner steps={trackerSteps} />
+              <EtaCallout eta={eta} noun={kind.license ? "license" : "permit"} />
+            </div>
+          </Section>
+        </>
+      )}
 
-      <section className="grid gap-3">
-        <h2 className="font-serif text-3xl font-normal">Documents</h2>
-        <p className="text-sm text-ink2">PDF, PNG, JPEG, or WebP. The file type is checked. Virus scanning is not connected. Links expire after 60 seconds.</p>
-        <ul className="grid gap-2">
-          {(documents ?? []).map((document) => (
-            <li key={document.id} className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-line px-4 py-3">
-              <span>{document.kind}: {document.file_name} · {document.scan_status.replaceAll("_", " ")}</span>
-              <form action={downloadDocument}>
-                <input type="hidden" name="application_id" value={id} />
-                <input type="hidden" name="document_id" value={document.id} />
-                <Button type="submit" variant="outline">Open</Button>
-              </form>
-            </li>
-          ))}
-        </ul>
-        {draft || application.status === "awaiting_applicant" ? (
-          <form action={uploadDocument} className="grid gap-3 rounded-3xl border border-line p-4">
-            <input type="hidden" name="application_id" value={id} />
-            <label className="text-sm text-ink2" htmlFor="kind">Kind</label>
-            <select id="kind" name="kind" className="rounded-2xl border border-line bg-paper px-4 py-3">
-              {kind.documents.map((document) => <option key={document.code} value={document.code}>{document.name}</option>)}
-              <option value="other">Other</option>
-            </select>
-            <Input name="file" type="file" accept="application/pdf,image/png,image/jpeg,image/webp" required />
-            <Button type="submit" variant="outline">Upload</Button>
-          </form>
-        ) : null}
-      </section>
-
-      {(requests ?? []).length ? (
-        <section className="grid gap-3">
-          <h2 className="font-serif text-3xl font-normal">Requests for information</h2>
-          {(requests ?? []).map((request) => (
-            <article key={request.id} className="rounded-2xl border border-line p-4">
-              <p>{request.body}</p>
-              {request.response ? <p className="mt-2 text-sm text-ink2">Reply: {request.response}</p> : (
-                <form action={respondToInfo} className="mt-3 grid gap-2">
+      {openRequests.length ? (
+        <Section title="An agency needs your reply" lede="The clock is paused until you answer.">
+          <div className="grid gap-4">
+            {openRequests.map((request) => (
+              <article key={request.id} className="rounded-[32px] border border-warnline bg-warn p-6">
+                <p className="text-lg">{request.body}</p>
+                <form action={respondToInfo} className="mt-4 grid gap-3">
                   <input type="hidden" name="application_id" value={id} />
                   <input type="hidden" name="request_id" value={request.id} />
-                  <Textarea name="response" required rows={3} placeholder="Your reply" />
-                  <Button type="submit">Send reply</Button>
+                  <Label htmlFor={`reply-${request.id}`}>Your reply</Label>
+                  <Textarea id={`reply-${request.id}`} name="response" required rows={3} />
+                  <Button type="submit" className="min-h-[48px] w-fit px-6 text-base">Send reply</Button>
                 </form>
-              )}
-            </article>
-          ))}
-        </section>
+              </article>
+            ))}
+          </div>
+        </Section>
+      ) : null}
+
+      {(application.status === "fees_due" || application.fees_due_cents != null || application.fees_paid_at) ? (
+        <Section>
+          <FeeCallout cents={application.fees_due_cents} paid={Boolean(application.fees_paid_at)} />
+        </Section>
       ) : null}
 
       {draft ? (
-        <section className="grid gap-3">
-          <h2 className="font-serif text-3xl font-normal">Draft</h2>
+        <Section title="Finish your draft" lede={kind.submitHint}>
           {kind.license ? (
             <form action={saveLicenseDraft} className="grid max-w-2xl gap-4">
               <input type="hidden" name="application_id" value={id} />
@@ -200,59 +149,182 @@ export default async function ApplicationPage({
                   attestationName: application.attestation_name ?? "",
                 }}
               />
-              <Button type="submit" variant="outline">Save changes</Button>
+              <Button type="submit" variant="outline" className="min-h-[48px] w-fit px-6 text-base">Save changes</Button>
             </form>
           ) : (
-          <form action={saveDraft} className="grid gap-3">
-            <input type="hidden" name="application_id" value={id} />
-            <Input name="lot" defaultValue={application.lot ?? ""} aria-label="Lot" />
-            <Input name="tract" defaultValue={application.tract ?? ""} aria-label="Tract" />
-            <Input name="block" defaultValue={application.block ?? ""} aria-label="Block" />
-            <Input name="zoning_district" defaultValue={application.zoning_district ?? ""} aria-label="Zoning district" />
-            <Input name="ownership" defaultValue={application.ownership ?? "owner"} aria-label="Ownership" />
-            <Input name="owner_name" defaultValue={application.owner_name ?? ""} aria-label="Owner name" />
-            <Textarea name="scope" defaultValue={application.scope ?? ""} aria-label="Scope" />
-            <Input name="valuation" defaultValue={application.valuation_cents == null ? "" : (application.valuation_cents / 100).toFixed(2)} aria-label="Declared valuation in dollars" />
-            <Input name="water_supply" defaultValue={application.water_supply ?? ""} aria-label="Water supply" />
-            <Input name="contractor_license" defaultValue={application.contractor_license ?? ""} aria-label="Contractor license" />
-            <Input name="architect_seal" defaultValue={application.architect_seal ?? ""} aria-label="Architect seal" />
-            <Input name="engineer_seal" defaultValue={application.engineer_seal ?? ""} aria-label="Engineer seal" />
-            <label className="text-sm"><input type="checkbox" name="attestation" defaultChecked={application.attestation} /> Attestation</label>
-            <Input name="attestation_name" defaultValue={application.attestation_name ?? ""} aria-label="Attestation name" />
-            <Button type="submit" variant="outline">Save changes</Button>
-          </form>
+            <form action={saveDraft} className="grid max-w-2xl gap-4">
+              <input type="hidden" name="application_id" value={id} />
+              <DraftField name="lot" label="Lot" value={application.lot} />
+              <DraftField name="tract" label="Tract" value={application.tract} />
+              <DraftField name="block" label="Block" value={application.block} />
+              <DraftField name="zoning_district" label="Zoning district" value={application.zoning_district} />
+              <DraftField name="ownership" label="Who is applying: owner, lessee, or authorized_agent" value={application.ownership ?? "owner"} />
+              <DraftField name="owner_name" label="Owner name, if you are an agent" value={application.owner_name} />
+              <div>
+                <Label htmlFor="scope">Scope</Label>
+                <Textarea id="scope" name="scope" rows={3} defaultValue={application.scope ?? ""} />
+              </div>
+              <DraftField name="valuation" label="Declared construction valuation, dollars (optional)" value={application.valuation_cents == null ? "" : (application.valuation_cents / 100).toFixed(2)} />
+              <DraftField name="water_supply" label="Water supply: public or private_well" value={application.water_supply} />
+              <DraftField name="contractor_license" label="Contractor license number" value={application.contractor_license} />
+              <DraftField name="architect_seal" label="Architect seal number, if you have one" value={application.architect_seal} />
+              <DraftField name="engineer_seal" label="Engineer seal number, if you have one" value={application.engineer_seal} />
+              <label className="flex items-start gap-3 text-[0.95rem] text-ink2">
+                <input className="mt-1" type="checkbox" name="attestation" defaultChecked={application.attestation} />
+                <span>I attest that the owner or lessee will sign the official DPW paper. This checkbox does not replace that signature.</span>
+              </label>
+              <DraftField name="attestation_name" label="Name for that attestation" value={application.attestation_name} />
+              <Button type="submit" variant="outline" className="min-h-[48px] w-fit px-6 text-base">Save changes</Button>
+            </form>
           )}
+        </Section>
+      ) : null}
+
+      {canUpload ? (
+        <Section title="Add your papers" lede="PDF, PNG, JPEG, or WebP, up to 20 MB each.">
+          <form action={uploadDocument} className="grid max-w-2xl gap-4 rounded-[32px] border border-line p-6">
+            <input type="hidden" name="application_id" value={id} />
+            <div>
+              <Label htmlFor="kind">What is it</Label>
+              <select id="kind" name="kind" className="w-full rounded-2xl border border-line bg-paper px-4 py-3">
+                {kind.documents.map((document) => <option key={document.code} value={document.code}>{document.name}</option>)}
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <Label htmlFor="file">File</Label>
+              <Input id="file" name="file" type="file" accept="application/pdf,image/png,image/jpeg,image/webp" required />
+            </div>
+            <Button type="submit" variant="outline" className="min-h-[48px] w-fit px-6 text-base">Upload</Button>
+          </form>
+          <p className="mt-4 max-w-[38rem] text-[0.95rem] text-ink2">
+            The file type is checked. Virus scanning is not connected. Do not upload a real ID on this unofficial demo.
+          </p>
+        </Section>
+      ) : null}
+
+      {draft ? (
+        <Section title="Ready?" lede="Submitting sends the file to intake and locks the draft.">
           <form action={submitDraft}>
             <input type="hidden" name="application_id" value={id} />
-            <Button type="submit" variant="gu">{kind.submitLabel}</Button>
+            <Button type="submit" variant="gu" className="min-h-[56px] px-8 text-lg">{kind.submitLabel}</Button>
           </form>
-          <p className="text-sm text-muted">{kind.submitHint}</p>
-        </section>
+        </Section>
       ) : null}
 
-      <section className="grid gap-3">
-        <h2 className="font-serif text-3xl font-normal">Notes</h2>
-        <ul className="grid gap-2 text-sm">
-          {(comments ?? []).map((comment) => <li key={comment.id} className="rounded-2xl border border-line px-4 py-3">{comment.body}</li>)}
-        </ul>
-        <form action={addComment} className="grid gap-2">
-          <input type="hidden" name="application_id" value={id} />
-          <input type="hidden" name="visibility" value="citizen" />
-          <input type="hidden" name="return_to" value={`/applications/${id}`} />
-          <Textarea name="body" required rows={3} placeholder="A note on this file" />
-          <Button type="submit" variant="outline">Add note</Button>
-        </form>
-      </section>
+      <Section title="The details">
+        <Fold title="Every step" note={draft ? `${ordered.length}` : `${live.length} started of ${ordered.length}`}>
+          <ol className="grid gap-5">
+            {ordered.map((step) => {
+              const workflow = one(step.workflow_steps);
+              const agency = one(step.agencies);
+              const published = publishedTime(workflow?.code ?? "");
+              const finished = ["approved", "rejected", "waived", "n_a"].includes(step.status);
+              return (
+                <li key={step.id}>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-lg font-medium">{workflow?.name}</span>
+                    <StatusBadge status={step.status} />
+                  </div>
+                  <p className="text-[0.95rem] text-muted">{agency?.name}</p>
+                  {finished || workflow?.phase === "inspection" || workflow?.phase === "occupancy" ? null : (
+                    <p className="mt-1 text-[0.95rem] text-ink2">{stepEstimateLabel(estimateByCode.get(workflow?.code ?? ""))}</p>
+                  )}
+                  {published ? (
+                    <p className="mt-1 text-[0.95rem] text-ink2">
+                      {published.text} <a href={published.source} target="_blank" rel="noopener noreferrer">Public Auditor report 25-05</a>
+                    </p>
+                  ) : null}
+                  {step.memo ? <p className="mt-2 text-[0.95rem]">Note from the agency: {step.memo}</p> : null}
+                  {workflow?.uncertainty ? (
+                    <details className="mt-1 text-[0.95rem] text-ink2">
+                      <summary className="inline-flex min-h-[44px] items-center underline underline-offset-4">Why this step</summary>
+                      <p className="max-w-[38rem] pb-2">{workflow.uncertainty}</p>
+                    </details>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ol>
+        </Fold>
 
-      <EventTimeline events={(events ?? []).map((event) => ({ id: String(event.id), action: event.action, memo: event.memo, createdAt: event.created_at, actorRole: event.actor_role }))} />
+        <Fold title="Agencies" note={`${new Set(trackerSteps.map((step) => step.agency)).size}`}>
+          <ClearanceBoard steps={trackerSteps} heading={false} />
+        </Fold>
 
-      {!["occupancy_issued", "denied", "withdrawn", "expired"].includes(application.status) ? (
-        <form action={withdraw} className="grid max-w-md gap-2">
-          <input type="hidden" name="application_id" value={id} />
-          <Input name="memo" placeholder="Why you are withdrawing" />
-          <Button type="submit" variant="outline">Withdraw application</Button>
-        </form>
-      ) : null}
+        <Fold title="Papers" note={`${(documents ?? []).length}`}>
+          <ul className="grid gap-3">
+            {(documents ?? []).map((document) => (
+              <li key={document.id} className="flex flex-wrap items-center justify-between gap-3">
+                <span>
+                  {kind.documents.find((entry) => entry.code === document.kind)?.name ?? "Other"}: {document.file_name}
+                </span>
+                <form action={downloadDocument}>
+                  <input type="hidden" name="application_id" value={id} />
+                  <input type="hidden" name="document_id" value={document.id} />
+                  <Button type="submit" variant="outline" className="min-h-[44px] px-5">Open</Button>
+                </form>
+              </li>
+            ))}
+          </ul>
+          {(documents ?? []).length ? <p className="mt-3 text-[0.95rem] text-ink2">A link to a file works for 60 seconds.</p> : <p className="text-ink2">Nothing uploaded yet.</p>}
+        </Fold>
+
+        {(requests ?? []).some((request) => request.response) ? (
+          <Fold title="Answered requests" note={`${(requests ?? []).filter((request) => request.response).length}`}>
+            <ul className="grid gap-4">
+              {(requests ?? []).filter((request) => request.response).map((request) => (
+                <li key={request.id}>
+                  <p>{request.body}</p>
+                  <p className="mt-1 text-[0.95rem] text-ink2">Your reply: {request.response}</p>
+                </li>
+              ))}
+            </ul>
+          </Fold>
+        ) : null}
+
+        <Fold title="Notes" note={`${(comments ?? []).length}`}>
+          <ul className="grid gap-3">
+            {(comments ?? []).map((comment) => <li key={comment.id} className="rounded-2xl border border-line px-4 py-3">{comment.body}</li>)}
+          </ul>
+          <form action={addComment} className="mt-4 grid max-w-2xl gap-3">
+            <input type="hidden" name="application_id" value={id} />
+            <input type="hidden" name="visibility" value="citizen" />
+            <input type="hidden" name="return_to" value={`/applications/${id}`} />
+            <Label htmlFor="note-body">Add a note to this file</Label>
+            <Textarea id="note-body" name="body" required rows={3} />
+            <Button type="submit" variant="outline" className="min-h-[44px] w-fit px-5">Add note</Button>
+          </form>
+        </Fold>
+
+        <Fold title="History" note={`${(events ?? []).length}`}>
+          <EventTimeline heading={false} events={(events ?? []).map((event) => ({ id: String(event.id), action: event.action, memo: event.memo, createdAt: event.created_at, actorRole: event.actor_role }))} />
+        </Fold>
+
+        {application.valuation_cents != null ? (
+          <p className="mt-6 text-[0.95rem] text-muted">Declared valuation {formatCents(application.valuation_cents)}. Not a fee.</p>
+        ) : null}
+
+        {!["occupancy_issued", "issued", "denied", "withdrawn", "expired"].includes(application.status) ? (
+          <Fold title="Withdraw this application">
+            <form action={withdraw} className="grid max-w-md gap-3">
+              <input type="hidden" name="application_id" value={id} />
+              <Label htmlFor="withdraw-memo">Why you are withdrawing</Label>
+              <Input id="withdraw-memo" name="memo" />
+              <Button type="submit" variant="outline" className="min-h-[44px] w-fit px-5">Withdraw application</Button>
+            </form>
+          </Fold>
+        ) : null}
+      </Section>
+    </div>
+  );
+}
+
+function DraftField({ name, label, value }: { name: string; label: string; value?: string | null }) {
+  return (
+    <div>
+      <Label htmlFor={name}>{label}</Label>
+      <Input id={name} name={name} defaultValue={value ?? ""} />
     </div>
   );
 }

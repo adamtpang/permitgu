@@ -36,12 +36,34 @@
   }
 }
 
-html { scroll-behavior: smooth; }
-body { background: var(--color-paper); color: var(--color-ink); }
-a { color: var(--color-navy); text-underline-offset: 3px; }
-@media (prefers-color-scheme: dark) { a { color: var(--color-gu); } }
-:focus-visible { outline: 2px solid var(--color-gu); outline-offset: 3px; }
+/* Base rules sit in the base layer so a utility class on an element can override them.
+   Outside a layer, the link color beat text-paper and made dark buttons unreadable. */
+@layer base {
+  html { scroll-behavior: smooth; }
+  /* Design system v4: 18px body, matching public/styles.css. See DESIGN.md. */
+  body { background: var(--color-paper); color: var(--color-ink); font-size: 18px; line-height: 1.6; }
+  a { color: var(--color-navy); text-underline-offset: 3px; }
+  @media (prefers-color-scheme: dark) { a { color: var(--color-gu); } }
+  summary { cursor: pointer; }
+}
+:focus-visible { outline: 3px solid var(--color-gu); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* Design system v4 type scale. Citizen pages use display. Staff tools, which are dense by nature, use display-sm. */
+@utility display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(3.25rem, 9.5vw, 6.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+}
+@utility display-sm {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
 }

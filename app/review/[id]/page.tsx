@@ -64,7 +64,7 @@ export default async function ReviewDetailPage({
       <header>
         <p className="text-sm text-muted"><Link href="/review">Queue</Link></p>
         <p className="mt-1 text-sm text-muted">{kind.typeName}</p>
-        <h1 className="mt-2 font-serif text-5xl font-normal">{fileTitle(type?.code, application)}</h1>
+        <h1 className="display-sm mt-2">{fileTitle(type?.code, application)}</h1>
         <div className="mt-3"><StatusBadge status={application.status} /></div>
         <p className="mt-3 max-w-2xl text-sm text-ink2">{application.scope}</p>
         {kind.license ? (

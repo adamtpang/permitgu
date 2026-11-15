@@ -14,7 +14,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
   if (!current.configured) {
     return (
       <div className="grid gap-6">
-        <h1 className="font-serif text-5xl font-normal">Admin</h1>
+        <h1 className="display-sm pt-6">Admin</h1>
         <SetupNotice />
         <QuestionList />
         <TemplateList />
@@ -33,7 +33,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
 
   return (
     <div className="grid gap-8">
-      <h1 className="font-serif text-5xl font-normal">Admin</h1>
+      <h1 className="display-sm pt-6">Admin</h1>
       {query.error ? <p className="text-sm text-bad" role="alert">{query.error}</p> : null}
       {query.notice ? <p className="text-sm text-ink2" role="status">{query.notice}</p> : null}
       <p className="max-w-2xl text-ink2">

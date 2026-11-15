@@ -5,18 +5,23 @@ import { isSupabaseConfigured } from "@/lib/supabase/env";
 
 export const metadata = { title: "Staff sign-in" };
 
-export default function StaffSignInPage() {
+export default async function StaffSignInPage({ searchParams }: { searchParams: Promise<{ password?: string }> }) {
+  const query = await searchParams;
   return (
     <div className="grid max-w-xl gap-6">
-      <h1 className="font-serif text-5xl font-normal tracking-tight">Staff sign-in</h1>
-      <p className="text-ink2">
-        Password, then an authenticator app. The queue stays closed until the second factor succeeds. This is not a
-        Government of Guam login. Citizens <Link href="/sign-in">use an email code</Link> instead.
-      </p>
+      <h1 className="display pt-10">Staff sign-in</h1>
+      <p className="text-lg text-ink2">Your password, then a code from your authenticator app.</p>
+      {query.password === "set" ? (
+        <p className="rounded-2xl border border-good px-4 py-3 text-good" role="status">
+          Password saved. Sign in with it below.
+        </p>
+      ) : null}
       {isSupabaseConfigured() ? <StaffSignIn /> : <SetupNotice />}
-      <p className="text-sm text-ink2">
-        No password yet? Sign in with your email link, then <Link href="/staff/set-password">set a staff password</Link>.
-      </p>
+      <ul className="grid gap-2 text-[0.95rem] text-ink2">
+        <li>No password yet? Sign in with your email link, then <Link href="/staff/set-password">set a staff password</Link>.</li>
+        <li>Applying for a permit? <Link href="/sign-in">Use the email link sign-in</Link>.</li>
+        <li>This is not a Government of Guam login.</li>
+      </ul>
     </div>
   );
 }

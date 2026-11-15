@@ -32,5 +32,8 @@ The site is "PermitGU". The name and logo came from EJ Calvo's feedback, relayed
 - Source research dates are visible. The typhoon route now links to the official 2026 Compiler of Laws PDF and distinguishes the owner-only roof-covering exemption from the broader nonstructural repair exemption.
 - Agency facts, fluent-speaker review, and real-user testing remain human work. Do not describe machine translations or automated citation checks as verified legal advice.
 
+## Design system v4 (2026-11-15)
+`DESIGN.md` is the design system: one idea per screen, the tokens for both front ends, the page pattern, and the rules that do not bend. `DESIGN_RESEARCH_NDS.md` is the research behind it (the National Design Studio at ndstudio.gov, measured against PermitGU, with before and after numbers). Guides fold their steps and notes with `public/guide.js`. Tracker pages are built from `components/layout.tsx` and `components/steps-overview.tsx`. Check any new page with the measuring and accessibility scripts described in those two files before shipping.
+
 ## Design standard: america.gov (Adam, 2026-10-03)
 america.gov is the standard. Mirror its UI/UX and design: a huge, tight serif headline, lots of white space, deep navy ink `#000c1f`, one big "describe what you need" box with example prompts, pill controls, and rounded cards. Swap the identity for Guam (favicon, flag, Guam greeting), and never use America branding. Check design changes against the live america.gov.

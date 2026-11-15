@@ -58,7 +58,7 @@ export default async function ReviewPage({
 
   return (
     <div className="grid gap-8">
-      <h1 className="font-serif text-5xl font-normal">Queue</h1>
+      <h1 className="display-sm pt-6">Queue</h1>
       <p className="max-w-2xl text-ink2">
         Your agency's backlog. The lead agency also sees every submitted file for its permit: DPW for the house permit, Revenue and Taxation for the business license. Search, filter, then open a file to assign it, ask for more information, or approve or deny with a reason.
       </p>

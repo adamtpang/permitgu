@@ -62,11 +62,11 @@ export function PizzaTracker({ status, pipeline = PIPELINE }: { status: Applicat
   );
 }
 
-export function EtaCallout({ eta }: { eta: Eta }) {
+export function EtaCallout({ eta, noun = "permit" }: { eta: Eta; noun?: string }) {
   if (eta.kind === "done") return null;
   return (
     <section className="rounded-3xl border border-line p-5" aria-label="Estimated time">
-      <h2 className="font-serif text-3xl font-normal">Estimated time to permit</h2>
+      <h2 className="font-serif text-3xl font-normal">Estimated time to {noun}</h2>
       {eta.kind === "estimate" ? (
         <>
           <p className="mt-2 text-lg text-ink">
@@ -120,11 +120,11 @@ export function CurrentStepBanner({ steps }: { steps: TrackerStep[] }) {
   );
 }
 
-export function ClearanceBoard({ steps }: { steps: TrackerStep[] }) {
+export function ClearanceBoard({ steps, heading = true }: { steps: TrackerStep[]; heading?: boolean }) {
   const groups = agencyRollup(steps);
   return (
     <section className="grid gap-3">
-      <h2 className="font-serif text-3xl font-normal">Agencies</h2>
+      {heading ? <h2 className="font-serif text-3xl font-normal">Agencies</h2> : null}
       <ul className="grid gap-3">
         {groups.map((group) => (
           <li key={group.agency} className="rounded-2xl border border-line px-4 py-3">
@@ -147,10 +147,10 @@ export function ClearanceBoard({ steps }: { steps: TrackerStep[] }) {
   );
 }
 
-export function EventTimeline({ events }: { events: TimelineEvent[] }) {
+export function EventTimeline({ events, heading = true }: { events: TimelineEvent[]; heading?: boolean }) {
   return (
     <section className="grid gap-2">
-      <h2 className="font-serif text-3xl font-normal">Timeline</h2>
+      {heading ? <h2 className="font-serif text-3xl font-normal">Timeline</h2> : null}
       <ol className="grid gap-2">
         {events.map((event) => (
           <li key={event.id} className="rounded-2xl border border-line px-4 py-3 text-sm">
