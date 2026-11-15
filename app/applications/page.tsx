@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { SetupNotice } from "@/components/shell";
 import { StatusBadge } from "@/components/tracker";
-import { session } from "@/lib/session";
+import { fileTitle, permitKind } from "@/lib/license";
+import { one, session } from "@/lib/session";
 
 export const metadata = { title: "Your applications" };
 
@@ -11,7 +12,7 @@ export default async function ApplicationsPage() {
   if (!current.user) {
     return <p className="text-ink2"><Link href="/sign-in?next=/applications">Sign in</Link> to see your drafts.</p>;
   }
-  const { data } = await current.supabase.from("applications").select("id, status, lot, tract, block, created_at, permit_number").order("created_at", { ascending: false });
+  const { data } = await current.supabase.from("applications").select("id, status, lot, tract, block, details, created_at, permit_number, application_types(code)").order("created_at", { ascending: false });
   return (
     <div className="grid gap-6">
       <h1 className="font-serif text-5xl font-normal">Your applications</h1>
@@ -21,11 +22,14 @@ export default async function ApplicationsPage() {
           <li key={row.id} className="rounded-3xl border border-line p-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <Link className="font-medium no-underline" href={`/applications/${row.id}`}>
-                Lot {row.lot || "—"}, tract {row.tract || "—"}, block {row.block || "—"}
+                {permitKind(one(row.application_types)?.code).license
+                  ? fileTitle(one(row.application_types)?.code, row)
+                  : `Lot ${row.lot || "—"}, tract ${row.tract || "—"}, block ${row.block || "—"}`}
               </Link>
               <StatusBadge status={row.status} />
             </div>
-            {row.permit_number ? <p className="mt-2 text-sm text-muted">Demo number {row.permit_number}. Not an official DPW number.</p> : null}
+            <p className="mt-1 text-sm text-muted">{permitKind(one(row.application_types)?.code).typeName}</p>
+            {row.permit_number ? <p className="mt-2 text-sm text-muted">Demo number {row.permit_number}. {permitKind(one(row.application_types)?.code).numberNote}</p> : null}
           </li>
         ))}
       </ul>

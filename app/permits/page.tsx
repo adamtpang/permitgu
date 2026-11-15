@@ -14,7 +14,7 @@ export default async function PermitsPage() {
         <p className="text-sm uppercase tracking-wide text-muted">Unofficial catalog</p>
         <h1 className="mt-2 font-serif text-5xl font-normal">Agencies and permits</h1>
         <p className="mt-4 text-lg text-ink2">
-          {agencyCount} agencies and {permits.length} named permits from the public lists. {shared} of them name more than one agency. Only the one-family building permit is a working tracker. The rest are a catalog so another permit can be added in the admin page without a code change. Unconfirmed rows stay marked.
+          {agencyCount} agencies and {permits.length} named permits from the public lists. {shared} of them name more than one agency. Two are working trackers: the one-family building permit and the new business license. The rest are a catalog so another permit can be added in the admin page without a code change. Unconfirmed rows stay marked.
         </p>
         <p className="mt-3"><Link href="/agencies">See the same list by agency</Link></p>
       </header>
@@ -56,7 +56,7 @@ export default async function PermitsPage() {
                   </p>
                 ) : null}
                 {item.unverified ? <p className="text-sm text-ink2">Not yet confirmed from a single official page.</p> : null}
-                {item.trackable ? <p className="mt-1 text-sm"><Link href="/apply">Open the tracker</Link></p> : null}
+                {item.trackable ? <p className="mt-1 text-sm"><Link href={formAgencies(item.code) ? "/apply/business-license" : "/apply"}>Open the tracker</Link></p> : null}
               </li>
             ))}
           </ul>

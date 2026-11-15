@@ -20,6 +20,9 @@ export default async function ApplyPage() {
           take a fee. Septic, wetland, and seashore paths stay on the{" "}
           <a href="/clear-grade">clearing guide</a> and the <a href="/build">building guide</a>.
         </p>
+        <p className="mt-3 text-ink2">
+          Opening a business instead? <Link href="/apply/business-license">Start a business license</Link>.
+        </p>
       </header>
       {!current.configured ? <SetupNotice /> : null}
       {current.configured && !current.user ? (

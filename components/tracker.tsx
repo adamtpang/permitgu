@@ -32,12 +32,13 @@ function label(status: string) {
   return status.replaceAll("_", " ");
 }
 
-export function PizzaTracker({ status }: { status: ApplicationStatus | string }) {
-  const current = PIPELINE.indexOf(status as (typeof PIPELINE)[number]);
+// Each permit has its own stages. A business license has no plan review or inspections.
+export function PizzaTracker({ status, pipeline = PIPELINE }: { status: ApplicationStatus | string; pipeline?: readonly string[] }) {
+  const current = pipeline.indexOf(status);
   const side = status === "awaiting_applicant" || status === "denied" || status === "withdrawn" || status === "expired";
   return (
-    <ol className="grid gap-2 sm:grid-cols-3 lg:grid-cols-9">
-      {PIPELINE.map((stage, index) => {
+    <ol className={`grid gap-2 sm:grid-cols-3 ${pipeline.length > 6 ? "lg:grid-cols-9" : "lg:grid-cols-6"}`}>
+      {pipeline.map((stage, index) => {
         const done = current > index;
         const now = current === index && !side;
         return (
@@ -47,7 +48,7 @@ export function PizzaTracker({ status }: { status: ApplicationStatus | string })
             className={`rounded-2xl border px-3 py-3 text-sm ${now ? "border-navy bg-soft" : "border-line"} ${done ? "text-good" : "text-ink2"}`}
           >
             <span className="block text-xs uppercase tracking-wide">{done ? "Done" : now ? "Now" : "Later"}</span>
-            <span className="font-medium text-ink">{PIPELINE_LABEL[stage]}</span>
+            <span className="font-medium text-ink">{(PIPELINE_LABEL as Record<string, string>)[stage] ?? label(stage)}</span>
           </li>
         );
       })}

@@ -5,6 +5,7 @@ import { SetupNotice } from "@/components/shell";
 import { ClearanceBoard, CurrentStepBanner, EventTimeline, FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
 import { Button, Input, Textarea } from "@/components/ui";
 import { requestMeta } from "@/lib/request-meta";
+import { fileTitle, licenseDetails, permitKind } from "@/lib/license";
 import { one, staffSession } from "@/lib/session";
 import type { TrackerStep } from "@/lib/tracker-model";
 
@@ -26,6 +27,11 @@ export default async function ReviewDetailPage({
 
   const { data: application } = await current.supabase.from("applications").select("*").eq("id", id).maybeSingle();
   if (!application) notFound();
+  const { data: type } = await current.supabase.from("application_types").select("code, lead_agency_id").eq("id", application.application_type_id).maybeSingle();
+  const kind = permitKind(type?.code);
+  const license = licenseDetails(application.details);
+  // The lead agency runs the file: DPW for the house permit, Revenue and Taxation for the license.
+  const isLead = current.staff.some((member) => member.agency_id === type?.lead_agency_id && (member.role === "reviewer" || member.role === "agency_admin"));
   const { data: steps } = await current.supabase.from("application_steps").select("id, status, memo, agency_id, assignee_id, agencies(code, acronym, name), workflow_steps(code, name, routing, sort_order, uncertainty)").eq("application_id", id);
   const { data: events } = await current.supabase.from("audit_log").select("id, action, memo, created_at, actor_role").eq("application_id", id).order("id", { ascending: false }).limit(40);
   const meta = await requestMeta();
@@ -57,12 +63,18 @@ export default async function ReviewDetailPage({
     <div className="grid gap-8">
       <header>
         <p className="text-sm text-muted"><Link href="/review">Queue</Link></p>
-        <h1 className="mt-2 font-serif text-5xl font-normal">Lot {application.lot || "—"}</h1>
+        <p className="mt-1 text-sm text-muted">{kind.typeName}</p>
+        <h1 className="mt-2 font-serif text-5xl font-normal">{fileTitle(type?.code, application)}</h1>
         <div className="mt-3"><StatusBadge status={application.status} /></div>
         <p className="mt-3 max-w-2xl text-sm text-ink2">{application.scope}</p>
+        {kind.license ? (
+          <p className="mt-2 max-w-2xl text-sm text-ink2">
+            {license.entityType.replaceAll("_", " ")}{license.tradeName ? `, trading as ${license.tradeName}` : ""}{license.registrationNumber ? `, registration ${license.registrationNumber}` : ""}. {[license.street, license.village].filter(Boolean).join(", ")}. Lot {application.lot}, block {application.block}.
+          </p>
+        ) : null}
       </header>
       {query.error ? <p className="text-sm text-bad" role="alert">{query.error}</p> : null}
-      <PizzaTracker status={application.status} />
+      <PizzaTracker status={application.status} pipeline={kind.pipeline} />
       <CurrentStepBanner steps={trackerSteps} />
       <ClearanceBoard steps={trackerSteps} />
       <FeeCallout cents={application.fees_due_cents} paid={Boolean(application.fees_paid_at)} />
@@ -72,7 +84,7 @@ export default async function ReviewDetailPage({
           const workflow = one(step.workflow_steps);
           const agency = one(step.agencies);
           const mine = current.isSuper || current.agencyIds.includes(step.agency_id);
-          const canRoute = (current.lead || current.isSuper) && step.status === "not_started";
+          const canRoute = (isLead || current.isSuper) && step.status === "not_started";
           return (
             <li key={step.id} className="rounded-3xl border border-line p-5">
               <div className="flex flex-wrap items-center justify-between gap-2">
@@ -81,7 +93,7 @@ export default async function ReviewDetailPage({
               </div>
               {workflow?.uncertainty ? <p className="mt-2 text-sm text-ink2">{workflow.uncertainty}</p> : null}
               {step.memo ? <p className="mt-2 text-sm">Note: {step.memo}</p> : null}
-              {(current.isSuper || current.staff.some((member) => member.role === "agency_admin" && member.agency_id === step.agency_id) || current.lead) ? (
+              {(current.isSuper || current.staff.some((member) => member.role === "agency_admin" && member.agency_id === step.agency_id) || isLead) ? (
                 <form action={assignStep} className="mt-3 flex flex-wrap items-center gap-2">
                   <input type="hidden" name="return_to" value={back} />
                   <input type="hidden" name="step_id" value={step.id} />
@@ -125,9 +137,9 @@ export default async function ReviewDetailPage({
         })}
       </ol>
 
-      {current.lead || current.isSuper ? (
+      {isLead || current.isSuper ? (
         <section className="grid gap-4 rounded-3xl border border-line p-5">
-          <h2 className="font-serif text-3xl font-normal">DPW controls</h2>
+          <h2 className="font-serif text-3xl font-normal">{kind.leadName} controls</h2>
           {application.status === "fees_due" ? (
           <form action={assessFees} className="grid gap-2">
             <input type="hidden" name="return_to" value={back} />

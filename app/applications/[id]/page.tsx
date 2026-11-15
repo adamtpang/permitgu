@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { addComment, downloadDocument, respondToInfo, saveDraft, submitDraft, uploadDocument, withdraw } from "@/lib/actions";
+import { addComment, downloadDocument, respondToInfo, saveDraft, saveLicenseDraft, submitDraft, uploadDocument, withdraw } from "@/lib/actions";
+import { LicenseFields } from "@/components/license-form";
 import { SetupNotice } from "@/components/shell";
+import { fileTitle, licenseDetails, permitKind } from "@/lib/license";
 import { ClearanceBoard, CurrentStepBanner, EtaCallout, EventTimeline, FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
 import { Button, Input, Textarea } from "@/components/ui";
 import { estimateEta, publishedTime, stepEstimateLabel, type StepEstimate } from "@/lib/eta";
@@ -27,6 +29,9 @@ export default async function ApplicationPage({
 
   const { data: application } = await current.supabase.from("applications").select("*").eq("id", id).maybeSingle();
   if (!application) notFound();
+  const { data: type } = await current.supabase.from("application_types").select("code").eq("id", application.application_type_id).maybeSingle();
+  const kind = permitKind(type?.code);
+  const license = licenseDetails(application.details);
   const { data: steps } = await current.supabase.from("application_steps").select("id, status, memo, agency_id, started_at, agencies(acronym, name), workflow_steps(code, name, phase, routing, sort_order, uncertainty)").eq("application_id", id);
   const { data: documents } = await current.supabase.from("documents").select("id, kind, file_name, byte_size, scan_status").eq("application_id", id);
   const { data: requests } = await current.supabase.from("info_requests").select("id, body, response, created_at").eq("application_id", id).order("created_at");
@@ -79,13 +84,20 @@ export default async function ApplicationPage({
     <div className="grid gap-8">
       <header>
         <p className="text-sm uppercase tracking-wide text-muted">Unofficial file</p>
-        <h1 className="mt-2 font-serif text-5xl font-normal">Lot {application.lot || "—"}</h1>
-        <p className="mt-2 text-ink2">Tract {application.tract || "—"}, block {application.block || "—"}, zone {application.zoning_district || "—"}.</p>
+        <p className="mt-1 text-sm text-muted">{kind.typeName}</p>
+        <h1 className="mt-2 font-serif text-5xl font-normal">{fileTitle(type?.code, application)}</h1>
+        {kind.license ? (
+          <p className="mt-2 text-ink2">
+            {[license.street, license.village].filter(Boolean).join(", ") || "No address yet"}. Lot {application.lot || "not given"}, block {application.block || "not given"}.
+          </p>
+        ) : (
+          <p className="mt-2 text-ink2">Tract {application.tract || "—"}, block {application.block || "—"}, zone {application.zoning_district || "—"}.</p>
+        )}
         <div className="mt-3"><StatusBadge status={application.status} /></div>
-        {application.permit_number ? <p className="mt-3 text-sm text-ink2">Demo permit number {application.permit_number}. This is not an official DPW number.</p> : null}
+        {application.permit_number ? <p className="mt-3 text-sm text-ink2">Demo number {application.permit_number}. {kind.numberNote}</p> : null}
       </header>
       {query.error ? <p className="text-sm text-bad" role="alert">{query.error}</p> : null}
-      <PizzaTracker status={application.status} />
+      <PizzaTracker status={application.status} pipeline={kind.pipeline} />
       {draft ? null : <EtaCallout eta={eta} />}
       <CurrentStepBanner steps={trackerSteps} />
       <ClearanceBoard steps={trackerSteps} />
@@ -144,8 +156,7 @@ export default async function ApplicationPage({
             <input type="hidden" name="application_id" value={id} />
             <label className="text-sm text-ink2" htmlFor="kind">Kind</label>
             <select id="kind" name="kind" className="rounded-2xl border border-line bg-paper px-4 py-3">
-              <option value="plans">Plans</option>
-              <option value="plot_plan">Plot plan</option>
+              {kind.documents.map((document) => <option key={document.code} value={document.code}>{document.name}</option>)}
               <option value="other">Other</option>
             </select>
             <Input name="file" type="file" accept="application/pdf,image/png,image/jpeg,image/webp" required />
@@ -176,6 +187,22 @@ export default async function ApplicationPage({
       {draft ? (
         <section className="grid gap-3">
           <h2 className="font-serif text-3xl font-normal">Draft</h2>
+          {kind.license ? (
+            <form action={saveLicenseDraft} className="grid max-w-2xl gap-4">
+              <input type="hidden" name="application_id" value={id} />
+              <LicenseFields
+                values={{
+                  ...license,
+                  activity: application.scope ?? "",
+                  lot: application.lot ?? "",
+                  block: application.block ?? "",
+                  attestation: application.attestation,
+                  attestationName: application.attestation_name ?? "",
+                }}
+              />
+              <Button type="submit" variant="outline">Save changes</Button>
+            </form>
+          ) : (
           <form action={saveDraft} className="grid gap-3">
             <input type="hidden" name="application_id" value={id} />
             <Input name="lot" defaultValue={application.lot ?? ""} aria-label="Lot" />
@@ -194,11 +221,12 @@ export default async function ApplicationPage({
             <Input name="attestation_name" defaultValue={application.attestation_name ?? ""} aria-label="Attestation name" />
             <Button type="submit" variant="outline">Save changes</Button>
           </form>
+          )}
           <form action={submitDraft}>
             <input type="hidden" name="application_id" value={id} />
-            <Button type="submit" variant="gu">Submit to DPW intake</Button>
+            <Button type="submit" variant="gu">{kind.submitLabel}</Button>
           </form>
-          <p className="text-sm text-muted">Submit needs the lot fields, public sewer, a contractor license number, the attestation, a plans file, and a plot plan.</p>
+          <p className="text-sm text-muted">{kind.submitHint}</p>
         </section>
       ) : null}
 

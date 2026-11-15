@@ -37,7 +37,8 @@ export const TERMINAL_STEP: StepStatus[] = ["approved", "rejected", "waived", "n
 const APPLICATION_TRANSITIONS: Record<ApplicationStatus, ApplicationStatus[]> = {
   draft: ["submitted", "withdrawn"],
   submitted: ["intake", "denied", "withdrawn"],
-  intake: ["plan_review", "awaiting_applicant", "denied", "withdrawn"],
+  // A permit with no plan review, such as a business license, goes straight to clearances.
+  intake: ["plan_review", "clearances_in_progress", "awaiting_applicant", "denied", "withdrawn"],
   plan_review: ["clearances_in_progress", "awaiting_applicant", "denied", "withdrawn"],
   clearances_in_progress: ["fees_due", "awaiting_applicant", "denied", "withdrawn"],
   awaiting_applicant: ["intake", "plan_review", "clearances_in_progress", "fees_due", "inspections", "withdrawn"],

@@ -200,7 +200,8 @@ export function parsePermits(markdown: string, agencies: DirectoryAgency[] = [])
     if (seen.has(code)) code = `${code}-${rows.length}`;
     seen.add(code);
     const source = column[2] ?? "";
-    const trackable = /application for permit and plan review/i.test(name);
+    const house = /application for permit and plan review/i.test(name);
+    const trackable = house || code === "new-business-license-form-bl-01";
     rows.push({
       code,
       name,
@@ -208,7 +209,7 @@ export function parsePermits(markdown: string, agencies: DirectoryAgency[] = [])
       agencyLabel: (column[1] ?? "").replace(/\*\*/g, "").trim(),
       agencyCode: matchAgencyCode(column[1] ?? "", agencies),
       // The tracked permit touches every agency on its workflow, not only the one in its label.
-      agencyCodes: trackable ? workflowAgencyCodes() : (formAgencies(code)?.codes ?? agencyCodesFor(column[1] ?? "", agencies)),
+      agencyCodes: house ? workflowAgencyCodes() : (formAgencies(code)?.codes ?? agencyCodesFor(column[1] ?? "", agencies)),
       source: source.replace(/\*\*/g, "").trim(),
       unverified: groupUnverified || /unverified/i.test(source),
       trackable,

@@ -33,7 +33,7 @@ export default async function AgenciesPage() {
               <p className="text-sm text-ink2">
                 {permit.agencyCodes.length} agencies: {permit.agencyCodes.map((code) => directory.get(code)?.acronym ?? code.toUpperCase()).join(", ")}
               </p>
-              {permit.trackable ? <p className="mt-1 text-sm"><Link href="/apply">Open the tracker</Link></p> : null}
+              {permit.trackable ? <p className="mt-1 text-sm"><Link href={permit.code.startsWith("new-business-license") ? "/apply/business-license" : "/apply"}>Open the tracker</Link></p> : null}
             </li>
           ))}
         </ul>

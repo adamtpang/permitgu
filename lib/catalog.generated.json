@@ -853,7 +853,7 @@
       ],
       "source": "https://www.govguamdocs.com/revtax/docs/PROCEDURESANDREQUIREMENTSFORNEWBL.pdf ; https://www.govguamdocs.com/revtax/docs/FormBL-01InstructionswithApplicationandQuestionnaire11192020.pdf",
       "unverified": false,
-      "trackable": false
+      "trackable": true
     },
     {
       "code": "good-moral-character-questionnaire",

@@ -146,7 +146,7 @@ test("corrections can be sent by anyone and read only by a verified super admin"
   assert.equal(after.rows[0].status, "reviewed");
 
   // The catalog carries every agency a permit touches.
-  const house = await db.query<{ n: number }>("select cardinality(agency_codes) as n from public.permit_catalog where trackable");
+  const house = await db.query<{ n: number }>("select cardinality(agency_codes) as n from public.permit_catalog where trackable and application_type_code is distinct from 'business_license_new'");
   assert.equal(house.rows[0].n, 14);
   const license = await db.query<{ agency_codes: string[] }>("select agency_codes from public.permit_catalog where code = 'new-business-license-form-bl-01'");
   assert.deepEqual(license.rows[0].agency_codes.slice(0, 3), ["drt", "dlm", "dpw"]);

@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { documentKindAllowed, RESIDENTIAL_REQUIRED_DOCUMENTS } from "@/lib/catalog";
 import { sniffUpload, safeStorageName } from "@/lib/files";
+import { validateLicense, type LicenseInput } from "@/lib/license";
 import { requestMeta } from "@/lib/request-meta";
 import { createClient, createServiceClient } from "@/lib/supabase/server";
 import { validateDraft, type DraftInput } from "@/lib/workflow";
@@ -123,6 +124,62 @@ export async function saveDraft(formData: FormData) {
     attestation: input.attestation,
     attestation_name: input.attestationName || null,
   }).eq("id", id);
+  if (dbError) redirect(`/applications/${id}?error=${encodeURIComponent(dbError.message)}`);
+  redirect(`/applications/${id}`);
+}
+
+function licenseFromForm(formData: FormData): LicenseInput {
+  const text = (name: string) => String(formData.get(name) ?? "").trim();
+  return {
+    businessName: text("business_name"),
+    tradeName: text("trade_name"),
+    entityType: text("entity_type"),
+    registrationNumber: text("registration_number"),
+    activity: text("activity"),
+    lot: text("lot"),
+    block: text("block"),
+    street: text("street"),
+    village: text("village"),
+    attestation: formData.get("attestation") === "on",
+    attestationName: text("attestation_name"),
+  };
+}
+
+function licenseArgs(input: LicenseInput) {
+  return {
+    p_details: {
+      business_name: input.businessName,
+      trade_name: input.tradeName,
+      entity_type: input.entityType,
+      registration_number: input.registrationNumber,
+      street: input.street,
+      village: input.village,
+    },
+    p_lot: input.lot,
+    p_block: input.block,
+    p_scope: input.activity,
+    p_attestation: input.attestation,
+    p_attestation_name: input.attestationName,
+  };
+}
+
+export async function createLicenseDraft(formData: FormData) {
+  const input = licenseFromForm(formData);
+  const problem = validateLicense(input, "save");
+  if (problem) return { error: problem };
+  const supabase = await client();
+  const { data, error: dbError } = await supabase.rpc("create_license_draft", licenseArgs(input));
+  if (dbError) return { error: dbError.message };
+  redirect(`/applications/${data}`);
+}
+
+export async function saveLicenseDraft(formData: FormData) {
+  const id = String(formData.get("application_id") ?? "");
+  const input = licenseFromForm(formData);
+  const problem = validateLicense(input, "save");
+  if (problem) redirect(`/applications/${id}?error=${encodeURIComponent(problem)}`);
+  const supabase = await client();
+  const { error: dbError } = await supabase.rpc("save_license_draft", { p_application_id: id, ...licenseArgs(input) });
   if (dbError) redirect(`/applications/${id}?error=${encodeURIComponent(dbError.message)}`);
   redirect(`/applications/${id}`);
 }

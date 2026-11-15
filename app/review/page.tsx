@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SetupNotice } from "@/components/shell";
 import { StatusBadge } from "@/components/tracker";
 import { filterQueue, type QueueItem } from "@/lib/queue";
+import { fileTitle, LICENSE_TYPE } from "@/lib/license";
 import { one, staffSession } from "@/lib/session";
 
 export const metadata = { title: "Staff queue" };
@@ -24,7 +25,7 @@ export default async function ReviewPage({
 
   let request = current.supabase
     .from("application_steps")
-    .select("id, status, assignee_id, updated_at, agencies(code, acronym), workflow_steps(name), applications(id, lot, status, permit_number, application_types(code), profiles!applications_applicant_id_fkey(full_name))")
+    .select("id, status, assignee_id, updated_at, agencies(code, acronym), workflow_steps(name), applications(id, lot, details, status, permit_number, application_types(code), profiles!applications_applicant_id_fkey(full_name))")
     .neq("status", "not_started");
   if (!current.isSuper) request = request.in("agency_id", current.agencyIds.length ? current.agencyIds : ["00000000-0000-0000-0000-000000000000"]);
   const { data } = await request;
@@ -39,7 +40,7 @@ export default async function ReviewPage({
       assigneeId: step.assignee_id,
       assigneeName: null,
       updatedAt: step.updated_at,
-      lot: application?.lot ?? "",
+      lot: one(application?.application_types)?.code === LICENSE_TYPE.code ? fileTitle(LICENSE_TYPE.code, application ?? {}) : application?.lot ?? "",
       applicant: one(application?.profiles)?.full_name ?? "",
       permitNumber: application?.permit_number ?? null,
       stepName: one(step.workflow_steps)?.name ?? "",
@@ -59,7 +60,7 @@ export default async function ReviewPage({
     <div className="grid gap-8">
       <h1 className="font-serif text-5xl font-normal">Queue</h1>
       <p className="max-w-2xl text-ink2">
-        Your agency's backlog. DPW also sees every submitted residential file. Search, filter, then open a file to assign it, ask for more information, or approve or deny with a reason.
+        Your agency's backlog. The lead agency also sees every submitted file for its permit: DPW for the house permit, Revenue and Taxation for the business license. Search, filter, then open a file to assign it, ask for more information, or approve or deny with a reason.
       </p>
       <form className="grid gap-3 rounded-3xl border border-line p-4 sm:grid-cols-3" method="get">
         <label className="grid gap-1 text-sm">Status
@@ -102,7 +103,7 @@ export default async function ReviewPage({
               <StatusBadge status={item.status} />
             </div>
             <p className="mt-1 text-sm text-muted">
-              Lot {item.lot || "—"} · {item.applicant || "Applicant"} · {item.permitType}
+              {item.permitType === LICENSE_TYPE.code ? item.lot : `Lot ${item.lot || "—"}`} · {item.applicant || "Applicant"} · {item.permitType}
               {item.assigneeId ? "" : " · unassigned"}
             </p>
           </li>
