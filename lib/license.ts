@@ -103,6 +103,12 @@ export function permitKind(typeCode: string | null | undefined) {
     license,
     typeName: license ? LICENSE_TYPE.name : APPLICATION_TYPE.name,
     leadName: license ? "Revenue and Taxation" : "DPW",
+    // The thing being issued, for sentences and buttons.
+    noun: license ? "license" : "permit",
+    // Where the fee is paid. The house route is on the DPW page. The license route is not confirmed.
+    feeWhere: license
+      ? "Revenue and Taxation contacts the applicant for pickup and fees once every clearance is endorsed. Where the fee is paid is not confirmed."
+      : "Pay in person at the Treasurer of Guam cashier at the Business License and Permit Center.",
     pipeline: (license ? LICENSE_PIPELINE : PIPELINE) as readonly string[],
     pipelineLabel: PIPELINE_LABEL as Record<string, string>,
     documents: license

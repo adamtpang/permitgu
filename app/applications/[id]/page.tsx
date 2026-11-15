@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { addComment, downloadDocument, respondToInfo, saveDraft, saveLicenseDraft, submitDraft, uploadDocument, withdraw } from "@/lib/actions";
-import { Fold, PageHero, Section } from "@/components/layout";
+import { ErrorNotice, Fold, Notice, PageHero, Section } from "@/components/layout";
 import { LicenseFields } from "@/components/license-form";
 import { SetupNotice } from "@/components/shell";
 import { fileTitle, licenseDetails, permitKind } from "@/lib/license";
 import { ClearanceBoard, CurrentStepBanner, EtaCallout, EventTimeline, FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
 import { Button, Input, Label, Textarea } from "@/components/ui";
 import { estimateEta, publishedTime, stepEstimateLabel, type StepEstimate } from "@/lib/eta";
+import { noticeText } from "@/lib/notices";
 import { requestMeta } from "@/lib/request-meta";
 import { one, session } from "@/lib/session";
 import type { TrackerStep } from "@/lib/tracker-model";
@@ -20,7 +21,7 @@ export default async function ApplicationPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; done?: string }>;
 }) {
   const { id } = await params;
   const query = await searchParams;
@@ -37,7 +38,9 @@ export default async function ApplicationPage({
   const { data: documents } = await current.supabase.from("documents").select("id, kind, file_name, byte_size, scan_status").eq("application_id", id);
   const { data: requests } = await current.supabase.from("info_requests").select("id, body, response, created_at").eq("application_id", id).order("created_at");
   const { data: comments } = await current.supabase.from("comments").select("id, body, visibility, created_at").eq("application_id", id).order("created_at");
-  const { data: events } = await current.supabase.from("audit_log").select("id, action, memo, created_at, actor_role").eq("application_id", id).order("id", { ascending: false }).limit(40);
+  // Changes and opens are read separately, so a file that is opened often still shows its full history.
+  const { data: events } = await current.supabase.from("audit_log").select("id, action, memo, created_at, actor_role").eq("application_id", id).neq("action", "view_application").order("id", { ascending: false }).limit(60);
+  const { data: lastOpen, count: openCount } = await current.supabase.from("audit_log").select("created_at", { count: "exact" }).eq("application_id", id).eq("action", "view_application").order("id", { ascending: false }).limit(1);
   const { data: estimateRows } = await current.supabase.rpc("step_estimates");
   const estimates: StepEstimate[] = (estimateRows ?? []).map((row: { code: string; samples: number; median_seconds: number }) => ({
     code: row.code,
@@ -93,7 +96,8 @@ export default async function ApplicationPage({
         <StatusBadge status={application.status} />
         {application.permit_number ? <span className="text-[0.95rem] text-ink2">Demo number {application.permit_number}. {kind.numberNote}</span> : null}
       </PageHero>
-      {query.error ? <p className="mb-6 rounded-2xl border border-bad px-4 py-3 text-bad" role="alert">{query.error}</p> : null}
+      <Notice text={noticeText(query.done)} />
+      <ErrorNotice text={query.error} />
 
       {draft ? null : (
         <>
@@ -102,8 +106,8 @@ export default async function ApplicationPage({
           </Section>
           <Section>
             <div className="grid gap-5">
-              <CurrentStepBanner steps={trackerSteps} />
-              <EtaCallout eta={eta} noun={kind.license ? "license" : "permit"} />
+              <CurrentStepBanner steps={trackerSteps} status={application.status} noun={kind.noun} />
+              <EtaCallout eta={eta} noun={kind.noun} />
             </div>
           </Section>
         </>
@@ -130,7 +134,7 @@ export default async function ApplicationPage({
 
       {(application.status === "fees_due" || application.fees_due_cents != null || application.fees_paid_at) ? (
         <Section>
-          <FeeCallout cents={application.fees_due_cents} paid={Boolean(application.fees_paid_at)} />
+          <FeeCallout cents={application.fees_due_cents} paid={Boolean(application.fees_paid_at)} where={kind.feeWhere} lead={kind.leadName} />
         </Section>
       ) : null}
 
@@ -297,8 +301,8 @@ export default async function ApplicationPage({
           </form>
         </Fold>
 
-        <Fold title="History" note={`${(events ?? []).length}`}>
-          <EventTimeline heading={false} events={(events ?? []).map((event) => ({ id: String(event.id), action: event.action, memo: event.memo, createdAt: event.created_at, actorRole: event.actor_role }))} />
+        <Fold title="History" note={`${(events ?? []).length} ${(events ?? []).length === 1 ? "change" : "changes"}`}>
+          <EventTimeline heading={false} opens={{ count: openCount ?? 0, last: lastOpen?.[0]?.created_at ?? null }} events={(events ?? []).map((event) => ({ id: String(event.id), action: event.action, memo: event.memo, createdAt: event.created_at, actorRole: event.actor_role }))} />
         </Fold>
 
         {application.valuation_cents != null ? (

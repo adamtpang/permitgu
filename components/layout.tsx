@@ -110,3 +110,22 @@ export function Bars({ rows }: { rows: { label: string; value: number; href?: st
     </ul>
   );
 }
+
+// What just happened, after an action. The words come from a fixed list, keyed by a code.
+export function Notice({ text }: { text: string | null }) {
+  if (!text) return null;
+  return (
+    <p className="mb-6 rounded-2xl border border-good px-5 py-4 text-lg text-good" role="status">
+      {text}
+    </p>
+  );
+}
+
+export function ErrorNotice({ text }: { text?: string }) {
+  if (!text) return null;
+  return (
+    <p className="mb-6 rounded-2xl border border-bad px-5 py-4 text-bad" role="alert">
+      {text}
+    </p>
+  );
+}

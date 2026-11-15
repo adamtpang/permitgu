@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { documentKindAllowed, RESIDENTIAL_REQUIRED_DOCUMENTS } from "@/lib/catalog";
 import { sniffUpload, safeStorageName } from "@/lib/files";
 import { validateLicense, type LicenseInput } from "@/lib/license";
+import { staffNotice, withNotice } from "@/lib/notices";
 import { requestMeta } from "@/lib/request-meta";
 import { createClient, createServiceClient } from "@/lib/supabase/server";
 import { validateDraft, type DraftInput } from "@/lib/workflow";
@@ -125,7 +126,7 @@ export async function saveDraft(formData: FormData) {
     attestation_name: input.attestationName || null,
   }).eq("id", id);
   if (dbError) redirect(`/applications/${id}?error=${encodeURIComponent(dbError.message)}`);
-  redirect(`/applications/${id}`);
+  redirect(`/applications/${id}?done=saved`);
 }
 
 function licenseFromForm(formData: FormData): LicenseInput {
@@ -181,7 +182,7 @@ export async function saveLicenseDraft(formData: FormData) {
   const supabase = await client();
   const { error: dbError } = await supabase.rpc("save_license_draft", { p_application_id: id, ...licenseArgs(input) });
   if (dbError) redirect(`/applications/${id}?error=${encodeURIComponent(dbError.message)}`);
-  redirect(`/applications/${id}`);
+  redirect(`/applications/${id}?done=saved`);
 }
 
 export async function submitDraft(formData: FormData) {
@@ -189,7 +190,7 @@ export async function submitDraft(formData: FormData) {
   const supabase = await client();
   const { error } = await supabase.rpc("submit_application", { p_application_id: id });
   if (error) redirect(`/applications/${id}?error=${encodeURIComponent(error.message)}`);
-  redirect(`/applications/${id}`);
+  redirect(`/applications/${id}?done=submitted`);
 }
 
 export async function uploadDocument(formData: FormData) {
@@ -233,17 +234,20 @@ export async function uploadDocument(formData: FormData) {
     redirect(`/applications/${id}?error=${encodeURIComponent(error.message)}`);
   }
   await audit(supabase, id, "upload_document", "document", null, file.name);
-  redirect(`/applications/${id}`);
+  redirect(`/applications/${id}?done=uploaded`);
 }
 
 export async function downloadDocument(formData: FormData) {
   const id = String(formData.get("application_id") ?? "");
   const documentId = String(formData.get("document_id") ?? "");
+  // Staff open papers from the review page and should land back there on an error.
+  const from = String(formData.get("return_to") ?? "");
+  const back = from === `/review/${id}` ? from : `/applications/${id}`;
   const supabase = await client();
-  const { data, error } = await supabase.from("documents").select("storage_path").eq("id", documentId).maybeSingle();
-  if (error || !data) redirect(`/applications/${id}?error=${encodeURIComponent("That file is not available.")}`);
+  const { data, error } = await supabase.from("documents").select("storage_path").eq("id", documentId).eq("application_id", id).maybeSingle();
+  if (error || !data) redirect(`${back}?error=${encodeURIComponent("That file is not available.")}`);
   const signed = await supabase.storage.from("application-documents").createSignedUrl(data.storage_path, 60);
-  if (signed.error || !signed.data) redirect(`/applications/${id}?error=${encodeURIComponent(signed.error?.message ?? "Could not sign the file URL.")}`);
+  if (signed.error || !signed.data) redirect(`${back}?error=${encodeURIComponent(signed.error?.message ?? "Could not sign the file URL.")}`);
   await audit(supabase, id, "download_document", "document", documentId, null);
   redirect(signed.data.signedUrl);
 }
@@ -255,7 +259,7 @@ export async function respondToInfo(formData: FormData) {
   const supabase = await client();
   const { error } = await supabase.rpc("respond_info", { p_request_id: requestId, p_response: response });
   if (error) redirect(`/applications/${id}?error=${encodeURIComponent(error.message)}`);
-  redirect(`/applications/${id}`);
+  redirect(`/applications/${id}?done=replied`);
 }
 
 export async function withdraw(formData: FormData) {
@@ -264,7 +268,7 @@ export async function withdraw(formData: FormData) {
   const supabase = await client();
   const { error } = await supabase.rpc("withdraw_application", { p_application_id: id, p_memo: memo });
   if (error) redirect(`/applications/${id}?error=${encodeURIComponent(error.message)}`);
-  redirect(`/applications/${id}`);
+  redirect(`/applications/${id}?done=withdrawn`);
 }
 
 export async function addComment(formData: FormData) {
@@ -276,7 +280,7 @@ export async function addComment(formData: FormData) {
   const { error } = await supabase.rpc("add_comment", { p_application_id: id, p_body: body, p_visibility: visibility });
   if (error) redirect(`${back}?error=${encodeURIComponent(error.message)}`);
   await audit(supabase, id, "comment", "comment", null, body.slice(0, 240));
-  redirect(back);
+  redirect(withNotice(back, "note"));
 }
 
 async function review(formData: FormData, rpc: string, args: Record<string, unknown>) {
@@ -284,7 +288,7 @@ async function review(formData: FormData, rpc: string, args: Record<string, unkn
   const supabase = await staffClient();
   const { error } = await supabase.rpc(rpc, args);
   if (error) redirect(`${back}?error=${encodeURIComponent(error.message)}`);
-  redirect(back);
+  redirect(withNotice(back, staffNotice(rpc, typeof args.p_status === "string" ? args.p_status : undefined)));
 }
 
 export async function reviewStep(formData: FormData) {
