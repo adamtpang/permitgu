@@ -640,6 +640,22 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "DPW Building Inspection & Permits / BLPC",
       "agencyCode": "dpw",
+      "agencyCodes": [
+        "dpw",
+        "dlm",
+        "gepa",
+        "gwa",
+        "gpa",
+        "gfd",
+        "dphss",
+        "clb",
+        "peals",
+        "dpr",
+        "doag",
+        "usace",
+        "ghpo",
+        "tog"
+      ],
       "source": "https://bsp.guam.gov/wp-content/uploads/2026/08/DPW-Application-for-Permit-and-Plan-Review-Fillable.pdf",
       "unverified": false,
       "trackable": true
@@ -650,6 +666,10 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "DPW + GEPA",
       "agencyCode": "dpw",
+      "agencyCodes": [
+        "dpw",
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/ ; BSP Guidebook https://bsp.guam.gov/guam-development-guidebook/",
       "unverified": false,
       "trackable": false
@@ -660,6 +680,9 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "DPW",
       "agencyCode": "dpw",
+      "agencyCodes": [
+        "dpw"
+      ],
       "source": "21 GCA Ch. 66 (via Building Law); process described in BSP Guidebook",
       "unverified": false,
       "trackable": false
@@ -670,6 +693,9 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "DLM",
       "agencyCode": "dlm",
+      "agencyCodes": [
+        "dlm"
+      ],
       "source": "https://dlm.guam.gov/ ; DPW application §VI",
       "unverified": false,
       "trackable": false
@@ -679,7 +705,10 @@
       "name": "Historic Preservation certificate of approval",
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "Guam Historic Preservation Officer",
-      "agencyCode": null,
+      "agencyCode": "ghpo",
+      "agencyCodes": [
+        "ghpo"
+      ],
       "source": "https://www.territorialreview.org/statute/21-gca-76511",
       "unverified": false,
       "trackable": false
@@ -690,6 +719,9 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "GWA",
       "agencyCode": "gwa",
+      "agencyCodes": [
+        "gwa"
+      ],
       "source": "Listed on DPW application & GEPA Form A http://epa.guam.gov/wp-content/uploads/2026/08/FORM-A-Guam-EPA-Building-Permit-Application.pdf",
       "unverified": false,
       "trackable": false
@@ -700,6 +732,9 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "GPA",
       "agencyCode": "gpa",
+      "agencyCodes": [
+        "gpa"
+      ],
       "source": "Listed on DPW application regulatory agencies section",
       "unverified": false,
       "trackable": false
@@ -710,6 +745,9 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/ ; Form A above",
       "unverified": false,
       "trackable": false
@@ -720,6 +758,9 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "DPHSS",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "Listed on DPW application",
       "unverified": false,
       "trackable": false
@@ -730,6 +771,9 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "GFD",
       "agencyCode": "gfd",
+      "agencyCodes": [
+        "gfd"
+      ],
       "source": "https://gfd.guam.gov/forms/ ; DPW application",
       "unverified": false,
       "trackable": false
@@ -740,6 +784,9 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "CLB",
       "agencyCode": "clb",
+      "agencyCodes": [
+        "clb"
+      ],
       "source": "https://clb.guam.gov/ ; DPW application",
       "unverified": false,
       "trackable": false
@@ -750,6 +797,9 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "PEALS",
       "agencyCode": "peals",
+      "agencyCodes": [
+        "peals"
+      ],
       "source": "https://peals.guam.gov/",
       "unverified": false,
       "trackable": false
@@ -760,6 +810,9 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "DPW (+ related)",
       "agencyCode": "dpw",
+      "agencyCodes": [
+        "dpw"
+      ],
       "source": "DPW application plan-review fields",
       "unverified": false,
       "trackable": false
@@ -770,6 +823,12 @@
       "groupName": "1. Build / renovate a home",
       "agencyLabel": "DLM / GLUC / GSPC / USACE",
       "agencyCode": "dlm",
+      "agencyCodes": [
+        "dlm",
+        "gluc",
+        "gspc",
+        "usace"
+      ],
       "source": "DLM forms https://dlm.guam.gov/applications-and-forms/ ; BSP Guidebook",
       "unverified": false,
       "trackable": false
@@ -780,6 +839,18 @@
       "groupName": "2. Start / run a business",
       "agencyLabel": "DRT General Licensing / BLPC",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt",
+        "dlm",
+        "dpw",
+        "gfd",
+        "dphss",
+        "clb",
+        "gpd",
+        "gvb",
+        "dpr",
+        "gdoe"
+      ],
       "source": "https://www.govguamdocs.com/revtax/docs/PROCEDURESANDREQUIREMENTSFORNEWBL.pdf ; https://www.govguamdocs.com/revtax/docs/FormBL-01InstructionswithApplicationandQuestionnaire11192020.pdf",
       "unverified": false,
       "trackable": false
@@ -790,6 +861,9 @@
       "groupName": "2. Start / run a business",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "Same BL-01 PDF",
       "unverified": false,
       "trackable": false
@@ -800,6 +874,9 @@
       "groupName": "2. Start / run a business",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://bsp.guam.gov/blpc/ (DRT forms list)",
       "unverified": false,
       "trackable": false
@@ -810,6 +887,9 @@
       "groupName": "2. Start / run a business",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://bsp.guam.gov/blpc/ ; https://www.investguam.com/establishing-a-business-in-guam/",
       "unverified": false,
       "trackable": false
@@ -820,6 +900,9 @@
       "groupName": "2. Start / run a business",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "BSP BLPC DRT forms",
       "unverified": false,
       "trackable": false
@@ -830,6 +913,9 @@
       "groupName": "2. Start / run a business",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "BSP BLPC DRT forms",
       "unverified": false,
       "trackable": false
@@ -840,6 +926,9 @@
       "groupName": "2. Start / run a business",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "BSP BLPC DRT forms",
       "unverified": false,
       "trackable": false
@@ -850,6 +939,9 @@
       "groupName": "2. Start / run a business",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "BSP BLPC DRT forms",
       "unverified": false,
       "trackable": false
@@ -860,6 +952,9 @@
       "groupName": "2. Start / run a business",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "BSP BLPC DRT forms",
       "unverified": false,
       "trackable": false
@@ -870,6 +965,18 @@
       "groupName": "2. Start / run a business",
       "agencyLabel": "Multiple",
       "agencyCode": null,
+      "agencyCodes": [
+        "drt",
+        "dlm",
+        "dpw",
+        "gfd",
+        "dphss",
+        "clb",
+        "gpd",
+        "gvb",
+        "dpr",
+        "gdoe"
+      ],
       "source": "BL-01 form checklist (routing matrix unverified per activity)",
       "unverified": true,
       "trackable": false
@@ -880,6 +987,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://dphss.guam.gov/sanitary-permits ; https://dphss.guam.gov/forms",
       "unverified": false,
       "trackable": false
@@ -890,6 +1000,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://dphss.guam.gov/forms",
       "unverified": false,
       "trackable": false
@@ -900,6 +1013,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://dphss.guam.gov/forms",
       "unverified": false,
       "trackable": false
@@ -910,6 +1026,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://dphss.guam.gov/forms ; https://bsp.guam.gov/blpc/",
       "unverified": false,
       "trackable": false
@@ -920,6 +1039,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://bsp.guam.gov/blpc/",
       "unverified": false,
       "trackable": false
@@ -930,6 +1052,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://bsp.guam.gov/blpc/",
       "unverified": false,
       "trackable": false
@@ -940,6 +1065,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://dphss.guam.gov/forms",
       "unverified": false,
       "trackable": false
@@ -950,6 +1078,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://dphss.guam.gov/forms",
       "unverified": false,
       "trackable": false
@@ -960,6 +1091,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://dphss.guam.gov/forms",
       "unverified": false,
       "trackable": false
@@ -970,6 +1104,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://dphss.guam.gov/forms",
       "unverified": false,
       "trackable": false
@@ -980,6 +1117,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://bsp.guam.gov/blpc/",
       "unverified": false,
       "trackable": false
@@ -990,6 +1130,9 @@
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "Sanitary Permit Form A instructions PDF on dphss.guam.gov",
       "unverified": false,
       "trackable": false
@@ -1000,6 +1143,9 @@
       "groupName": "4. Driving / vehicles",
       "agencyLabel": "DRT Motor Vehicle Division",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://www.guamtax.com/about/mvd.html ; handbook https://www.govguamdocs.com/revtax/docs/GuamDRTDriversHandbook.pdf",
       "unverified": false,
       "trackable": false
@@ -1010,6 +1156,9 @@
       "groupName": "4. Driving / vehicles",
       "agencyLabel": "DRT MVD",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://www.guamtax.com/help/realIDpolicy.html",
       "unverified": false,
       "trackable": false
@@ -1020,6 +1169,9 @@
       "groupName": "4. Driving / vehicles",
       "agencyLabel": "DRT Vehicle Registration Branch",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://www.govguamdocs.com/revtax/docs/ApplicationforInitialRegistrationand_orTransfer(updated_10_29_2025).pdf",
       "unverified": false,
       "trackable": false
@@ -1030,6 +1182,9 @@
       "groupName": "4. Driving / vehicles",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://www.guamtax.com/efile/vehreg.html (MyGuamTax)",
       "unverified": false,
       "trackable": false
@@ -1040,6 +1195,9 @@
       "groupName": "4. Driving / vehicles",
       "agencyLabel": "Authorized stations / DRT rules",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "Drivers handbook PDF",
       "unverified": false,
       "trackable": false
@@ -1050,6 +1208,9 @@
       "groupName": "4. Driving / vehicles",
       "agencyLabel": "DRT Vehicle Registration",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://www.guamtax.com/about/mvd.html",
       "unverified": false,
       "trackable": false
@@ -1060,6 +1221,9 @@
       "groupName": "4. Driving / vehicles",
       "agencyLabel": "DRT Motor Carrier Branch",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://www.guamtax.com/about/mvd.html",
       "unverified": false,
       "trackable": false
@@ -1070,6 +1234,9 @@
       "groupName": "5. Land / property",
       "agencyLabel": "DLM",
       "agencyCode": "dlm",
+      "agencyCodes": [
+        "dlm"
+      ],
       "source": "Zoning Law / PermitGU zoning guide cites 21 GCA §61660; https://dlm.guam.gov/",
       "unverified": false,
       "trackable": false
@@ -1080,6 +1247,10 @@
       "groupName": "5. Land / property",
       "agencyLabel": "GLUC / DLM",
       "agencyCode": "dlm",
+      "agencyCodes": [
+        "gluc",
+        "dlm"
+      ],
       "source": "https://dlm.guam.gov/applications-and-forms/ ; https://bsp.guam.gov/blpc/",
       "unverified": false,
       "trackable": false
@@ -1090,6 +1261,10 @@
       "groupName": "5. Land / property",
       "agencyLabel": "GLUC / DLM",
       "agencyCode": "dlm",
+      "agencyCodes": [
+        "gluc",
+        "dlm"
+      ],
       "source": "Same",
       "unverified": false,
       "trackable": false
@@ -1100,6 +1275,10 @@
       "groupName": "5. Land / property",
       "agencyLabel": "GLUC / DLM",
       "agencyCode": "dlm",
+      "agencyCodes": [
+        "gluc",
+        "dlm"
+      ],
       "source": "Same",
       "unverified": false,
       "trackable": false
@@ -1110,6 +1289,10 @@
       "groupName": "5. Land / property",
       "agencyLabel": "GLUC / DLM",
       "agencyCode": "dlm",
+      "agencyCodes": [
+        "gluc",
+        "dlm"
+      ],
       "source": "Same",
       "unverified": false,
       "trackable": false
@@ -1120,6 +1303,10 @@
       "groupName": "5. Land / property",
       "agencyLabel": "GLUC / DLM",
       "agencyCode": "dlm",
+      "agencyCodes": [
+        "gluc",
+        "dlm"
+      ],
       "source": "Same",
       "unverified": false,
       "trackable": false
@@ -1130,6 +1317,10 @@
       "groupName": "5. Land / property",
       "agencyLabel": "GSPC / DLM",
       "agencyCode": "dlm",
+      "agencyCodes": [
+        "gspc",
+        "dlm"
+      ],
       "source": "https://bsp.guam.gov/blpc/",
       "unverified": false,
       "trackable": false
@@ -1140,6 +1331,9 @@
       "groupName": "5. Land / property",
       "agencyLabel": "DLM",
       "agencyCode": "dlm",
+      "agencyCodes": [
+        "dlm"
+      ],
       "source": "Referenced on PermitGU zoning page; LandWeb access details partially unverified",
       "unverified": true,
       "trackable": false
@@ -1150,6 +1344,9 @@
       "groupName": "5. Land / property",
       "agencyLabel": "DLM",
       "agencyCode": "dlm",
+      "agencyCodes": [
+        "dlm"
+      ],
       "source": "DLM services (verify exact form names with DLM)",
       "unverified": false,
       "trackable": false
@@ -1160,6 +1357,9 @@
       "groupName": "5. Land / property",
       "agencyLabel": "DRT Real Property (also at BLPC)",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://dpw.guam.gov/blpc/ ; guamtax.com",
       "unverified": false,
       "trackable": false
@@ -1170,6 +1370,10 @@
       "groupName": "5. Land / property",
       "agencyLabel": "CLTC / GALC",
       "agencyCode": "cltc",
+      "agencyCodes": [
+        "cltc",
+        "galc"
+      ],
       "source": "Directories; specific application set unverified this turn",
       "unverified": true,
       "trackable": false
@@ -1180,6 +1384,10 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA (+ DPW path)",
       "agencyCode": "dpw",
+      "agencyCodes": [
+        "gepa",
+        "dpw"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1190,6 +1398,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1200,6 +1411,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1210,6 +1424,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1220,6 +1437,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1230,6 +1450,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1240,6 +1463,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1250,6 +1476,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1260,6 +1489,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1270,6 +1502,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1280,6 +1515,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1290,6 +1528,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "GEPA",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/",
       "unverified": false,
       "trackable": false
@@ -1300,6 +1541,10 @@
       "groupName": "6. Environment",
       "agencyLabel": "GFD (issued by GFD; noted on GEPA page)",
       "agencyCode": "gepa",
+      "agencyCodes": [
+        "gfd",
+        "gepa"
+      ],
       "source": "https://epa.guam.gov/applications/ ; https://gfd.guam.gov/forms/",
       "unverified": false,
       "trackable": false
@@ -1310,6 +1555,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "BSP GCMP",
       "agencyCode": "bsp",
+      "agencyCodes": [
+        "bsp"
+      ],
       "source": "https://bsp.guam.gov/guam-development-guidebook/",
       "unverified": false,
       "trackable": false
@@ -1320,6 +1568,9 @@
       "groupName": "6. Environment",
       "agencyLabel": "USACE",
       "agencyCode": "usace",
+      "agencyCodes": [
+        "usace"
+      ],
       "source": "Noted on DPW application & BSP Guidebook",
       "unverified": false,
       "trackable": false
@@ -1330,6 +1581,9 @@
       "groupName": "7. Fire / safety",
       "agencyLabel": "GFD Fire Prevention Bureau",
       "agencyCode": "gfd",
+      "agencyCodes": [
+        "gfd"
+      ],
       "source": "https://gfd.guam.gov/forms/ (Operations Permit Application)",
       "unverified": false,
       "trackable": false
@@ -1340,6 +1594,9 @@
       "groupName": "7. Fire / safety",
       "agencyLabel": "GFD",
       "agencyCode": "gfd",
+      "agencyCodes": [
+        "gfd"
+      ],
       "source": "https://gfd.guam.gov/forms/",
       "unverified": false,
       "trackable": false
@@ -1350,6 +1607,9 @@
       "groupName": "7. Fire / safety",
       "agencyLabel": "GFD",
       "agencyCode": "gfd",
+      "agencyCodes": [
+        "gfd"
+      ],
       "source": "DPW application; https://gfd.guam.gov/forms/",
       "unverified": false,
       "trackable": false
@@ -1360,6 +1620,9 @@
       "groupName": "7. Fire / safety",
       "agencyLabel": "GFD",
       "agencyCode": "gfd",
+      "agencyCodes": [
+        "gfd"
+      ],
       "source": "https://gfd.guam.gov/forms/ ; also listed on https://bsp.guam.gov/blpc/",
       "unverified": false,
       "trackable": false
@@ -1370,6 +1633,9 @@
       "groupName": "7. Fire / safety",
       "agencyLabel": "GFD",
       "agencyCode": "gfd",
+      "agencyCodes": [
+        "gfd"
+      ],
       "source": "https://gfd.guam.gov/forms/",
       "unverified": false,
       "trackable": false
@@ -1380,6 +1646,9 @@
       "groupName": "8. Professional licensing",
       "agencyLabel": "CLB",
       "agencyCode": "clb",
+      "agencyCodes": [
+        "clb"
+      ],
       "source": "https://clb.guam.gov/",
       "unverified": false,
       "trackable": false
@@ -1390,6 +1659,9 @@
       "groupName": "8. Professional licensing",
       "agencyLabel": "PEALS",
       "agencyCode": "peals",
+      "agencyCodes": [
+        "peals"
+      ],
       "source": "https://peals.guam.gov/",
       "unverified": false,
       "trackable": false
@@ -1400,6 +1672,9 @@
       "groupName": "8. Professional licensing",
       "agencyLabel": "Guam Board of Accountancy",
       "agencyCode": "gboa",
+      "agencyCodes": [
+        "gboa"
+      ],
       "source": "Legislature / DOA directories",
       "unverified": false,
       "trackable": false
@@ -1410,6 +1685,9 @@
       "groupName": "8. Professional licensing",
       "agencyLabel": "Guam Real Estate Commission",
       "agencyCode": "guamrealestatecommission",
+      "agencyCodes": [
+        "guamrealestatecommission"
+      ],
       "source": "https://guamrealestatecommission.com/",
       "unverified": false,
       "trackable": false
@@ -1420,6 +1698,9 @@
       "groupName": "8. Professional licensing",
       "agencyLabel": "GCEC",
       "agencyCode": "gcec",
+      "agencyCodes": [
+        "gcec"
+      ],
       "source": "Directories",
       "unverified": false,
       "trackable": false
@@ -1430,6 +1711,10 @@
       "groupName": "8. Professional licensing",
       "agencyLabel": "DPHSS HPLO",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss",
+        "hplo"
+      ],
       "source": "https://dphss.guam.gov/services/hplo",
       "unverified": false,
       "trackable": false
@@ -1440,6 +1725,10 @@
       "groupName": "8. Professional licensing",
       "agencyLabel": "DPHSS HPLO",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss",
+        "hplo"
+      ],
       "source": "Same",
       "unverified": false,
       "trackable": false
@@ -1450,6 +1739,10 @@
       "groupName": "8. Professional licensing",
       "agencyLabel": "DPHSS HPLO",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss",
+        "hplo"
+      ],
       "source": "Same (nine boards listed)",
       "unverified": false,
       "trackable": false
@@ -1460,6 +1753,9 @@
       "groupName": "8. Professional licensing",
       "agencyLabel": "Judiciary / Board of Law Examiners",
       "agencyCode": "judiciary",
+      "agencyCodes": [
+        "judiciary"
+      ],
       "source": "SIU professional licensure summary https://professionallicensure.siu.edu/guam.php (confirm current Judiciary page)",
       "unverified": false,
       "trackable": false
@@ -1470,6 +1766,10 @@
       "groupName": "9. Events / alcohol / tobacco",
       "agencyLabel": "DRT ABC Board",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt",
+        "abcboard"
+      ],
       "source": "https://www.guamtax.com/abc/ ; application PDFs under govguamdocs.com/revtax",
       "unverified": false,
       "trackable": false
@@ -1480,6 +1780,9 @@
       "groupName": "9. Events / alcohol / tobacco",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://bsp.guam.gov/blpc/",
       "unverified": false,
       "trackable": false
@@ -1490,6 +1793,9 @@
       "groupName": "9. Events / alcohol / tobacco",
       "agencyLabel": "DPHSS",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://dphss.guam.gov/forms",
       "unverified": false,
       "trackable": false
@@ -1500,6 +1806,9 @@
       "groupName": "9. Events / alcohol / tobacco",
       "agencyLabel": "Mayors / MCOG",
       "agencyCode": "mcog",
+      "agencyCodes": [
+        "mcog"
+      ],
       "source": "Unverified exact form set this turn",
       "unverified": true,
       "trackable": false
@@ -1510,6 +1819,9 @@
       "groupName": "9. Events / alcohol / tobacco",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://bsp.guam.gov/blpc/",
       "unverified": false,
       "trackable": false
@@ -1520,6 +1832,9 @@
       "groupName": "10. IDs / records / vital statistics",
       "agencyLabel": "DPHSS Office of Vital Statistics",
       "agencyCode": "dphss",
+      "agencyCodes": [
+        "dphss"
+      ],
       "source": "https://dphss.guam.gov/services/vital-statistics",
       "unverified": false,
       "trackable": false
@@ -1530,6 +1845,9 @@
       "groupName": "10. IDs / records / vital statistics",
       "agencyLabel": "DRT MVD",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "https://www.guamtax.com/help/realIDpolicy.html",
       "unverified": false,
       "trackable": false
@@ -1540,6 +1858,9 @@
       "groupName": "10. IDs / records / vital statistics",
       "agencyLabel": "DRT",
       "agencyCode": "drt",
+      "agencyCodes": [
+        "drt"
+      ],
       "source": "guamtax.com (account setup details vary)",
       "unverified": false,
       "trackable": false
@@ -1550,6 +1871,7 @@
       "groupName": "10. IDs / records / vital statistics",
       "agencyLabel": "U.S. Department of State (federal)",
       "agencyCode": null,
+      "agencyCodes": [],
       "source": "Not GovGuam — listed only as related life-event",
       "unverified": false,
       "trackable": false
@@ -1560,6 +1882,10 @@
       "groupName": "11. Other notable citizen/business approvals",
       "agencyLabel": "TOG / DOA",
       "agencyCode": "tog",
+      "agencyCodes": [
+        "tog",
+        "doa"
+      ],
       "source": "https://dpw.guam.gov/blpc/",
       "unverified": false,
       "trackable": false
@@ -1570,6 +1896,9 @@
       "groupName": "11. Other notable citizen/business approvals",
       "agencyLabel": "GSWA",
       "agencyCode": "gswa",
+      "agencyCodes": [
+        "gswa"
+      ],
       "source": "DOA listing; specific permit URLs unverified",
       "unverified": true,
       "trackable": false
@@ -1580,6 +1909,9 @@
       "groupName": "11. Other notable citizen/business approvals",
       "agencyLabel": "CQA",
       "agencyCode": "cqa",
+      "agencyCodes": [
+        "cqa"
+      ],
       "source": "Directories; detailed citizen DIY set unverified",
       "unverified": true,
       "trackable": false
@@ -1590,6 +1922,9 @@
       "groupName": "11. Other notable citizen/business approvals",
       "agencyLabel": "GPD",
       "agencyCode": "gpd",
+      "agencyCodes": [
+        "gpd"
+      ],
       "source": "Referenced on BL-01 checklist",
       "unverified": false,
       "trackable": false

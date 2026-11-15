@@ -1,3 +1,4 @@
+import { AGENCIES, STEPS } from "./template";
 export type DirectoryAgency = {
   code: string;
   name: string;
@@ -13,6 +14,8 @@ export type CatalogPermit = {
   groupName: string;
   agencyLabel: string;
   agencyCode: string | null;
+  // Every agency the label names, lead first. A permit can touch several.
+  agencyCodes: string[];
   source: string;
   unverified: boolean;
   trackable: boolean;
@@ -42,6 +45,7 @@ const ALIASES: Record<string, string> = {
   agr: "doag",
   usace: "usace",
   ghpo: "ghpo",
+  "historic preservation": "ghpo",
   tog: "tog",
   drt: "drt",
 };
@@ -144,6 +148,34 @@ export function matchAgencyCode(label: string, agencies: DirectoryAgency[]) {
   return named?.code ?? null;
 }
 
+function escapeRegExp(text: string) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+// Every agency a label names, in the order the label names them. Acronyms must
+// match as whole words, so "GPA" does not match inside another word.
+export function matchAgencyCodes(label: string, agencies: DirectoryAgency[]) {
+  const lower = label.toLowerCase();
+  const hits: { code: string; at: number }[] = [];
+  const add = (code: string, at: number) => {
+    if (at < 0) return;
+    const prior = hits.find((hit) => hit.code === code);
+    if (prior) prior.at = Math.min(prior.at, at);
+    else hits.push({ code, at });
+  };
+  for (const [needle, code] of Object.entries(ALIASES)) {
+    add(code, lower.search(new RegExp(`\\b${escapeRegExp(needle)}\\b`)));
+  }
+  for (const agency of agencies) {
+    const acronym = agency.acronym.toLowerCase().split("/")[0].trim();
+    if (acronym.length >= 3 && /[a-z]/.test(acronym)) {
+      add(agency.code, lower.search(new RegExp(`\\b${escapeRegExp(acronym)}\\b`)));
+    }
+    if (agency.name.length > 8) add(agency.code, lower.indexOf(agency.name.toLowerCase()));
+  }
+  return hits.sort((a, b) => a.at - b.at).map((hit) => hit.code);
+}
+
 export function parsePermits(markdown: string, agencies: DirectoryAgency[] = []): CatalogPermit[] {
   const lines = markdown.split(/\r?\n/);
   let group = "Catalog";
@@ -175,12 +207,45 @@ export function parsePermits(markdown: string, agencies: DirectoryAgency[] = [])
       groupName: group,
       agencyLabel: (column[1] ?? "").replace(/\*\*/g, "").trim(),
       agencyCode: matchAgencyCode(column[1] ?? "", agencies),
+      // The tracked permit touches every agency on its workflow, not only the one in its label.
+      agencyCodes: trackable ? workflowAgencyCodes() : (formAgencies(code)?.codes ?? agencyCodesFor(column[1] ?? "", agencies)),
       source: source.replace(/\*\*/g, "").trim(),
       unverified: groupUnverified || /unverified/i.test(source),
       trackable,
     });
   }
   return rows;
+}
+
+// Agencies a permit touches beyond the one in its label, read from the application
+// paper for that permit.
+const BL01 = {
+  codes: ["drt", "dlm", "dpw", "gfd", "dphss", "clb", "gpd", "gvb", "dpr", "gdoe"],
+  note: "These are the clearance boxes printed on Form BL-01. Revenue and Taxation ticks the ones that apply to each application. BL-01 also lists the Board of Cosmetology. No public list says which business types trigger which box.",
+  source: "https://www.guamtax.com/notices/FORMBL-01NEWBUSINESSLICENSEAPPLICATION.pdf",
+};
+const FORM_AGENCIES: { match: (code: string) => boolean; codes: string[]; note: string; source: string }[] = [
+  { match: (code) => code === "new-business-license-form-bl-01" || code.startsWith("agency-clearances-on-bl-01"), ...BL01 },
+];
+
+export function formAgencies(permitCode: string) {
+  return FORM_AGENCIES.find((entry) => entry.match(permitCode)) ?? null;
+}
+
+function workflowAgencyCodes() {
+  const codes: string[] = [];
+  for (const step of [...STEPS].sort((x, y) => x.sort - y.sort)) {
+    if (!codes.includes(step.agency)) codes.push(step.agency);
+  }
+  return codes;
+}
+
+// Agencies in the order the label names them.
+function agencyCodesFor(label: string, agencies: DirectoryAgency[]) {
+  const all = matchAgencyCodes(label, agencies);
+  if (all.length) return all;
+  const lead = matchAgencyCode(label, agencies);
+  return lead ? [lead] : [];
 }
 
 export const RESIDENTIAL_REQUIRED_DOCUMENTS: RequiredDocument[] = [
@@ -199,6 +264,32 @@ export const RESIDENTIAL_REQUIRED_DOCUMENTS: RequiredDocument[] = [
     notes: "Drawn from a boundary survey, as the building guide describes.",
   },
 ];
+
+export type AgencyRef = { code: string; acronym: string; name: string };
+
+// One lookup for every agency code, from the directory and the workflow template.
+export function agencyDirectory(agencies: { code: string; acronym: string; name: string }[]) {
+  const map = new Map<string, AgencyRef>();
+  for (const agency of AGENCIES) map.set(agency.code, { code: agency.code, acronym: agency.acronym, name: agency.name });
+  for (const agency of agencies) {
+    if (!map.has(agency.code)) map.set(agency.code, { code: agency.code, acronym: agency.acronym.split("/")[0].trim(), name: agency.name });
+  }
+  return map;
+}
+
+// The reverse of the catalog: for each agency, every permit that touches it.
+export function permitsByAgency(permits: CatalogPermit[], directory: Map<string, AgencyRef>) {
+  const rows = new Map<string, { agency: AgencyRef; lead: CatalogPermit[]; also: CatalogPermit[] }>();
+  for (const permit of permits) {
+    permit.agencyCodes.forEach((code, index) => {
+      const agency = directory.get(code) ?? { code, acronym: code.toUpperCase(), name: code };
+      const row = rows.get(code) ?? { agency, lead: [], also: [] };
+      (index === 0 ? row.lead : row.also).push(permit);
+      rows.set(code, row);
+    });
+  }
+  return [...rows.values()].sort((a, b) => b.lead.length + b.also.length - (a.lead.length + a.also.length) || a.agency.name.localeCompare(b.agency.name));
+}
 
 export function groupPermits(permits: CatalogPermit[]) {
   const groups = new Map<string, CatalogPermit[]>();

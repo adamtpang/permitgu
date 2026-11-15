@@ -38,7 +38,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
       {query.notice ? <p className="text-sm text-ink2" role="status">{query.notice}</p> : null}
       <p className="max-w-2xl text-ink2">
         Routing changes what this demo queues. They do not create a new legal requirement. Keep the uncertainty note when a step is still unconfirmed.
-        {current.isSuper ? <> <Link href="/admin/audit">Open the audit log</Link>.</> : null}
+        {current.isSuper ? <> <Link href="/admin/audit">Open the audit log</Link>. <Link href="/admin/contributions">Open the corrections inbox</Link>.</> : null}
       </p>
       <section className="grid gap-3">
         <h2 className="font-serif text-3xl font-normal">Workflow template</h2>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Suggest a correction | PermitGU (unofficial demo)</title>
-<meta name="description" content="Prepare a correction for PermitGU. Nothing is submitted or stored by this page.">
+<meta name="description" content="Send a correction for PermitGU with its official source. It is saved for review and not published.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon-48.png" type="image/png">
@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="PermitGU">
 <meta property="og:url" content="https://permitgu.vercel.app/corrections">
 <meta property="og:title" content="Suggest a correction | PermitGU">
-<meta property="og:description" content="Prepare a correction with an official source. Nothing is submitted or stored by this page.">
+<meta property="og:description" content="Send a correction with an official source. It is saved for review and not published.">
 <meta property="og:image" content="https://permitgu.vercel.app/social-preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -33,17 +33,19 @@
 <span class="navlinks"><a class="hide-sm" href="/how-it-works">How it works</a><a class="pill" href="/#all">Browse all</a></span></nav>
 <main class="prose" id="correction-main">
 <h1>Help fill this in</h1>
-<p>Know a current requirement, fee, form, or agency contact? Prepare a correction with its official source. Information stays unconfirmed until reviewed.</p>
-<p><strong>This page prepares a draft only.</strong> Nothing is sent or saved by PermitGU. A submission inbox is not available yet. Copy the draft and share it yourself through an existing project contact. Do not include private information, permit numbers, addresses, or ID numbers.</p>
+<p>Know a current requirement, fee, form, or agency contact? Send it here with its official source. PermitGU is built for Guam. Agency staff and the incoming administration are invited to correct or complete anything on this site.</p>
+<p><strong>What happens to it.</strong> Your correction is saved for the person who runs PermitGU to read. It is not published, and a guide only changes after it is checked against an official source. Leave a way to reach you only if you want a reply. Do not include private information, permit numbers, addresses, or ID numbers. See <a href="/privacy">Privacy</a>.</p>
 <form id="correction-form">
 <p><label for="correction-topic">Page or topic</label><input class="correction-draft" style="min-height:44px" id="correction-topic" maxlength="160" required></p>
 <p><label for="correction-detail">What needs correcting?</label><textarea class="correction-draft" id="correction-detail" maxlength="3000" required></textarea></p>
 <p><label for="correction-source">Official source URL, if available</label><input class="correction-draft" style="min-height:44px" id="correction-source" type="url" placeholder="https://" maxlength="2000"></p>
-<div class="correction-actions"><button class="pill" type="submit">Prepare draft</button><button class="pill" id="copy-draft" type="button" hidden>Copy draft</button></div>
-<label for="correction-output" hidden id="draft-label">Your correction draft</label><textarea class="correction-draft" id="correction-output" readonly hidden></textarea>
+<p><label for="correction-contact">How to reach you, optional (work email or phone)</label><input class="correction-draft" style="min-height:44px" id="correction-contact" maxlength="200" autocomplete="off"></p>
+<p hidden><label for="correction-website">Leave this empty</label><input id="correction-website" tabindex="-1" autocomplete="off"></p>
+<div class="correction-actions"><button class="pill" type="submit">Send correction</button><button class="pill" id="copy-draft" type="button" hidden>Copy draft</button></div>
+<label for="correction-output" hidden id="draft-label">Your correction, not sent</label><textarea class="correction-draft" id="correction-output" readonly hidden></textarea>
 <p id="correction-status" role="status"></p>
 </form>
-<noscript><p>To prepare a correction without JavaScript, write the page name, what should change, and an official source URL in a draft. Nothing can be submitted through this page.</p></noscript>
+<noscript><p>Sending a correction needs JavaScript. Without it, nothing on this page is sent.</p></noscript>
 </main>
 <footer class="foot">
 <nav aria-label="Footer"><a href="/how-it-works">How it works</a><a href="/privacy">Privacy</a><a href="/about">About</a></nav>

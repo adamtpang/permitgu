@@ -32,6 +32,7 @@ export async function SiteHeader() {
       </a>
       <nav className="flex flex-wrap items-center justify-end gap-2 text-sm" aria-label="Tracker">
         <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/permits">Catalog</Link>
+        <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/agencies">Agencies</Link>
         <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/apply">Apply</Link>
         <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/applications">Your file</Link>
         <Link className="rounded-full px-3 py-2 no-underline hover:bg-soft" href="/review">Staff</Link>

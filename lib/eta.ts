@@ -96,3 +96,16 @@ export function estimateEta(
     samples,
   };
 }
+
+// Figures an agency or the Public Auditor has published for a step. They are shown
+// beside the step as published, and never mixed into the tracker's own estimate.
+const PUBLISHED: Record<string, { text: string; source: string }> = {
+  historic_preservation: {
+    text: "Published: the Historic Preservation Office's goal for a certificate of approval is 30 days. The Public Auditor measured an average of 37 days, with a range of 0 to 205, for fiscal years 2018 to 2023.",
+    source: "https://www.opaguam.org/sites/default/files/opa-report-25-05-es.pdf",
+  },
+};
+
+export function publishedTime(stepCode: string) {
+  return PUBLISHED[stepCode] ?? null;
+}

@@ -339,6 +339,17 @@ export async function addPermit(formData: FormData) {
   });
 }
 
+export async function setContributionStatus(formData: FormData) {
+  const supabase = await createClient();
+  const from = String(formData.get("from") ?? "new");
+  if (!supabase) redirect("/admin/contributions");
+  const { error } = await supabase.rpc("set_contribution_status", {
+    p_id: Number(formData.get("id")),
+    p_status: String(formData.get("status") ?? ""),
+  });
+  redirect(`/admin/contributions?status=${encodeURIComponent(from)}${error ? `&error=${encodeURIComponent(error.message)}` : ""}`);
+}
+
 export async function recordAuthEvent(action: "sign_in" | "sign_out") {
   const supabase = await createClient();
   if (!supabase) return;

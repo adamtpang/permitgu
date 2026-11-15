@@ -114,12 +114,28 @@ try {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto(base + '/corrections?topic=Zoning');
   let submissions = 0;
-  page.on('request', (request) => { if (request.method() === 'POST') submissions++; });
+  let sent = null;
+  await page.route('**/api/contribute', async (route) => {
+    submissions++;
+    sent = JSON.parse(route.request().postData());
+    await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify({ ok: true }) });
+  });
   await page.locator('#correction-detail').fill('Please confirm the latest variance form.');
   await page.locator('#correction-source').fill('https://dlm.guam.gov');
   await page.locator('#correction-form button[type="submit"]').click();
-  assert.match(await page.locator('#correction-output').inputValue(), /Please confirm/);
-  assert.equal(submissions, 0);
+  await page.locator('#correction-status').filter({ hasText: 'Sent.' }).waitFor();
+  assert.equal(submissions, 1);
+  assert.equal(sent.topic, 'Zoning');
+  assert.match(sent.detail, /Please confirm/);
+  assert.equal(sent.website, '');
+  // When sending fails, the words stay on the page in a copyable draft.
+  await page.unroute('**/api/contribute');
+  await page.route('**/api/contribute', (route) => route.fulfill({ status: 502, contentType: 'application/json', body: JSON.stringify({ error: 'not_saved' }) }));
+  await page.locator('#correction-detail').fill('Second note.');
+  await page.locator('#correction-submit, #correction-form button[type="submit"]').first().click();
+  await page.locator('#correction-output').waitFor({ state: 'visible' });
+  assert.match(await page.locator('#correction-output').inputValue(), /Second note/);
+  await page.unroute('**/api/contribute');
   await page.goto(base + '/ask');
   await page.route('**/api/ask', async (route) => {
     await delay(400);

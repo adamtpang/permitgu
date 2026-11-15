@@ -89,3 +89,67 @@ test("the catalog cleanup removes count rows and keeps every real agency", async
   const orphans = await db.query<{ n: string }>("select count(*)::text as n from public.permit_catalog p where p.agency_code is not null and not exists (select 1 from public.agencies a where a.code = p.agency_code)");
   assert.equal(orphans.rows[0].n, "0");
 });
+
+test("corrections can be sent by anyone and read only by a verified super admin", async () => {
+  assert.ok(prelude);
+  const db = new PGlite();
+  await db.exec(prelude);
+  for (const name of fs.readdirSync("supabase/migrations").filter((file) => file.endsWith(".sql")).sort()) {
+    await db.exec(fs.readFileSync(`supabase/migrations/${name}`, "utf8"));
+  }
+  const ADMIN = USERS[0];
+  const CITIZEN = USERS[1];
+  await db.exec(`
+    insert into auth.users (id, email, raw_user_meta_data) values
+      ('${ADMIN}', 'admin.demo@example.com', '{"full_name":"Admin Demo"}'),
+      ('${CITIZEN}', 'citizen.demo@example.com', '{"full_name":"Citizen Demo"}');
+    insert into public.memberships (user_id, agency_id, role) values ('${ADMIN}', null, 'super_admin');
+  `);
+  const as = async <T>(role: string, uid: string | null, aal: string, fn: () => Promise<T>) => {
+    await db.exec("begin");
+    if (uid) await db.exec(`select set_config('request.jwt.claims', '${JSON.stringify({ sub: uid, aal, role })}', true)`);
+    await db.exec(`set local role ${role}`);
+    try {
+      const value = await fn();
+      await db.exec("commit");
+      return value;
+    } catch (error) {
+      await db.exec("rollback");
+      throw error;
+    }
+  };
+
+  // An anonymous visitor can send one, and cannot read the table or reach the private schema.
+  await as("anon", null, "aal1", () => db.query("select public.submit_contribution('Zoning', 'The variance fee changed.', 'https://dlm.guam.gov', 'me@example.com')"));
+  await assert.rejects(as("anon", null, "aal1", () => db.query("select * from public.contributions")), /permission denied/);
+  await assert.rejects(as("anon", null, "aal1", () => db.query("select private.submit_contribution('a', 'b', null, null)")), /permission denied/);
+  await assert.rejects(as("anon", null, "aal1", () => db.query("insert into public.contributions (topic, detail) values ('a', 'b')")), /permission denied/);
+
+  // Bad input is refused.
+  await assert.rejects(as("anon", null, "aal1", () => db.query("select public.submit_contribution('', 'x', null, null)")), /not_ready/);
+  await assert.rejects(as("anon", null, "aal1", () => db.query("select public.submit_contribution('t', 'x', 'javascript:alert(1)', null)")), /bad_source/);
+  await assert.rejects(as("anon", null, "aal1", () => db.query(`select public.submit_contribution('t', '${"x".repeat(3001)}', null, null)`)), /too_long/);
+
+  // A citizen and a super admin without the second factor see nothing.
+  assert.equal((await as("authenticated", CITIZEN, "aal1", () => db.query("select id from public.contributions"))).rows.length, 0);
+  assert.equal((await as("authenticated", ADMIN, "aal1", () => db.query("select id from public.contributions"))).rows.length, 0);
+  await assert.rejects(as("authenticated", ADMIN, "aal1", () => db.query("select public.set_contribution_status(1, 'reviewed')")), /forbidden/);
+  await assert.rejects(as("authenticated", CITIZEN, "aal2", () => db.query("select public.set_contribution_status(1, 'reviewed')")), /forbidden/);
+
+  // A verified super admin reads it and files it.
+  const seen = await as("authenticated", ADMIN, "aal2", () => db.query<{ id: string; topic: string; contact: string; status: string }>("select id, topic, contact, status from public.contributions"));
+  assert.equal(seen.rows.length, 1);
+  assert.equal(seen.rows[0].topic, "Zoning");
+  assert.equal(seen.rows[0].status, "new");
+  await as("authenticated", ADMIN, "aal2", () => db.query(`select public.set_contribution_status(${seen.rows[0].id}, 'reviewed')`));
+  const after = await db.query<{ status: string }>("select status from public.contributions");
+  assert.equal(after.rows[0].status, "reviewed");
+
+  // The catalog carries every agency a permit touches.
+  const house = await db.query<{ n: number }>("select cardinality(agency_codes) as n from public.permit_catalog where trackable");
+  assert.equal(house.rows[0].n, 14);
+  const license = await db.query<{ agency_codes: string[] }>("select agency_codes from public.permit_catalog where code = 'new-business-license-form-bl-01'");
+  assert.deepEqual(license.rows[0].agency_codes.slice(0, 3), ["drt", "dlm", "dpw"]);
+  const missing = await db.query<{ n: string }>("select count(*)::text as n from public.permit_catalog p, unnest(p.agency_codes) c where not exists (select 1 from public.agencies a where a.code = c)");
+  assert.equal(missing.rows[0].n, "0");
+});

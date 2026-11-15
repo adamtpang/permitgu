@@ -2,10 +2,13 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 import {
+  agencyDirectory,
   documentKindAllowed,
   groupPermits,
+  matchAgencyCodes,
   parseAgencies,
   parsePermits,
+  permitsByAgency,
   RESIDENTIAL_REQUIRED_DOCUMENTS,
 } from "./catalog";
 
@@ -22,6 +25,19 @@ test("the agency and permit catalogs come from the source lists", () => {
   assert.ok(agencies.every((agency) => /^[A-Z]\.\s/.test(agency.groupName)), "only lettered directory sections");
   assert.equal(agencies.some((agency) => agency.code === "count" || /^\d+$/.test(agency.code)), false);
   assert.equal(permits.find((permit) => permit.code === "cpa-accountancy")?.agencyCode, "gboa");
+  const directory = agencyDirectory(agencies);
+  // A permit can touch several agencies, in the order its label names them.
+  assert.deepEqual(permits.find((permit) => permit.agencyLabel === "DPW + GEPA")?.agencyCodes, ["dpw", "gepa"]);
+  assert.deepEqual(permits.find((permit) => permit.agencyLabel === "GLUC / DLM")?.agencyCodes, ["gluc", "dlm"]);
+  assert.equal(permits.find((permit) => permit.trackable)?.agencyCodes.length, 14);
+  const license = permits.find((permit) => permit.code === "new-business-license-form-bl-01");
+  assert.deepEqual(license?.agencyCodes.slice(0, 3), ["drt", "dlm", "dpw"]);
+  assert.ok(license!.agencyCodes.every((code) => directory.has(code)), "every BL-01 agency is in the directory");
+  assert.ok(permits.every((permit) => !permit.agencyCode || permit.agencyCodes.includes(permit.agencyCode)));
+  // Acronyms match as whole words only.
+  assert.deepEqual(matchAgencyCodes("Agpar licensing", agencies), []);
+  const byAgency = permitsByAgency(permits, directory);
+  assert.ok(byAgency.find((row) => row.agency.code === "dlm")!.also.length >= 2);
   assert.ok(agencies.some((agency) => agency.code === "ghpo"));
   const building = permits.find((permit) => permit.trackable);
   assert.equal(building?.agencyCode, "dpw");

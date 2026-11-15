@@ -14,6 +14,9 @@ export default function StaffSignInPage() {
         Government of Guam login. Citizens <Link href="/sign-in">use an email code</Link> instead.
       </p>
       {isSupabaseConfigured() ? <StaffSignIn /> : <SetupNotice />}
+      <p className="text-sm text-ink2">
+        No password yet? Sign in with your email link, then <Link href="/staff/set-password">set a staff password</Link>.
+      </p>
     </div>
   );
 }

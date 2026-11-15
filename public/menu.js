@@ -24,12 +24,19 @@
     ['Other government services', '/#all', 'Licenses, IDs, bills, and more'],
   ];
   var MORE = [['How it works', '/how-it-works'], ['Roadmap', '/roadmap'], ['Suggest a correction', '/corrections'], ['Privacy', '/privacy'], ['About', '/about']];
-  document.querySelectorAll('.check,.open').forEach(function (gap) {
+  // The full invitation appears once per page. Later boxes get the short version.
+  document.querySelectorAll('.check,.open').forEach(function (gap, index) {
     var link = document.createElement('a');
     link.href = '/corrections?topic=' + encodeURIComponent(document.title.split('|')[0].trim());
-    link.textContent = 'Prepare a correction';
+    link.textContent = 'Help fill it in';
     var paragraph = document.createElement('p');
+    var lead = document.createElement('strong');
+    lead.textContent = 'Know this? ';
+    paragraph.appendChild(lead);
     paragraph.appendChild(link);
+    paragraph.appendChild(document.createTextNode(index === 0
+      ? '. PermitGU is built for Guam. Agency staff and the incoming administration are invited to correct or complete anything here.'
+      : '.'));
     gap.appendChild(paragraph);
   });
   nav.innerHTML = '<a class="hide-sm" href="/how-it-works">How it works</a>' +

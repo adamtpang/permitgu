@@ -4,7 +4,7 @@ import { addComment, downloadDocument, respondToInfo, saveDraft, submitDraft, up
 import { SetupNotice } from "@/components/shell";
 import { ClearanceBoard, CurrentStepBanner, EtaCallout, EventTimeline, FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
 import { Button, Input, Textarea } from "@/components/ui";
-import { estimateEta, stepEstimateLabel, type StepEstimate } from "@/lib/eta";
+import { estimateEta, publishedTime, stepEstimateLabel, type StepEstimate } from "@/lib/eta";
 import { requestMeta } from "@/lib/request-meta";
 import { one, session } from "@/lib/session";
 import type { TrackerStep } from "@/lib/tracker-model";
@@ -110,6 +110,12 @@ export default async function ApplicationPage({
                 {["approved", "rejected", "waived", "n_a"].includes(step.status) || workflow?.phase === "inspection" || workflow?.phase === "occupancy" ? null : (
                   <p className="mt-1 text-sm text-ink2">{stepEstimateLabel(estimateByCode.get(workflow?.code ?? ""))}</p>
                 )}
+                {publishedTime(workflow?.code ?? "") ? (
+                  <p className="mt-1 text-sm text-ink2">
+                    {publishedTime(workflow?.code ?? "")!.text}{" "}
+                    <a href={publishedTime(workflow?.code ?? "")!.source} target="_blank" rel="noopener noreferrer">Public Auditor report 25-05</a>
+                  </p>
+                ) : null}
                 {workflow?.uncertainty ? <p className="mt-1 text-sm text-ink2">{workflow.uncertainty}</p> : null}
                 {step.memo ? <p className="mt-2 text-sm">Note: {step.memo}</p> : null}
               </li>
