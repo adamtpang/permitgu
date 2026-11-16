@@ -229,19 +229,17 @@ export default async function ReviewDetailPage({
             {(documents ?? []).map((document) => (
               <li key={document.id} className="flex flex-wrap items-center justify-between gap-3">
                 <span>{kind.documents.find((entry) => entry.code === document.kind)?.name ?? "Other"}: {document.file_name}</span>
-                {application.is_sample ? null : (
-                  <form action={downloadDocument}>
-                    <input type="hidden" name="application_id" value={id} />
-                    <input type="hidden" name="document_id" value={document.id} />
-                    <input type="hidden" name="return_to" value={back} />
-                    <Button type="submit" variant="outline" className="min-h-[44px] px-5">Open</Button>
-                  </form>
-                )}
+                <form action={downloadDocument}>
+                  <input type="hidden" name="application_id" value={id} />
+                  <input type="hidden" name="document_id" value={document.id} />
+                  <input type="hidden" name="return_to" value={back} />
+                  <Button type="submit" variant="outline" className="min-h-[44px] px-5">Open</Button>
+                </form>
               </li>
             ))}
           </ul>
           {application.is_sample ? (
-            <p className="mt-3 text-[0.95rem] text-ink2">A sample file lists its papers by name only. There is no upload behind them to open.</p>
+            <p className="mt-3 text-[0.95rem] text-ink2">On a sample file each paper is a one-page placeholder marked "Sample paper", not a real document. Opening it is logged. The link works for 60 seconds.</p>
           ) : (documents ?? []).length ? <p className="mt-3 text-[0.95rem] text-ink2">Opening a paper is logged. The link works for 60 seconds.</p> : <p className="text-ink2">Nothing uploaded.</p>}
         </Fold>
 

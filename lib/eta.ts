@@ -115,6 +115,11 @@ const PUBLISHED: Record<string, { text: string; source: string; label: string }>
     source: "https://dlm.guam.gov/wp-dlm-content/uploads/2026/08/AUG202026-Final.pdf",
     label: "Committee agenda, August 20, 2026",
   },
+  "x_water_service:issue": {
+    text: "Published: once the Job Cost Sheet is paid, Waterworks says the meter is typically installed in 3 to 5 working days.",
+    source: "https://guamwaterworks.org/faq/water-sewer-service-application/",
+    label: "Waterworks service steps",
+  },
   "x_zone_variance:s_notice_sign": {
     text: "Set by law: the notice sign goes up on the lot within 5 days of filing.",
     source: "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",

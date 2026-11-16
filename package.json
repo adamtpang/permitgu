@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "tsx --test lib/*.test.ts tests/*.test.ts",
+    "test": "tsx --test --test-concurrency=3 lib/*.test.ts tests/*.test.ts",
     "kb": "python tools/build_kb.py"
   },
   "dependencies": {

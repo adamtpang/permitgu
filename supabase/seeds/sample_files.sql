@@ -88,7 +88,7 @@ begin
       end if;
 
       insert into public.documents (application_id, uploaded_by, kind, storage_path, file_name, mime_type, byte_size)
-      select v_app, v_applicant, r.code, v_app::text || '/sample-' || r.code || '.pdf', 'sample-' || r.code || '.pdf', 'application/pdf', 1024
+      select v_app, v_applicant, r.code, v_app::text || '/sample-' || r.code || '.pdf', 'sample-' || r.code || '.pdf', 'application/pdf', 797
       from public.required_documents r where r.application_type_id = v_type.id and r.required;
 
       perform private.submit_application(v_app);
