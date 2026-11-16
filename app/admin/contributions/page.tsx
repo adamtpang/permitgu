@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SetupNotice } from "@/components/shell";
 import { Button } from "@/components/ui";
 import { setContributionStatus } from "@/lib/actions";
+import { guamStamp } from "@/lib/dates";
 import { staffSession } from "@/lib/session";
 
 export const metadata = { title: "Corrections inbox" };
@@ -36,7 +37,7 @@ export default async function ContributionsPage({ searchParams }: { searchParams
             key={status}
             href={`/admin/contributions?status=${status}`}
             aria-current={status === wanted ? "page" : undefined}
-            className={`rounded-full border px-3 py-1.5 no-underline ${status === wanted ? "border-navy bg-soft" : "border-line"}`}
+            className={`inline-flex min-h-[44px] items-center rounded-full border px-4 no-underline ${status === wanted ? "border-navy bg-soft" : "border-line"}`}
           >
             {status}
           </Link>
@@ -48,7 +49,7 @@ export default async function ContributionsPage({ searchParams }: { searchParams
           <li key={row.id} className="rounded-2xl border border-line px-4 py-3">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <span className="font-medium">{row.topic}</span>
-              <span className="text-xs text-muted">{new Date(row.created_at).toLocaleString()}</span>
+              <span className="text-xs text-muted">{guamStamp(row.created_at)}</span>
             </div>
             <p className="mt-2 whitespace-pre-wrap text-sm text-ink2">{row.detail}</p>
             {/* The address is shown as text. It comes from a stranger, so it is not a link. */}

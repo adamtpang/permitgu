@@ -94,6 +94,7 @@ export default async function ApplicationPage({
     <div>
       <PageHero eyebrow={`Unofficial file · ${kind.typeName}`} title={fileTitle(type?.code, application)} lede={place}>
         <StatusBadge status={application.status} />
+        {application.is_test ? <span className="rounded-full border border-warnline bg-warn px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-ink">Test file</span> : null}
         {application.permit_number ? <span className="text-[0.95rem] text-ink2">Demo number {application.permit_number}. {kind.numberNote}</span> : null}
       </PageHero>
       <Notice text={noticeText(query.done)} />

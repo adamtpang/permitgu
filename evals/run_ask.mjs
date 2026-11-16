@@ -11,7 +11,9 @@ if (!process.env.OPENROUTER_API_KEY && process.env.KEY_ENV_FILE) {
 }
 const { POST } = base ? {} : await import('../api/ask.mjs');
 const only = process.env.ONLY ? Number(process.env.ONLY) : Infinity;
-const qs = JSON.parse(fs.readFileSync(new URL('./questions.json', import.meta.url), 'utf8')).filter((question) => !process.env.MATCH || new RegExp(process.env.MATCH, 'i').test(question.q)).slice(0, only);
+// SKIP lets a live run go in batches that stay under the hourly limit per address.
+const skip = process.env.SKIP ? Number(process.env.SKIP) : 0;
+const qs = JSON.parse(fs.readFileSync(new URL('./questions.json', import.meta.url), 'utf8')).filter((question) => !process.env.MATCH || new RegExp(process.env.MATCH, 'i').test(question.q)).slice(skip, skip + only);
 
 async function ask(q) {
   const t0 = Date.now();

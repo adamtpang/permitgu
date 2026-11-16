@@ -21,6 +21,8 @@ const NOTICES: Record<string, string> = {
   denied: "Application denied.",
   expired: "Application marked expired.",
   reopened: "Step reopened.",
+  test_on: "Marked as a test file. Its timings no longer count toward estimates.",
+  test_off: "No longer a test file. Its timings count toward estimates.",
 };
 
 export function noticeText(code: string | undefined) {

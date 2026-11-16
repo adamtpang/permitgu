@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SetupNotice } from "@/components/shell";
 import { filterAudit, type AuditRow } from "@/lib/audit-view";
+import { guamStamp } from "@/lib/dates";
 import { staffSession } from "@/lib/session";
 
 export const metadata = { title: "Audit log" };
@@ -68,7 +69,7 @@ export default async function AuditPage({
         {visible.map((row) => (
           <li key={row.id} className="rounded-2xl border border-line px-4 py-3">
             <span className="font-medium">{row.action}</span>
-            <span className="text-muted"> · {row.actorRole ?? "unknown"} · {row.visibility} · {new Date(row.createdAt).toLocaleString()}</span>
+            <span className="text-muted"> · {row.actorRole ?? "unknown"} · {row.visibility} · {guamStamp(row.createdAt)}</span>
             {row.ip ? <span className="text-muted"> · {row.ip}</span> : null}
             {row.memo ? <p className="mt-1 text-ink2">{row.memo}</p> : null}
           </li>

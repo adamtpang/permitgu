@@ -1,3 +1,4 @@
+import { guamDate, guamDateTime } from "@/lib/dates";
 import { formatDuration, type Eta } from "@/lib/eta";
 import { PIPELINE, PIPELINE_LABEL } from "@/lib/template";
 import { agencyRollup, fileHeadline, splitTimeline, timelineLabel, type TimelineEvent, type TrackerStep } from "@/lib/tracker-model";
@@ -72,12 +73,11 @@ export function EtaCallout({ eta, noun = "permit" }: { eta: Eta; noun?: string }
           <p className="mt-2 text-lg text-ink">
             {eta.remainingSeconds === 0
               ? "Due any time now."
-              : `${capitalize(formatDuration(eta.remainingSeconds))}, around ${eta.readyBy.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}.`}
+              : `${capitalize(formatDuration(eta.remainingSeconds))}, around ${guamDate(eta.readyBy)}.`}
           </p>
           <p className="mt-2 text-sm text-ink2">
             An estimate, not a promise. It is the usual time each remaining step took on this tracker, based on at
-            least {eta.samples} finished files per step. It is not an official agency timeline, and it stops at permit
-            issuance.
+            least {eta.samples} finished files per step. It is not an official agency timeline, and it stops when the {noun} is issued. Dates are Guam time.
           </p>
         </>
       ) : eta.kind === "paused" ? (
@@ -161,7 +161,7 @@ export function EventTimeline({ events, heading = true, opens }: { events: Timel
           <li key={event.id} className="border-l-2 border-line pl-4">
             <span className="font-medium">{timelineLabel(event.action)}</span>
             <span className="block text-[0.95rem] text-muted">
-              {new Date(event.createdAt).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} · {event.actorRole ?? "system"}
+              {guamDateTime(event.createdAt)} · {event.actorRole ?? "system"}
             </span>
             {event.memo ? <p className="mt-1 text-[0.95rem] text-ink2">{event.memo}</p> : null}
           </li>
@@ -170,7 +170,7 @@ export function EventTimeline({ events, heading = true, opens }: { events: Timel
       {changes.length ? null : <p className="text-ink2">Nothing has changed yet.</p>}
       {views ? (
         <p className="text-[0.95rem] text-muted">
-          Opened {views} {views === 1 ? "time" : "times"}{lastView ? `, last on ${new Date(lastView).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}` : ""}. Every open is kept in the audit log.
+          Opened {views} {views === 1 ? "time" : "times"}{lastView ? `, last on ${guamDateTime(lastView)}` : ""}. Every open is kept in the audit log.
         </p>
       ) : null}
     </section>

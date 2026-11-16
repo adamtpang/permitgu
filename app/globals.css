@@ -45,6 +45,10 @@
   a { color: var(--color-navy); text-underline-offset: 3px; }
   @media (prefers-color-scheme: dark) { a { color: var(--color-gu); } }
   summary { cursor: pointer; }
+  /* Every control is at least 44px tall and never wider than its container. A long
+     option in a select would otherwise stretch the page on a phone. */
+  button, select, textarea, input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="file"]) { min-height: 44px; }
+  input, select, textarea { max-width: 100%; }
 }
 :focus-visible { outline: 3px solid var(--color-gu); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {

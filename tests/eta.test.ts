@@ -153,3 +153,44 @@ test("corrections can be sent by anyone and read only by a verified super admin"
   const missing = await db.query<{ n: string }>("select count(*)::text as n from public.permit_catalog p, unnest(p.agency_codes) c where not exists (select 1 from public.agencies a where a.code = c)");
   assert.equal(missing.rows[0].n, "0");
 });
+
+test("test files are left out of the time estimates", async () => {
+  assert.ok(prelude);
+  const db = new PGlite();
+  await db.exec(prelude);
+  for (const name of fs.readdirSync("supabase/migrations").filter((file) => file.endsWith(".sql")).sort()) {
+    await db.exec(fs.readFileSync(`supabase/migrations/${name}`, "utf8"));
+  }
+  const typeId = (await db.query<{ id: string }>("select id from public.application_types where code = 'building_permit_residential_one_family'")).rows[0].id;
+  const step = (await db.query<{ id: string; agency_id: string }>("select id, agency_id from public.workflow_steps where code = 'dlm_zoning'")).rows[0];
+  const apps: string[] = [];
+  for (const [index, user] of USERS.entries()) {
+    await db.exec(`insert into auth.users (id, email, raw_user_meta_data) values ('${user}', 'flag${index}.demo@example.com', '{"full_name":"Flag Demo"}')`);
+    const app = await db.query<{ id: string }>(`insert into public.applications (applicant_id, application_type_id, status) values ('${user}', '${typeId}', 'draft') returning id`);
+    apps.push(app.rows[0].id);
+    await db.query(
+      "insert into public.application_steps (application_id, workflow_step_id, agency_id, status, started_at, decided_at) values ($1, $2, $3, 'approved', now() - interval '3 days', now())",
+      [app.rows[0].id, step.id, step.agency_id],
+    );
+  }
+  assert.equal((await db.query("select * from public.step_estimates()")).rows.length, 1, "four finished files give an estimate");
+  await db.query("update public.applications set is_test = true where id = any($1)", [apps.slice(0, 2)]);
+  assert.equal((await db.query("select * from public.step_estimates()")).rows.length, 0, "two real files are not enough");
+  await db.query("update public.applications set is_test = false where id = $1", [apps[0]]);
+  const back = await db.query<{ samples: number }>("select samples from public.step_estimates()");
+  assert.equal(back.rows[0].samples, 3);
+
+  // Only a verified super admin can change the flag.
+  await db.exec(`insert into public.memberships (user_id, agency_id, role) values ('${USERS[3]}', null, 'super_admin')`);
+  const as = async (uid: string, aal: string, sql: string) => {
+    await db.exec("begin");
+    await db.exec(`select set_config('request.jwt.claims', '${JSON.stringify({ sub: uid, aal, role: "authenticated" })}', true)`);
+    await db.exec("set local role authenticated");
+    try { await db.query(sql); await db.exec("commit"); } catch (error) { await db.exec("rollback"); throw error; }
+  };
+  await assert.rejects(as(USERS[0], "aal2", `select public.set_test_file('${apps[2]}', true)`), /not_authorized/);
+  await assert.rejects(as(USERS[3], "aal1", `select public.set_test_file('${apps[2]}', true)`), /mfa_required/);
+  await assert.rejects(as(USERS[0], "aal1", `update public.applications set is_test = true where id = '${apps[0]}'`), /permission denied/);
+  await as(USERS[3], "aal2", `select public.set_test_file('${apps[2]}', true)`);
+  assert.equal((await db.query<{ is_test: boolean }>("select is_test from public.applications where id = $1", [apps[2]])).rows[0].is_test, true);
+});

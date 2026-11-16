@@ -400,6 +400,15 @@ export async function addPermit(formData: FormData) {
   });
 }
 
+export async function setTestFile(formData: FormData) {
+  const id = String(formData.get("application_id") ?? "");
+  const on = formData.get("is_test") === "true";
+  const supabase = await staffClient();
+  const { error } = await supabase.rpc("set_test_file", { p_application_id: id, p_is_test: on });
+  if (error) redirect(`/review/${id}?error=${encodeURIComponent(error.message)}`);
+  redirect(`/review/${id}?done=${on ? "test_on" : "test_off"}`);
+}
+
 export async function setContributionStatus(formData: FormData) {
   const supabase = await createClient();
   const from = String(formData.get("from") ?? "new");

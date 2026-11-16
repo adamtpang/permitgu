@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { assessFees, assignStep, denyApplication, downloadDocument, expireApplication, issuePermit, markFeesPaid, requestInfo, reviewStep, routeStepAction } from "@/lib/actions";
+import { assessFees, assignStep, denyApplication, downloadDocument, expireApplication, issuePermit, markFeesPaid, requestInfo, reviewStep, routeStepAction, setTestFile } from "@/lib/actions";
 import { ErrorNotice, Fold, Notice, Section } from "@/components/layout";
 import { SetupNotice } from "@/components/shell";
 import { ClearanceBoard, EventTimeline, FeeCallout, PizzaTracker, StatusBadge } from "@/components/tracker";
@@ -95,6 +95,7 @@ export default async function ReviewDetailPage({
         <h1 className="display-sm mt-3">{fileTitle(type?.code, application)}</h1>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <StatusBadge status={application.status} />
+          {application.is_test ? <span className="rounded-full border border-warnline bg-warn px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-ink">Test file</span> : null}
           {application.permit_number ? <span className="text-[0.95rem] text-ink2">Demo number {application.permit_number}</span> : null}
         </div>
         <p className="mt-4 max-w-[38rem] text-lg text-ink2">{application.scope}</p>
@@ -270,6 +271,21 @@ export default async function ReviewDetailPage({
         <Fold title="History" note={`${(events ?? []).length} ${(events ?? []).length === 1 ? "change" : "changes"}`}>
           <EventTimeline heading={false} opens={{ count: openCount ?? 0, last: lastOpen?.[0]?.created_at ?? null }} events={(events ?? []).map((event) => ({ id: String(event.id), action: event.action, memo: event.memo, createdAt: event.created_at, actorRole: event.actor_role }))} />
         </Fold>
+
+        {current.isSuper ? (
+          <Fold title="Test file" note={application.is_test ? "yes" : "no"}>
+            <p className="max-w-[38rem] text-ink2">
+              A test file is one a tester walked through. Its step timings are left out of the estimates that applicants see.
+            </p>
+            <form action={setTestFile} className="mt-4">
+              <input type="hidden" name="application_id" value={id} />
+              <input type="hidden" name="is_test" value={application.is_test ? "false" : "true"} />
+              <Button type="submit" variant="outline" className="min-h-[44px] px-5">
+                {application.is_test ? "Count this file in estimates" : "Mark as a test file"}
+              </Button>
+            </form>
+          </Fold>
+        ) : null}
 
         {runs && (canDeny || canExpire) ? (
           <Fold title="Close this file">
