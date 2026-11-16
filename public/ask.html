@@ -35,14 +35,15 @@
 <main id="thread" class="thread" aria-label="Questions and answers">
 <div class="empty" id="empty">
 <h1>What do you need from Guam government?</h1>
-<p>Answers use our sourced Guam permit guides, with links and clearly marked gaps. You can ask in another language, but translations have not been reviewed by fluent speakers. Confirm important details with the agency.</p>
+<p>Ask in plain words. Every answer links its official source and says what is not confirmed.</p>
 <div class="suggest" id="suggest"></div>
+<p class="empty-note">You can ask in another language. Translations have not been reviewed by fluent speakers.</p>
 </div>
 </main>
 </div>
 
 <form class="composer" id="composer" onsubmit="return false" role="search" aria-label="Ask PermitGU">
-<textarea id="cq" rows="1" placeholder="Ask about Guam permits..." aria-label="Ask anything about Guam permits" maxlength="500"></textarea>
+<textarea id="cq" rows="1" placeholder="Ask a question" aria-label="Ask anything about Guam permits" maxlength="500"></textarea>
 <button type="button" class="mic" id="mic" aria-label="Speak your question" hidden>&#127908;</button>
 <button type="submit" class="send" id="send" aria-label="Send">&rarr;</button>
 <p class="fine">PermitGU can make mistakes. Check the linked official source before you apply. Don&rsquo;t include personal details.</p>
@@ -61,6 +62,8 @@ const FOLLOW={'food-truck':['How do I get a health certificate?','Can I sell foo
  'public-spaces':['Do I need a permit to dig near the road?','How do I get a water meter?','How do I get power connected?'],
  'help':['Where is the permit center?','How do I appeal a denied permit?','Can I check my permit status online?'],
  'services':['How do I renew my driver\'s license?','How do I open a business?','Where do I pay a government bill?']};
+// Where a topic has an unofficial tracker on this site, the answer offers it.
+const TRACK={'build':['a one-family building permit','/apply'],'typhoon-repair':['a repair permit','/apply/x_repair_permit'],'food-truck':['a food sanitary permit','/apply/x_sanitary_permit_food'],'clear-grade':['a clearing and grading permit','/apply/x_clearing_grading'],'events':['a temporary food permit','/apply/x_temporary_food_event'],'zoning':['a zone variance','/apply/x_zone_variance'],'public-spaces':['a permit for work in a road','/apply/x_road_work'],'help':['a permit','/permits'],'services':['a business license','/apply/business-license']};
 const STARTERS=['I want to start a food truck','My roof blew off in the typhoon','How do I build a fence?','Can I build a septic tank from hollow blocks?'];
 let busy=false;
 const send=document.getElementById('send'),status=document.getElementById('answer-status');
@@ -115,6 +118,8 @@ async function ask(q){
   const rt=ROUTES[meta.topic];
   const row=document.createElement('div');row.className='chips';
   if(rt){const l=document.createElement('a');l.className='chip strong';l.href=rt[1];l.textContent='Open the full route: '+rt[0]+' →';row.appendChild(l)}
+  const tk=TRACK[meta.topic];
+  if(tk){const l=document.createElement('a');l.className='chip';l.href=tk[1];l.textContent='Track '+tk[0]+' here (unofficial) →';row.appendChild(l)}
   (FOLLOW[meta.topic]||[]).filter(f=>f.toLowerCase()!==q.toLowerCase()).slice(0,3).forEach(f=>row.appendChild(chip(f,()=>ask(f))));
   if(row.children.length)a.appendChild(row);
   const fb=document.createElement('div');fb.className='feedback';fb.innerHTML='<span>Was this helpful?</span>';

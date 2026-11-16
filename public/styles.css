@@ -377,3 +377,16 @@ body{font-size:18px}
 .choices small{display:block;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .choices b{display:block;margin-top:8px;font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,3.6vw,2rem);line-height:1.08;letter-spacing:-.025em}
 @media (max-width:520px){.choices{grid-template-columns:1fr}.choices a{min-height:0}}
+/* The ask page on the v4 scale: one headline, one line under it, then the starters. */
+.chat-page .empty{padding:var(--space-5) 0 0}
+.chat-page .empty h1{font-size:var(--t-display);line-height:.96;letter-spacing:-.045em;margin:0 0 var(--space-3)}
+.chat-page .empty p{font-size:var(--t-lede);line-height:1.35;max-width:var(--measure);margin:0 auto var(--space-4)}
+.chat-page .empty .empty-note{font-size:var(--t-small);color:var(--muted);margin:var(--space-4) auto 0}
+.chat-page .suggest .chip{min-height:48px;padding:12px 20px;font-size:1rem}
+.composer .send,.composer .mic{top:7px;width:44px;height:44px}
+.composer .mic{right:58px}
+.composer .fine{font-size:.8rem}
+/* The question box floats over the page. A solid band behind it keeps its small print
+   readable, and the page leaves room so the last line can scroll clear of it. */
+.chat-page .composer:before{content:"";position:absolute;left:-100vw;right:-100vw;top:-28px;bottom:-48px;z-index:-1;pointer-events:none;background:linear-gradient(to bottom,transparent,var(--bg) 28px)}
+.chat-page .chat-wrap{padding-bottom:200px}

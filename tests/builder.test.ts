@@ -187,6 +187,9 @@ test("the built permits are seeded, on, and linked to the catalog", async () => 
     from public.application_types t where t.builder order by t.code`));
   assert.deepEqual(types.rows, [
     { code: "x_clearing_grading", noun: "permit", steps: "10", papers: "1", catalog: "clearing-grading-stockpiling-permit-often-with-gepa" },
+    { code: "x_park_reservation", noun: "approval", steps: "5", papers: "0", catalog: "park-or-pavilion-reservation" },
+    { code: "x_repair_permit", noun: "permit", steps: "6", papers: "2", catalog: "building-permit-for-a-repair" },
+    { code: "x_road_work", noun: "permit", steps: "5", papers: "1", catalog: "permit-for-work-in-a-public-road" },
     { code: "x_sanitary_permit_food", noun: "permit", steps: "6", papers: "2", catalog: "sanitary-permit-form-a-new-establishment" },
     { code: "x_temporary_food_event", noun: "permit", steps: "5", papers: "1", catalog: "temporary-food-service-establishment-tfse-sanitary-permit" },
     { code: "x_zone_variance", noun: "approval", steps: "9", papers: "1", catalog: "zone-variance-gluc-form-03" },

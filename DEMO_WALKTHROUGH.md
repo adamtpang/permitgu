@@ -12,9 +12,9 @@ For the call with Dad. Written 2026-11-15. Site: https://permitgu.vercel.app
 
 | # | He asked for | Where to show it | State |
 |---|---|---|---|
-| 1 | Apply across the ~51 agencies | `/permits` (96 permits, 79 agencies listed), then "Track one now" | 6 permits can be started and tracked. More are added in an admin page with no code change |
+| 1 | Apply across the ~51 agencies | `/permits` (99 permits, 79 agencies listed), then "Track one now" | 9 permits can be started and tracked. More are added in an admin page with no code change |
 | 2 | Pizza tracker with an ETA | Any file page: the stage bar, "Where it is now", "Estimated time" | Works. ETA is from sample files, labeled as sample |
-| 3 | Which agencies, which steps | `/apply`, `/apply/business-license`, `/apply/x_zone_variance`: "Who touches it" and "The steps" | Works for the 6 tracked permits |
+| 3 | Which agencies, which steps | `/apply`, `/apply/business-license`, `/apply/x_zone_variance`: "Who touches it" and "The steps" | Works for the 9 tracked permits |
 | 4 | Verbose logging | A file page, "History". Staff: `/admin/audit` | Works. Every action, who, when |
 | 5 | Secure document storage | Upload on a draft. Papers open only for the applicant and the staff on the file, by a link that lasts 60 seconds | Works. Virus scanning is not connected |
 | 6 | Admin panel for agency staff | `/review` (queue, backlog by agency), a file in `/review`, `/admin` | Works |
@@ -34,8 +34,8 @@ For the call with Dad. Written 2026-11-15. Site: https://permitgu.vercel.app
 
 ## What is real and what is sample
 
-- **Real:** the guides, the catalog, the agency list, every step and note on the six trackers, the law and form citations, fees where an agency published one (sanitary permit $568 a year, zone variance $75).
-- **Sample:** the 30 files in the queue, the five sample applicants, the sample reviewers, and every duration. No agency has published step times except two figures we show beside their steps (Historic Preservation: 30-day goal, 37-day measured average. Land Management review committee: a 30-day timeline on one agenda).
+- **Real:** the guides, the catalog, the agency list, every step and note on the nine trackers, the law and form citations, fees where an agency published one (sanitary permit $568 a year, zone variance $75).
+- **Sample:** the 45 files in the queue, the five sample applicants, the sample reviewers, and every duration. No agency has published step times except two figures we show beside their steps (Historic Preservation: 30-day goal, 37-day measured average. Land Management review committee: a 30-day timeline on one agenda).
 - **Assumed, and marked that way on the page:** which house permit steps apply to every house, and that every review step on a built permit opens together.
 
 ## What it does not do yet
@@ -44,11 +44,11 @@ For the call with Dad. Written 2026-11-15. Site: https://permitgu.vercel.app
 - No virus scan on uploads.
 - No payment. Fees are entered by staff and paid in person.
 - Only one real staff account exists (Adam's). Sample reviewers cannot sign in.
-- 6 of 96 cataloged permits are trackable.
+- 9 of 99 cataloged permits are trackable. Four of the nine have a single placeholder review step, because the agency does not publish what happens between filing and issue. Each says so on the page.
 
 ## Questions for him
 
-1. Which permits should come next? The guides already have sourced steps for road and driveway work, park reservations, septic, and typhoon repairs.
+1. Which permits should come next? The guides also cover septic, burning permits, water and power hookups, and alcohol at events, with less published detail.
 2. What should the ETA be based on once real files exist: the tracker's own history, published agency targets, or both side by side as it is now?
 3. Who would pilot it, and who on the government side would use the staff queue?
 4. How should it describe its relationship to the government? Today it says only that agency staff and the incoming administration are invited to correct it.
