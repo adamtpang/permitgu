@@ -31,7 +31,8 @@
       li.setOpen(!li.classList.contains('is-open'));
       syncAll();
     });
-    li.setOpen(index === 0);
+    // A page that starts with a set of choices keeps every step closed until one is picked.
+    li.setOpen(index === 0 && list.getAttribute('data-start') !== 'closed');
   });
 
   // One control to open or close every step.

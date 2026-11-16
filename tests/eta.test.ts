@@ -53,6 +53,11 @@ test("steps are timed, and estimates appear only after three finished files", as
   assert.equal(estimates.rows[0].code, "dlm_zoning");
   assert.equal(estimates.rows[0].samples, 3);
   assert.equal(Number(estimates.rows[0].median_seconds), 4 * 86400);
+  // The same history, asked for one permit at a time: it belongs to the house permit only.
+  const house = await db.query<{ code: string; samples: number }>("select * from public.step_estimates_for('building_permit_residential_one_family')");
+  assert.deepEqual(house.rows.map((row) => [row.code, row.samples]), [["dlm_zoning", 3]]);
+  assert.equal((await db.query("select * from public.step_estimates_for('business_license_new')")).rows.length, 0);
+  assert.equal((await db.query("select * from public.step_estimates_for('x_zone_variance')")).rows.length, 0);
 
   // Reopening clears the decision time and keeps the original start.
   await db.query("update public.application_steps set status = 'in_progress' where id = $1", [steps[0]]);

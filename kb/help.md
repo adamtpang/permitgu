@@ -2,7 +2,7 @@
 
 Topic id: `help`. Page: https://permitgu.vercel.app/help
 
-Where to go in person, how to ask about a permit you already filed, what to do if you are turned down, and who to call.
+Where to go, how to ask about a permit you filed, how to appeal, and who to call.
 
 ## The short version
 

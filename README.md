@@ -1,6 +1,6 @@
 # PermitGU
 
-Unofficial Guam permit guide, plus a tracker for one permit: a private one-family building permit led by the Department of Public Works.
+Unofficial Guam permit guide, plus an unofficial tracker for four permits: a one-family building permit (Public Works), a new business license (Revenue and Taxation), a sanitary permit for a food establishment (Public Health), and a zone variance (Land Management). A super admin can add more at `/admin/permits` with no code change.
 
 This is not a Government of Guam website. It does not use a government seal. It does not take payment. Fees, when a reviewer enters them, are paid in person at the Treasurer of Guam.
 

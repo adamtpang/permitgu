@@ -99,13 +99,28 @@ export function estimateEta(
 
 // Figures an agency or the Public Auditor has published for a step. They are shown
 // beside the step as published, and never mixed into the tracker's own estimate.
-const PUBLISHED: Record<string, { text: string; source: string }> = {
+// A key is "permit code:step code". A bare step code is the house permit, which came first.
+const PUBLISHED: Record<string, { text: string; source: string; label: string }> = {
   historic_preservation: {
     text: "Published: the Historic Preservation Office's goal for a certificate of approval is 30 days. The Public Auditor measured an average of 37 days, with a range of 0 to 205, for fiscal years 2018 to 2023.",
     source: "https://www.opaguam.org/sites/default/files/opa-report-25-05-es.pdf",
+    label: "Public Auditor report 25-05",
+  },
+  "x_zone_variance:s_arc_review": {
+    text: "Published: a Land Management agenda shows the Application Review Committee setting a 30-day timeline once an application is on its agenda. That is one agenda, not a rule.",
+    source: "https://dlm.guam.gov/wp-dlm-content/uploads/2026/08/AUG202026-Final.pdf",
+    label: "Committee agenda, August 20, 2026",
+  },
+  "x_zone_variance:s_notice_sign": {
+    text: "Set by law: the notice sign goes up on the lot within 5 days of filing.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+    label: "21 GCA §61619",
   },
 };
 
-export function publishedTime(stepCode: string) {
+const HOUSE_TYPE = "building_permit_residential_one_family";
+
+export function publishedTime(stepCode: string, typeCode?: string | null) {
+  if (typeCode && typeCode !== HOUSE_TYPE) return PUBLISHED[`${typeCode}:${stepCode}`] ?? null;
   return PUBLISHED[stepCode] ?? null;
 }

@@ -370,3 +370,10 @@ body{font-size:18px}
   .js-guide .steps>li:not(.is-open) .step-body{display:block}
   .is-folded .note-text{display:block}
 }
+/* A page that does several jobs starts with the choice, one card per job. */
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-2);margin:var(--space-4) 0}
+.choices a{display:block;min-height:112px;padding:var(--space-3);border:1px solid var(--line);border-radius:var(--r-card);color:var(--ink);text-decoration:none}
+.choices a:hover{border-color:var(--ink2)}
+.choices small{display:block;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.choices b{display:block;margin-top:8px;font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,3.6vw,2rem);line-height:1.08;letter-spacing:-.025em}
+@media (max-width:520px){.choices{grid-template-columns:1fr}.choices a{min-height:0}}

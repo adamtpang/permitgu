@@ -9,7 +9,7 @@ const brand = Poppins({ subsets: ["latin"], weight: "800", variable: "--font-pop
 
 export const metadata: Metadata = {
   title: { default: "PermitGU", template: "%s | PermitGU" },
-  description: "Unofficial Guam permit guide and a one-family building-permit tracker. Not a Government of Guam website.",
+  description: "Unofficial Guam permit guide and permit tracker. Not a Government of Guam website.",
   icons: { icon: "/favicon-48.png", apple: "/apple-touch-icon.png" },
 };
 

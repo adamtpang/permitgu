@@ -45,7 +45,8 @@ export default async function ApplicationPage({
   // Changes and opens are read separately, so a file that is opened often still shows its full history.
   const { data: events } = await current.supabase.from("audit_log").select("id, action, memo, created_at, actor_role").eq("application_id", id).neq("action", "view_application").order("id", { ascending: false }).limit(60);
   const { data: lastOpen, count: openCount } = await current.supabase.from("audit_log").select("created_at", { count: "exact" }).eq("application_id", id).eq("action", "view_application").order("id", { ascending: false }).limit(1);
-  const { data: estimateRows } = await current.supabase.rpc("step_estimates");
+  // Estimates come only from finished files of this same permit.
+  const { data: estimateRows } = await current.supabase.rpc("step_estimates_for", { p_type_code: type?.code ?? "" });
   const estimates: StepEstimate[] = (estimateRows ?? []).map((row: { code: string; samples: number; median_seconds: number }) => ({
     code: row.code,
     samples: row.samples,
@@ -76,6 +77,8 @@ export default async function ApplicationPage({
     memo: step.memo,
   }));
   const draft = application.status === "draft";
+  // A file that was withdrawn, denied, or expired has no stage to show and nothing to estimate.
+  const stopped = ["withdrawn", "denied", "expired"].includes(application.status);
   const canUpload = draft || application.status === "awaiting_applicant";
   const openRequests = (requests ?? []).filter((request) => !request.response);
   const live = ordered.filter((step) => step.status !== "not_started");
@@ -108,13 +111,15 @@ export default async function ApplicationPage({
 
       {draft ? null : (
         <>
-          <Section>
-            <PizzaTracker status={application.status} pipeline={kind.pipeline} />
-          </Section>
+          {stopped ? null : (
+            <Section>
+              <PizzaTracker status={application.status} pipeline={kind.pipeline} />
+            </Section>
+          )}
           <Section>
             <div className="grid gap-5">
               <CurrentStepBanner steps={trackerSteps} status={application.status} noun={kind.noun} />
-              <EtaCallout eta={eta} noun={kind.noun} />
+              {stopped ? null : <EtaCallout eta={eta} noun={kind.noun} />}
             </div>
           </Section>
         </>
@@ -254,7 +259,7 @@ export default async function ApplicationPage({
             {ordered.map((step) => {
               const workflow = one(step.workflow_steps);
               const agency = one(step.agencies);
-              const published = publishedTime(workflow?.code ?? "");
+              const published = publishedTime(workflow?.code ?? "", type?.code);
               const finished = ["approved", "rejected", "waived", "n_a"].includes(step.status);
               return (
                 <li key={step.id}>
@@ -268,7 +273,7 @@ export default async function ApplicationPage({
                   )}
                   {published ? (
                     <p className="mt-1 text-[0.95rem] text-ink2">
-                      {published.text} <a href={published.source} target="_blank" rel="noopener noreferrer">Public Auditor report 25-05</a>
+                      {published.text} <a href={published.source} target="_blank" rel="noopener noreferrer">{published.label}</a>
                     </p>
                   ) : null}
                   {step.memo ? <p className="mt-2 text-[0.95rem]">Note from the agency: {step.memo}</p> : null}

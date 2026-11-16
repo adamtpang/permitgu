@@ -49,7 +49,7 @@ def route_md(slug, fname):
     if summ:
         head = text(re.search(r'<strong>(.*?)</strong>', summ.group(1), re.S).group(1))
         md += [f'## {head}', ''] + [f'- {text(li)}' for li in re.findall(r'<li>(.*?)</li>', summ.group(1), re.S)] + ['']
-    steps = re.search(r'<ol class="steps">(.*)</ol>', s, re.S).group(1)
+    steps = re.search(r'<ol class="steps"[^>]*>(.*)</ol>', s, re.S).group(1)
     for li in re.split(r'<li>(?=<span class="num">)', steps)[1:]:
         h2 = text(re.search(r'<h2>(.*?)</h2>', li, re.S).group(1))
         num = re.search(r'<span class="num">(.*?)</span>', li)

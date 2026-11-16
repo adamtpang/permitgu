@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy | PermitGU (unofficial demo)</title>
-<meta name="description" content="What the PermitGU guides and the unofficial building-permit tracker collect. Not a Government of Guam website.">
+<meta name="description" content="What the PermitGU guides and the unofficial permit trackers collect. Not a Government of Guam website.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon-48.png" type="image/png">
@@ -32,12 +32,12 @@
 <span class="navlinks"><a class="hide-sm" href="/how-it-works">How it works</a><a class="pill" href="/#all">Browse all</a></span></nav>
 <main class="prose" id="main">
 <h1>Privacy</h1>
-<p>The guides and Ask PermitGU need no account. The building-permit tracker is separate: it stores an account and an application when you sign in. Here is what happens when you visit.</p>
+<p>The guides and Ask PermitGU need no account. The permit trackers are separate: they store an account and an application when you sign in. Here is what happens when you visit.</p>
 <h2>Corrections you send</h2>
 <p>If you send a correction from <a href="/corrections">Help fill this in</a>, PermitGU saves what you typed: the page or topic, the correction, the source link, and a way to reach you if you chose to give one. It is stored in the same Supabase database as the tracker. Only the person who runs PermitGU can read it, after signing in with a password and an authenticator app. It is not published and is not sent to a Government of Guam system. Your network address is used for a moment to limit how many corrections one visitor can send, and is not saved with the correction. If you send nothing, nothing is saved.</p>
-<h2>Building-permit tracker</h2>
-<p>If you start an application, sign-in uses Supabase Auth. Citizens get an email code. Staff use a password and an authenticator app. The application, the steps, and uploaded plans are stored in a Supabase Postgres database and a private storage bucket controlled by this demo, not by the Government of Guam. Nothing in the tracker is sent to a Government of Guam system. Permit GU does not take payments.</p>
-<p>Keep only what a permit file needs: the lot description, ownership, scope, declared valuation, license and seal numbers you type, and the files you upload. A recommended retention period, not an automatic deletion job, is seven years after a final status for the application and files, and ten years for the audit log. Dad or counsel can override that. Do not upload a real ID or a real plan set on this unofficial demo unless you accept that it sits in the project owner's Supabase project.</p>
+<h2>Permit trackers</h2>
+<p>If you start an application, sign-in uses Supabase Auth. Applicants get an email link. Staff use a password and an authenticator app. The application, the steps, and uploaded plans are stored in a Supabase Postgres database and a private storage bucket controlled by this demo, not by the Government of Guam. Nothing in the tracker is sent to a Government of Guam system. Permit GU does not take payments.</p>
+<p>Keep only what a permit file needs: the answers a permit asks for (such as the lot, the business name, or the scope), license and seal numbers you type, and the files you upload. A recommended retention period, not an automatic deletion job, is seven years after a final status for the application and files, and ten years for the audit log. The project owner or counsel can change that. Discarding a draft removes its uploaded files right away. Do not upload a real ID or a real plan set on this unofficial demo unless you accept that it sits in the project owner's Supabase project.</p>
 <h2>What we count</h2>
 <p>We use PostHog for basic usage statistics: page visits, page exits, answer topics and models, errors, and helpfulness ratings. We do not include your question text or your corrections in analytics events. PostHog may receive browser information and an IP address and use a browser identifier. Session recording, surveys, and automatic click tracking are turned off. The tracker account is not sent to PostHog.</p>
 <h2>Questions you ask</h2>
