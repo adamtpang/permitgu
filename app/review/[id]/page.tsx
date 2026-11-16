@@ -99,6 +99,7 @@ export default async function ReviewDetailPage({
         <h1 className="display-sm mt-3">{fileTitle(type?.code, application, built)}</h1>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <StatusBadge status={application.status} />
+          {application.is_sample ? <span className="rounded-full border border-warnline bg-warn px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-ink">Sample file</span> : null}
           {application.is_test ? <span className="rounded-full border border-warnline bg-warn px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-ink">Test file</span> : null}
           {application.permit_number ? <span className="text-[0.95rem] text-ink2">Demo number {application.permit_number}</span> : null}
         </div>
@@ -227,16 +228,20 @@ export default async function ReviewDetailPage({
             {(documents ?? []).map((document) => (
               <li key={document.id} className="flex flex-wrap items-center justify-between gap-3">
                 <span>{kind.documents.find((entry) => entry.code === document.kind)?.name ?? "Other"}: {document.file_name}</span>
-                <form action={downloadDocument}>
-                  <input type="hidden" name="application_id" value={id} />
-                  <input type="hidden" name="document_id" value={document.id} />
-                  <input type="hidden" name="return_to" value={back} />
-                  <Button type="submit" variant="outline" className="min-h-[44px] px-5">Open</Button>
-                </form>
+                {application.is_sample ? null : (
+                  <form action={downloadDocument}>
+                    <input type="hidden" name="application_id" value={id} />
+                    <input type="hidden" name="document_id" value={document.id} />
+                    <input type="hidden" name="return_to" value={back} />
+                    <Button type="submit" variant="outline" className="min-h-[44px] px-5">Open</Button>
+                  </form>
+                )}
               </li>
             ))}
           </ul>
-          {(documents ?? []).length ? <p className="mt-3 text-[0.95rem] text-ink2">Opening a paper is logged. The link works for 60 seconds.</p> : <p className="text-ink2">Nothing uploaded.</p>}
+          {application.is_sample ? (
+            <p className="mt-3 text-[0.95rem] text-ink2">A sample file lists its papers by name only. There is no upload behind them to open.</p>
+          ) : (documents ?? []).length ? <p className="mt-3 text-[0.95rem] text-ink2">Opening a paper is logged. The link works for 60 seconds.</p> : <p className="text-ink2">Nothing uploaded.</p>}
         </Fold>
 
         {elsewhere.length ? (

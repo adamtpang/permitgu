@@ -2,7 +2,8 @@
 // (see supabase/migrations/20261113230000_step_eta.sql). No agency has published
 // timelines for these steps, so a step with too little history has no estimate.
 
-export type StepEstimate = { code: string; samples: number; medianSeconds: number };
+// sampleFiles is how many of the finished files behind an estimate are made-up sample files.
+export type StepEstimate = { code: string; samples: number; medianSeconds: number; sampleFiles?: number };
 
 export type EtaStep = {
   code: string;
@@ -42,6 +43,9 @@ export function formatDuration(seconds: number) {
 
 export function stepEstimateLabel(estimate: StepEstimate | undefined) {
   if (!estimate) return "No estimate yet. Too few finished files on this tracker.";
+  if (estimate.sampleFiles) {
+    return `Sample data: ${formatDuration(estimate.medianSeconds)}, from ${estimate.samples} finished files, ${estimate.sampleFiles === estimate.samples ? "all" : estimate.sampleFiles} of them made-up samples. Not a real agency time.`;
+  }
   return `Usually ${formatDuration(estimate.medianSeconds)}, from ${estimate.samples} finished files on this tracker.`;
 }
 

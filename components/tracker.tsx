@@ -63,13 +63,18 @@ export function PizzaTracker({ status, pipeline = PIPELINE }: { status: Applicat
   );
 }
 
-export function EtaCallout({ eta, noun = "permit" }: { eta: Eta; noun?: string }) {
+export function EtaCallout({ eta, noun = "permit", sample = false }: { eta: Eta; noun?: string; sample?: boolean }) {
   if (eta.kind === "done") return null;
   return (
     <section className="rounded-3xl border border-line p-5" aria-label="Estimated time">
       <h2 className="font-serif text-3xl font-normal">Estimated time to {noun}</h2>
       {eta.kind === "estimate" ? (
         <>
+          {sample ? (
+            <p className="mt-3 rounded-2xl border border-warnline bg-warn px-4 py-3 text-[0.95rem] text-ink">
+              <strong>Sample data.</strong> This estimate is built from made-up sample files, so the demo has something to show. It is not a real agency time.
+            </p>
+          ) : null}
           <p className="mt-2 text-lg text-ink">
             {eta.remainingSeconds === 0
               ? "Due any time now."

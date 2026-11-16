@@ -47,15 +47,17 @@ export default async function ReviewPage({
 
   let request = current.supabase
     .from("application_steps")
-    .select(`id, status, assignee_id, updated_at, agencies(code, acronym, name), workflow_steps(name), applications(id, lot, details, status, permit_number, is_test, ${TYPE_EMBED}, profiles!applications_applicant_id_fkey(full_name))`)
+    .select(`id, status, assignee_id, updated_at, agencies(code, acronym, name), workflow_steps(name), applications(id, lot, details, status, permit_number, is_test, is_sample, ${TYPE_EMBED}, profiles!applications_applicant_id_fkey(full_name))`)
     .neq("status", "not_started");
   if (!current.isSuper) request = request.in("agency_id", current.agencyIds.length ? current.agencyIds : ["00000000-0000-0000-0000-000000000000"]);
   const { data } = await request;
   const tests = new Set<string>();
+  const samples = new Set<string>();
   const items: QueueItem[] = (data ?? []).map((step) => {
     const application = one(step.applications);
     const type = one<{ code: string; name: string }>(application?.application_types as { code: string; name: string } | { code: string; name: string }[] | null);
     if (application?.is_test) tests.add(step.id);
+    if (application?.is_sample) samples.add(step.id);
     return {
       id: step.id,
       applicationId: application?.id ?? "",
@@ -125,7 +127,7 @@ export default async function ReviewPage({
                 <Link className="block rounded-[32px] border border-line p-6 text-ink no-underline transition hover:border-ink2" href={`/review/${item.applicationId}`}>
                   <span className="text-xs font-semibold uppercase tracking-wider text-muted">
                     {item.agencyCode.toUpperCase()} · {item.permitName || item.permitType}
-                    {tests.has(item.id) ? " · test file" : ""}
+                    {samples.has(item.id) ? " · sample file" : tests.has(item.id) ? " · test file" : ""}
                   </span>
                   <span className="mt-2 flex flex-wrap items-center justify-between gap-3">
                     <span className="font-serif text-[clamp(1.5rem,3.4vw,2rem)] leading-[1.1] tracking-[-0.02em]">{item.stepName}</span>
@@ -213,7 +215,7 @@ export default async function ReviewPage({
             ))}
           </ul>
           <p className="mt-4 max-w-[38rem] text-[0.95rem] text-muted">
-            A wait is counted from the last time the step changed. Test files are included here and marked in the list above.
+            A wait is counted from the last time the step changed. Sample and test files are included here and marked in the list above.
           </p>
         </Section>
       ) : null}

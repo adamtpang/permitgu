@@ -558,6 +558,13 @@ export async function addPermit(formData: FormData) {
   });
 }
 
+export async function retireSampleFiles() {
+  const supabase = await staffClient();
+  const { error } = await supabase.rpc("retire_sample_files");
+  if (error) redirect(`/admin?error=${encodeURIComponent(error.message)}`);
+  redirect("/admin?done=samples_retired");
+}
+
 export async function setTestFile(formData: FormData) {
   const id = String(formData.get("application_id") ?? "");
   const on = formData.get("is_test") === "true";

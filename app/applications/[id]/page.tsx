@@ -47,9 +47,10 @@ export default async function ApplicationPage({
   const { data: lastOpen, count: openCount } = await current.supabase.from("audit_log").select("created_at", { count: "exact" }).eq("application_id", id).eq("action", "view_application").order("id", { ascending: false }).limit(1);
   // Estimates come only from finished files of this same permit.
   const { data: estimateRows } = await current.supabase.rpc("step_estimates_for", { p_type_code: type?.code ?? "" });
-  const estimates: StepEstimate[] = (estimateRows ?? []).map((row: { code: string; samples: number; median_seconds: number }) => ({
+  const estimates: StepEstimate[] = (estimateRows ?? []).map((row: { code: string; samples: number; median_seconds: number; sample_files?: number }) => ({
     code: row.code,
     samples: row.samples,
+    sampleFiles: row.sample_files ?? 0,
     medianSeconds: Number(row.median_seconds),
   }));
   const estimateByCode = new Map(estimates.map((estimate) => [estimate.code, estimate]));
@@ -103,6 +104,7 @@ export default async function ApplicationPage({
     <div>
       <PageHero eyebrow={`Unofficial file · ${kind.typeName}`} title={fileTitle(type?.code, application, built)} lede={place}>
         <StatusBadge status={application.status} />
+        {application.is_sample ? <span className="rounded-full border border-warnline bg-warn px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-ink">Sample file</span> : null}
         {application.is_test ? <span className="rounded-full border border-warnline bg-warn px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-ink">Test file</span> : null}
         {application.permit_number ? <span className="text-[0.95rem] text-ink2">Demo number {application.permit_number}. {kind.numberNote}</span> : null}
       </PageHero>
@@ -119,7 +121,7 @@ export default async function ApplicationPage({
           <Section>
             <div className="grid gap-5">
               <CurrentStepBanner steps={trackerSteps} status={application.status} noun={kind.noun} />
-              {stopped ? null : <EtaCallout eta={eta} noun={kind.noun} />}
+              {stopped ? null : <EtaCallout eta={eta} noun={kind.noun} sample={estimates.some((estimate) => estimate.sampleFiles)} />}
             </div>
           </Section>
         </>

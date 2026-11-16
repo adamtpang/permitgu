@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { addPermit, grantMembership, revokeMembership, updateTypeStep } from "@/lib/actions";
+import { addPermit, grantMembership, retireSampleFiles, revokeMembership, updateTypeStep } from "@/lib/actions";
 import { InviteForm } from "@/components/invite-form";
 import { ActionCard, ErrorNotice, Fold, Glance, Notice, PageHero, Section } from "@/components/layout";
 import { SetupNotice } from "@/components/shell";
@@ -59,6 +59,8 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
     .select("code, name, phase, routing, uncertainty, sort_order, agencies(acronym), application_types(code, name, builder, active)")
     .order("sort_order");
   const members = await current.supabase.from("memberships").select("id, role, profiles(full_name, email), agencies(acronym)").neq("role", "citizen");
+
+  const { count: sampleCount } = await current.supabase.from("applications").select("id", { count: "exact", head: true }).eq("is_sample", true).eq("is_test", false);
 
   // Steps grouped by the permit they belong to, built-in permits first.
   type TypeInfo = { code: string; name: string; builder: boolean; active: boolean };
@@ -215,6 +217,19 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
               <div><Label htmlFor="cat-source">Official link</Label><Input id="cat-source" name="source" type="url" placeholder="https://" /></div>
               <label className="flex items-center gap-3 text-[0.95rem]"><input type="checkbox" name="unverified" defaultChecked /> Not yet confirmed</label>
               <Button type="submit" variant="outline" className="min-h-[48px] w-fit px-6 text-base">Add to catalog</Button>
+            </form>
+          </Fold>
+        </Section>
+      ) : null}
+
+      {current.isSuper && sampleCount ? (
+        <Section title="Sample data" lede={`${sampleCount} made-up sample files feed the time estimates and fill the queue, so the demo has something to show.`}>
+          <Fold title="Stop using sample files">
+            <form action={retireSampleFiles} className="grid max-w-2xl gap-3">
+              <p className="text-[0.95rem] text-ink2">
+                Do this when real files take over. The sample files stay in the record, marked as test files, and estimates stop counting them. Until real files finish, estimates will say there is not enough history. This cannot be undone from this page.
+              </p>
+              <Button type="submit" variant="outline" className="min-h-[48px] w-fit px-6 text-base">Stop using sample files</Button>
             </form>
           </Fold>
         </Section>
