@@ -82,6 +82,8 @@ export default async function ReviewDetailPage({
   const canAssign = (step: (typeof ordered)[number]) =>
     runs || current.staff.some((member) => member.role === "agency_admin" && member.agency_id === step.agency_id);
   const feeDue = status === "fees_due";
+  // More agencies can only join while the file is still being reviewed.
+  const canRoute = runs && ["submitted", "intake", "plan_review", "clearances_in_progress", "awaiting_applicant"].includes(status);
   const canDeny = canTransitionApplication(status, "denied");
   const canExpire = canTransitionApplication(status, "expired");
 
@@ -159,7 +161,7 @@ export default async function ReviewDetailPage({
       </Section>
 
       {runs && (feeDue || application.fees_due_cents != null) ? (
-        <Section title={feeDue ? "Fee and issue" : "Fee"}>
+        <Section title={feeDue ? "Fee and issue" : undefined}>
           <div className="grid gap-6">
             <FeeCallout cents={application.fees_due_cents} paid={Boolean(application.fees_paid_at)} where={kind.feeWhere} lead={kind.leadName} />
             {feeDue && application.fees_due_cents == null ? (
@@ -228,7 +230,7 @@ export default async function ReviewDetailPage({
           </Fold>
         ) : null}
 
-        {runs && unrouted.length ? (
+        {canRoute && unrouted.length ? (
           <Fold title="Route another agency" note={`${unrouted.length} not started`}>
             <ol className="grid gap-6">
               {unrouted.map((step) => {
