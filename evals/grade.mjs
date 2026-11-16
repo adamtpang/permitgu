@@ -24,7 +24,7 @@ export function grade(question, result) {
       return host !== 'permitgu.vercel.app' && (host.endsWith('.gov') || agencyDomains.some((domain) => host === domain || host.endsWith('.' + domain)) || host === 'web.archive.org' || host === 'archive.org');
     } catch { return false; }
   };
-  const refuses = /(only help with|don't have (a )?(verified|confirmed)|do not have (a )?(verified|confirmed)|not (yet )?confirmed|no confirmed|not specified|check (with )?the official|confirm.{0,60}with|ask (DPW|the agency|DEH|each site owner))/i.test(result.text);
+  const refuses = /(only help with|don't have (a )?(verified|confirmed)|do not have (a )?(verified|confirmed)|not (yet )?confirmed|no confirmed|not specified|check (with )?the official|confirm.{0,60}with|(ask|call|contact|email) (DPW|the agency|DEH|DLM|DPHSS|DPR|GFD|Guam EPA|Rev (and|&) Tax|Public Works|Public Health|Land Management|each site owner))/i.test(result.text);
   const checks = {
     status: result.status === 200,
     complete: result.complete === true && result.errors.length === 0,
