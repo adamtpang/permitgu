@@ -26,6 +26,8 @@ export default async function ApplicationsPage({ searchParams }: { searchParams:
   const { data } = await current.supabase
     .from("applications")
     .select(`id, status, lot, tract, block, details, created_at, permit_number, ${TYPE_EMBED}`)
+    // Staff can read other people's files. This page is only the ones this person started.
+    .eq("applicant_id", current.user.id)
     .order("created_at", { ascending: false });
   const all = data ?? [];
   // Files the applicant closed themselves sit below the ones still moving.
