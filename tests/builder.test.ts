@@ -130,8 +130,19 @@ test("a super admin builds a permit, and a file runs through it to issued", asyn
   // The lead agency sees it. Fire does not, until it is routed a step.
   assert.equal((await as(db, DPHSS, "aal2", () => db.query("select id from public.applications"))).rows.length, 1);
   assert.equal((await as(db, GFD, "aal2", () => db.query("select id from public.applications"))).rows.length, 0);
+  // Nothing new for the applicant until the agency acts.
+  const updates = () => as(db, CITIZEN, "aal1", () => db.query<{ unread: number; last_action: string }>("select unread, last_action from public.my_file_updates()"));
+  assert.equal((await updates()).rows.length, 0);
   await approve(DPHSS, "intake");
   assert.equal(await status(), "clearances_in_progress");
+  const fresh = await updates();
+  assert.equal(fresh.rows.length, 1);
+  assert.equal(fresh.rows[0].unread, 1, "the approval. Starting a review is staff-only.");
+  assert.equal(fresh.rows[0].last_action, "review_step");
+  assert.equal((await as(db, OTHER, "aal1", () => db.query("select * from public.my_file_updates()"))).rows.length, 0, "only the owner is told");
+  // Opening the tracker clears them.
+  await as(db, CITIZEN, "aal1", () => db.query(`select public.record_event('${id}', 'view_application', 'application', '${id}', 'Opened the tracker', null, null)`));
+  assert.equal((await updates()).rows.length, 0);
   assert.equal((await step("s_pre_operational_inspection")).status, "queued");
   assert.equal((await step("s_fire_clearance")).status, "not_started");
   await approve(DPHSS, "s_pre_operational_inspection");
@@ -143,6 +154,16 @@ test("a super admin builds a permit, and a file runs through it to issued", asyn
   assert.equal(await status(), "issued");
   assert.equal((await step("issue")).status, "approved");
 
+  // The admin step editor reaches any permit now, and keeps intake, fee, and issue steps on every file.
+  await admin(`select public.update_type_step('${code}', 's_fire_clearance', 'default_routed', 'Now assumed for every stand. Not confirmed.')`);
+  await assert.rejects(admin(`select public.update_type_step('${code}', 'intake', 'as_indicated', null)`), /fixed_step/);
+  await assert.rejects(admin(`select public.update_type_step('${code}', 's_fire_clearance', 'gated', null)`), /bad_routing/);
+  await admin(`select public.update_type_step('business_license_new', 'bl_gfd', 'default_routed', 'Changed in a test.')`);
+  await admin(`select public.update_type_step('${code}', 'fee_assessment', 'always', 'Only the note changed.')`);
+  await assert.rejects(as(db, DPHSS, "aal2", () => db.query(`select public.update_type_step('${code}', 's_fire_clearance', 'always', null)`)), /not_authorized/);
+  const houseFee = await db.query<{ uncertainty: string }>("select w.uncertainty from public.workflow_steps w join public.application_types t on t.id = w.application_type_id where t.code = 'building_permit_residential_one_family' and w.code = 'fee_assessment'");
+  assert.notEqual(houseFee.rows[0].uncertainty, "Only the note changed.", "another permit's step with the same code is untouched");
+
   // A step or paper a file already uses cannot be pulled out from under it.
   await assert.rejects(admin(`select public.remove_type_step('${code}', 's_fire_clearance')`), /step_in_use/);
   await assert.rejects(admin(`select public.remove_type_document('${code}', 'floor_plan')`), /document_in_use/);
@@ -151,7 +172,7 @@ test("a super admin builds a permit, and a file runs through it to issued", asyn
   await assert.rejects(as(db, OTHER, "aal1", () => db.query(`select public.create_builder_draft('${code}', '{}'::jsonb, false, '')`)), /not_found/);
   assert.equal(await status(), "issued");
   // Every builder change is in the audit log.
-  const logged = await db.query<{ n: string }>("select count(*)::text as n from public.audit_log where entity = 'application_type'");
+  const logged = await db.query<{ n: string }>("select count(*)::text as n from public.audit_log where entity = 'application_type' and action <> 'link_type_catalog'");
   // 1 create, 5 question changes, 4 step changes, 1 paper, 2 switches.
   assert.equal(logged.rows[0].n, "13");
 });

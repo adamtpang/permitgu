@@ -18,7 +18,11 @@ export default async function StaffSignInPage({ searchParams }: { searchParams: 
       ) : null}
       {isSupabaseConfigured() ? <StaffSignIn /> : <SetupNotice />}
       <ul className="grid gap-2 text-[0.95rem] text-ink2">
-        <li>No password yet? Sign in with your email link, then <Link href="/staff/set-password">set a staff password</Link>.</li>
+        <li>
+          Forgot your password, or never set one? <Link href="/sign-in?next=/staff/set-password">Sign in with an email link</Link>, then set a new one.
+          You will need a code from your authenticator app.
+        </li>
+        <li>Lost the authenticator app too? Ask a super admin. Nobody can reset it from this page.</li>
         <li>Applying for a permit? <Link href="/sign-in">Use the email link sign-in</Link>.</li>
         <li>This is not a Government of Guam login.</li>
       </ul>

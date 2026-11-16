@@ -3,7 +3,7 @@ import fs from "node:fs";
 import test from "node:test";
 import { staffAccessDecision } from "./access";
 import { filterAudit } from "./audit-view";
-import { filterQueue, type QueueItem } from "./queue";
+import { backlog, filterQueue, waitingDays, waitingLabel, type QueueItem } from "./queue";
 import { agencyRollup, currentStep, type TrackerStep, fileHeadline, splitTimeline, timelineLabel } from "./tracker-model";
 import { noticeText, staffNotice, withNotice } from "./notices";
 
@@ -74,6 +74,30 @@ test("the staff queue filters by status, agency, assignee, age, and search", () 
   assert.equal(filterQueue(queue, { olderThanDays: 30, now: "2026-11-10T00:00:00.000Z" }).length, 1);
   assert.equal(filterQueue(queue, { q: "demo-2026" })[0].id, "s2");
   assert.equal(filterQueue(queue, { permitType: "business_license" }).length, 0);
+  const more = [...queue, { ...queue[1], id: "s3", status: "approved" }];
+  assert.equal(filterQueue(more, { status: "open" }).length, 2, "open leaves finished steps out");
+  assert.equal(filterQueue(more, { status: "all" }).length, 3);
+});
+
+test("the backlog counts what is open at each agency and how long the oldest has waited", () => {
+  const now = new Date("2026-11-10T00:00:00.000Z").getTime();
+  const rows = backlog(
+    [
+      ...queue,
+      { ...queue[1], id: "s3", status: "info_requested" },
+      { ...queue[1], id: "s4", status: "approved" },
+      { ...queue[0], id: "s5", updatedAt: "2026-11-08T00:00:00.000Z" },
+    ],
+    now,
+  );
+  assert.deepEqual(rows, [
+    { agency: "gwa", open: 2, onApplicant: 0, oldestDays: 40 },
+    { agency: "dpw", open: 1, onApplicant: 1, oldestDays: 1 },
+  ]);
+  assert.equal(waitingDays("2026-11-09T12:00:00.000Z", now), 0);
+  assert.equal(waitingLabel(0), "Moved today");
+  assert.equal(waitingLabel(1), "Waiting 1 day");
+  assert.equal(waitingLabel(40), "Waiting 40 days");
 });
 
 test("the committed seed does not contain a demo password", () => {

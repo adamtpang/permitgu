@@ -13,12 +13,12 @@ export default async function SetPasswordPage() {
     <div className="grid max-w-xl gap-6">
       <h1 className="display pt-10">Set a staff password</h1>
       <p className="text-ink2">
-        Staff sign-in needs a password and an authenticator app. An account that was opened with an email link has no
-        password yet. Set one here, then sign in as staff. This is not a Government of Guam login.
+        Staff sign-in needs a password and an authenticator app. Set a first password here, or replace one you forgot,
+        then sign in as staff. This is not a Government of Guam login.
       </p>
       {!signedIn ? (
         <p>
-          First <Link href="/sign-in">sign in with your email link</Link>, then come back to this page.
+          First <Link href="/sign-in?next=/staff/set-password">sign in with your email link</Link>. It brings you back to this page.
         </p>
       ) : !("staff" in current) || current.staff.length === 0 ? (
         <p>

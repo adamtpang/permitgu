@@ -8,6 +8,7 @@ const NOTICES: Record<string, string> = {
   note: "Note added.",
   replied: "Reply sent. The agency can pick the file back up.",
   withdrawn: "Application withdrawn.",
+  discarded: "Draft discarded. Its uploaded papers were removed.",
   started: "Step started. It now shows as in review.",
   approved: "Step approved.",
   rejected: "Step rejected. The file does not move forward.",
@@ -28,7 +29,11 @@ const NOTICES: Record<string, string> = {
   field_removed: "Question removed.",
   paper_added: "Paper added to the list.",
   paper_removed: "Paper removed from the list.",
-  catalog_linked: "Catalog link saved.",
+  step_saved: "Step saved.",
+  role_granted: "Role granted.",
+  role_removed: "Role removed.",
+  catalog_added: "Added to the catalog.",
+  catalog_linked:"Catalog link saved.",
   type_on:"Switched on. People can now start this permit.",
   type_off: "Switched off. No new files can be started or submitted. Files already submitted keep going.",
   test_on:"Marked as a test file. Its timings no longer count toward estimates.",
@@ -57,6 +62,10 @@ export function staffNotice(rpc: string, status?: string) {
     expire_application: "expired",
     reopen_step: "reopened",
     assign_step: "assigned",
+    update_type_step: "step_saved",
+    grant_membership: "role_granted",
+    revoke_membership: "role_removed",
+    add_permit_catalog: "catalog_added",
   };
   return byFunction[rpc] ?? null;
 }

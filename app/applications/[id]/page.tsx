@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { addComment, downloadDocument, respondToInfo, saveBuiltDraft, saveDraft, saveLicenseDraft, submitDraft, uploadDocument, withdraw } from "@/lib/actions";
+import { addComment, discardDraft, downloadDocument, respondToInfo, saveBuiltDraft, saveDraft, saveLicenseDraft, submitDraft, uploadDocument, withdraw } from "@/lib/actions";
 import { ErrorNotice, Fold, Notice, PageHero, Section } from "@/components/layout";
 import { BuiltFields } from "@/components/builder-form";
 import { LicenseFields } from "@/components/license-form";
@@ -181,14 +181,27 @@ export default async function ApplicationPage({
               <DraftField name="tract" label="Tract" value={application.tract} />
               <DraftField name="block" label="Block" value={application.block} />
               <DraftField name="zoning_district" label="Zoning district" value={application.zoning_district} />
-              <DraftField name="ownership" label="Who is applying: owner, lessee, or authorized_agent" value={application.ownership ?? "owner"} />
+              <div>
+                <Label htmlFor="ownership">Who is applying</Label>
+                <select id="ownership" name="ownership" className="w-full rounded-2xl border border-line bg-paper px-4 py-3" defaultValue={application.ownership ?? "owner"}>
+                  <option value="owner">Owner</option>
+                  <option value="lessee">Lessee</option>
+                  <option value="authorized_agent">Authorized agent</option>
+                </select>
+              </div>
               <DraftField name="owner_name" label="Owner name, if you are an agent" value={application.owner_name} />
               <div>
                 <Label htmlFor="scope">Scope</Label>
                 <Textarea id="scope" name="scope" rows={3} defaultValue={application.scope ?? ""} />
               </div>
               <DraftField name="valuation" label="Declared construction valuation, dollars (optional)" value={application.valuation_cents == null ? "" : (application.valuation_cents / 100).toFixed(2)} />
-              <DraftField name="water_supply" label="Water supply: public or private_well" value={application.water_supply} />
+              <div>
+                <Label htmlFor="water_supply">Water supply</Label>
+                <select id="water_supply" name="water_supply" className="w-full rounded-2xl border border-line bg-paper px-4 py-3" defaultValue={application.water_supply ?? "public"}>
+                  <option value="public">Public water</option>
+                  <option value="private_well">Private well</option>
+                </select>
+              </div>
               <DraftField name="contractor_license" label="Contractor license number" value={application.contractor_license} />
               <DraftField name="architect_seal" label="Architect seal number, if you have one" value={application.architect_seal} />
               <DraftField name="engineer_seal" label="Engineer seal number, if you have one" value={application.engineer_seal} />
@@ -341,7 +354,15 @@ export default async function ApplicationPage({
           <p className="mt-6 text-[0.95rem] text-muted">Declared valuation {formatCents(application.valuation_cents)}. Not a fee.</p>
         ) : null}
 
-        {!["occupancy_issued", "issued", "denied", "withdrawn", "expired"].includes(application.status) ? (
+        {draft ? (
+          <Fold title="Discard this draft">
+            <form action={discardDraft} className="grid max-w-md gap-3">
+              <input type="hidden" name="application_id" value={id} />
+              <p className="text-[0.95rem] text-ink2">Nothing was sent to an agency. Discarding removes the papers you uploaded and closes the draft. It cannot be reopened.</p>
+              <Button type="submit" variant="outline" className="min-h-[44px] w-fit px-5">Discard draft</Button>
+            </form>
+          </Fold>
+        ) : !["occupancy_issued", "issued", "denied", "withdrawn", "expired"].includes(application.status) ? (
           <Fold title="Withdraw this application">
             <form action={withdraw} className="grid max-w-md gap-3">
               <input type="hidden" name="application_id" value={id} />

@@ -1,124 +1,225 @@
 import Link from "next/link";
-import { addPermit, grantMembership, revokeMembership, updateWorkflow } from "@/lib/actions";
+import { addPermit, grantMembership, revokeMembership, updateTypeStep } from "@/lib/actions";
 import { InviteForm } from "@/components/invite-form";
+import { ActionCard, ErrorNotice, Fold, Glance, Notice, PageHero, Section } from "@/components/layout";
 import { SetupNotice } from "@/components/shell";
-import { Button, Input, Textarea } from "@/components/ui";
+import { Button, Input, Label, Textarea } from "@/components/ui";
+import { noticeText } from "@/lib/notices";
 import { OPEN_QUESTIONS, STEPS } from "@/lib/template";
 import { one, staffSession } from "@/lib/session";
 
 export const metadata = { title: "Admin" };
 
-export default async function AdminPage({ searchParams }: { searchParams: Promise<{ error?: string; notice?: string }> }) {
+const HOUSE = "building_permit_residential_one_family";
+const ROUTING_LABEL: Record<string, string> = {
+  always: "Every file",
+  default_routed: "Every file, assumed (not confirmed)",
+  as_indicated: "Only when a reviewer adds it",
+  gated: "Only after an earlier step",
+  provisional: "Every file, list not confirmed",
+};
+const FIXED_PHASES = ["intake", "fees", "issuance", "occupancy"];
+const ERRORS: Record<string, string> = {
+  fixed_step: "Intake, fee, and issue steps run on every file. Only the note can change.",
+  bad_routing: "That choice is not available for this permit.",
+  not_authorized: "Only a super admin can change this.",
+  too_long: "The note is too long. Keep it under 600 characters.",
+};
+const select = "w-full rounded-2xl border border-line bg-paper px-4 py-3";
+
+export default async function AdminPage({ searchParams }: { searchParams: Promise<{ error?: string; done?: string }> }) {
   const query = await searchParams;
   const current = await staffSession();
   if (!current.configured) {
     return (
-      <div className="grid gap-6">
-        <h1 className="display-sm pt-6">Admin</h1>
+      <div>
+        <PageHero eyebrow="Staff" title="Admin." lede="The database is not connected, so only the bundled template is shown." />
         <SetupNotice />
+        <Section title="Template, from the public record">
+          <ul className="grid gap-3">
+            {STEPS.map((step) => (
+              <li key={step.code}>
+                <span className="font-medium">{step.name}</span>
+                <span className="text-muted"> · {ROUTING_LABEL[step.routing] ?? step.routing}</span>
+                {step.uncertainty ? <p className="mt-1 max-w-[38rem] text-[0.95rem] text-ink2">{step.uncertainty}</p> : null}
+              </li>
+            ))}
+          </ul>
+        </Section>
         <QuestionList />
-        <TemplateList />
       </div>
     );
   }
   if (!("user" in current) || !current.user) return <p><Link href="/staff/sign-in">Staff sign-in</Link></p>;
-  if (current.aal !== "aal2" || !current.staff.length) return <p>Admin tools need a staff role and an authenticator app.</p>;
+  if (!("staff" in current) || current.aal !== "aal2" || !current.staff.length) return <p>Admin tools need a staff role and an authenticator app.</p>;
 
-  const agencies = await current.supabase.from("agencies").select("id, code, acronym, name").order("acronym");
-  const steps = await current.supabase.from("workflow_steps").select("code, name, routing, uncertainty, sort_order, agencies(acronym)").order("sort_order");
+  const agencies = await current.supabase.from("agencies").select("id, code, acronym, name").order("name");
+  const steps = await current.supabase
+    .from("workflow_steps")
+    .select("code, name, phase, routing, uncertainty, sort_order, agencies(acronym), application_types(code, name, builder, active)")
+    .order("sort_order");
   const members = await current.supabase.from("memberships").select("id, role, profiles(full_name, email), agencies(acronym)").neq("role", "citizen");
-  const audit = current.isSuper
-    ? await current.supabase.from("audit_log").select("id, action, memo, created_at, visibility").order("id", { ascending: false }).limit(25)
-    : { data: [] };
+
+  // Steps grouped by the permit they belong to, built-in permits first.
+  type TypeInfo = { code: string; name: string; builder: boolean; active: boolean };
+  const groups = new Map<string, { type: TypeInfo; steps: NonNullable<typeof steps.data> }>();
+  for (const step of steps.data ?? []) {
+    const type = one<TypeInfo>(step.application_types as TypeInfo | TypeInfo[] | null);
+    if (!type) continue;
+    if (!groups.has(type.code)) groups.set(type.code, { type, steps: [] });
+    groups.get(type.code)!.steps.push(step);
+  }
+  const permits = [...groups.values()].sort((a, b) => Number(a.type.builder) - Number(b.type.builder) || a.type.name.localeCompare(b.type.name));
+  const error = query.error ? ERRORS[query.error.split(":")[0].trim()] ?? query.error : undefined;
 
   return (
-    <div className="grid gap-8">
-      <h1 className="display-sm pt-6">Admin</h1>
-      {query.error ? <p className="text-sm text-bad" role="alert">{query.error}</p> : null}
-      {query.notice ? <p className="text-sm text-ink2" role="status">{query.notice}</p> : null}
-      <p className="max-w-2xl text-ink2">
-        Routing changes what this demo queues. They do not create a new legal requirement. Keep the uncertainty note when a step is still unconfirmed.
-        {current.isSuper ? <> <Link href="/admin/audit">Open the audit log</Link>. <Link href="/admin/contributions">Open the corrections inbox</Link>. <Link href="/admin/permits">Open the permit builder</Link>.</> : null}
-      </p>
-      <section className="grid gap-3">
-        <h2 className="font-serif text-3xl font-normal">Workflow template</h2>
+    <div>
+      <PageHero eyebrow="Staff" title="Admin." lede="Permits, their steps, and who can review them." />
+      <Notice text={noticeText(query.done)} />
+      <ErrorNotice text={error} />
+
+      <Section>
+        <Glance
+          facts={[
+            { value: permits.length, label: "tracked permits" },
+            { value: (steps.data ?? []).length, label: "steps across them" },
+            { value: (members.data ?? []).length, label: (members.data ?? []).length === 1 ? "staff role" : "staff roles" },
+            { value: (agencies.data ?? []).length, label: "agencies listed" },
+          ]}
+        />
+      </Section>
+
+      {current.isSuper ? (
+        <Section>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <ActionCard href="/admin/permits" label="No code change" title="Permit builder">Add a permit people can track.</ActionCard>
+            <ActionCard href="/admin/contributions" label="From the public" title="Corrections">Read what people sent in.</ActionCard>
+            <ActionCard href="/admin/audit" label="Every action" title="Audit log">Search and export the record.</ActionCard>
+          </div>
+        </Section>
+      ) : null}
+
+      <Section title="Steps" lede="Changing a step changes what this demo queues. It does not create a legal requirement. Keep the note honest when a step is not confirmed.">
+        {permits.map(({ type, steps: list }) => (
+          <Fold key={type.code} title={type.name} note={`${list.length} ${list.length === 1 ? "step" : "steps"}${type.builder && !type.active ? " · off" : ""}`}>
+            {type.builder && current.isSuper ? (
+              <p className="mb-5 text-[0.95rem] text-ink2">
+                Add or remove steps, questions, and papers in the <Link href={`/admin/permits/${type.code}`}>permit builder</Link>.
+              </p>
+            ) : null}
+            <ul className="grid gap-6">
+              {list.map((step) => {
+                const fixed = FIXED_PHASES.includes(step.phase);
+                const choices = type.code === HOUSE ? ["always", "default_routed", "as_indicated", "gated", "provisional"] : ["always", "default_routed", "as_indicated"];
+                const id = `${type.code}-${step.code}`;
+                return (
+                  <li key={step.code}>
+                    <p className="text-lg font-medium">{step.name}</p>
+                    <p className="text-[0.95rem] text-muted">{one(step.agencies)?.acronym} · {ROUTING_LABEL[step.routing] ?? step.routing}</p>
+                    {current.isSuper ? (
+                      <form action={updateTypeStep} className="mt-3 grid max-w-2xl gap-3">
+                        <input type="hidden" name="return_to" value="/admin" />
+                        <input type="hidden" name="type_code" value={type.code} />
+                        <input type="hidden" name="step_code" value={step.code} />
+                        {fixed ? (
+                          <input type="hidden" name="routing" value={step.routing} />
+                        ) : (
+                          <div>
+                            <Label htmlFor={`routing-${id}`}>When it applies</Label>
+                            <select id={`routing-${id}`} name="routing" defaultValue={step.routing} className={select}>
+                              {choices.map((routing) => <option key={routing} value={routing}>{ROUTING_LABEL[routing]}</option>)}
+                            </select>
+                          </div>
+                        )}
+                        <div>
+                          <Label htmlFor={`note-${id}`}>Note the applicant reads</Label>
+                          <Textarea id={`note-${id}`} name="uncertainty" defaultValue={step.uncertainty ?? ""} rows={3} maxLength={600} />
+                        </div>
+                        <Button type="submit" variant="outline" className="min-h-[44px] w-fit px-5">Save step</Button>
+                      </form>
+                    ) : step.uncertainty ? (
+                      <p className="mt-1 max-w-[38rem] text-[0.95rem] text-ink2">{step.uncertainty}</p>
+                    ) : null}
+                  </li>
+                );
+              })}
+            </ul>
+          </Fold>
+        ))}
+      </Section>
+
+      <Section title="Staff" lede="A reviewer works one agency's steps. An agency admin also assigns them. A super admin sees everything.">
         <ul className="grid gap-3">
-          {(steps.data ?? []).map((step) => (
-            <li key={step.code} className="rounded-2xl border border-line p-4">
-              <p className="font-medium">{one(step.agencies)?.acronym} · {step.name}</p>
-              <p className="text-sm text-muted">Routing: {step.routing.replaceAll("_", " ")}</p>
-              {step.uncertainty ? <p className="mt-1 text-sm text-ink2">{step.uncertainty}</p> : null}
-              {current.isSuper ? (
-                <form action={updateWorkflow} className="mt-3 grid gap-2">
-                  <input type="hidden" name="return_to" value="/admin" />
-                  <input type="hidden" name="code" value={step.code} />
-                  <select name="routing" defaultValue={step.routing} className="rounded-2xl border border-line bg-paper px-3 py-2" aria-label={`Routing for ${step.name}`}>
-                    {["always", "default_routed", "as_indicated", "gated", "provisional"].map((routing) => <option key={routing}>{routing}</option>)}
-                  </select>
-                  <Textarea name="uncertainty" defaultValue={step.uncertainty ?? ""} rows={2} aria-label={`Uncertainty for ${step.name}`} />
-                  <Button type="submit" variant="outline">Save routing</Button>
-                </form>
-              ) : null}
-            </li>
-          ))}
-        </ul>
-      </section>
-      <section className="grid gap-3">
-        <h2 className="font-serif text-3xl font-normal">Staff</h2>
-        <ul className="grid gap-2 text-sm">
           {(members.data ?? []).map((member) => (
-            <li key={member.id} className="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-line px-4 py-3">
-              <span>{one(member.profiles)?.full_name} · {one(member.profiles)?.email} · {member.role} · {one(member.agencies)?.acronym ?? "all"}</span>
+            <li key={member.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line px-4 py-3">
+              <span>
+                <span className="font-medium">{one(member.profiles)?.full_name}</span>
+                <span className="block break-all text-[0.95rem] text-muted">{one(member.profiles)?.email} · {member.role.replaceAll("_", " ")} · {one(member.agencies)?.acronym ?? "all agencies"}</span>
+              </span>
               <form action={revokeMembership}>
                 <input type="hidden" name="return_to" value="/admin" />
                 <input type="hidden" name="membership_id" value={member.id} />
-                <Button type="submit" variant="outline">Remove</Button>
+                <Button type="submit" variant="outline" className="min-h-[44px] px-5" aria-label={`Remove the role of ${one(member.profiles)?.full_name ?? "this person"}`}>Remove</Button>
               </form>
             </li>
           ))}
         </ul>
-        <form action={grantMembership} className="grid max-w-md gap-2">
-          <input type="hidden" name="return_to" value="/admin" />
-          <Input name="email" type="email" required placeholder="Existing user email" aria-label="Existing user email" />
-          <select name="role" className="rounded-2xl border border-line bg-paper px-4 py-3" aria-label="Role">
-            <option value="reviewer">Reviewer</option>
-            {current.isSuper ? <option value="agency_admin">Agency admin</option> : null}
-            {current.isSuper ? <option value="super_admin">Super admin</option> : null}
-          </select>
-          <select name="agency_code" className="rounded-2xl border border-line bg-paper px-4 py-3" aria-label="Agency">
-            <option value="">None</option>
-            {(agencies.data ?? []).map((agency) => <option key={agency.code} value={agency.code}>{agency.acronym}</option>)}
-          </select>
-          <Button type="submit" variant="outline">Grant role to an existing user</Button>
-        </form>
-        {current.isSuper ? <InviteForm agencies={agencies.data ?? []} /> : null}
-      </section>
-      {current.isSuper ? (
-        <section>
-          <h2 className="font-serif text-3xl font-normal">Recent audit</h2>
-          <ul className="mt-3 grid gap-2 text-sm text-ink2">
-            {(audit.data ?? []).map((event) => (
-              <li key={event.id}>{event.created_at} · {event.visibility} · {event.action}{event.memo ? ` · ${event.memo}` : ""}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-      {current.isSuper ? (
-        <section className="grid max-w-xl gap-3">
-          <h2 className="font-serif text-3xl font-normal">Add a catalog permit</h2>
-          <p className="text-sm text-ink2">This writes a row. It does not invent a legal requirement. Leave it unverified until a source is checked.</p>
-          <form action={addPermit} className="grid gap-2">
+        <Fold title="Give a role to someone with an account">
+          <form action={grantMembership} className="grid max-w-2xl gap-4">
             <input type="hidden" name="return_to" value="/admin" />
-            <Input name="name" required placeholder="Permit name" aria-label="Permit name" />
-            <Input name="group_name" required placeholder="Life-event group" aria-label="Group" />
-            <Input name="agency_label" placeholder="Agency as printed" aria-label="Agency label" />
-            <Input name="agency_code" placeholder="Agency code, if it matches the directory" aria-label="Agency code" />
-            <Input name="source" placeholder="Official URL" aria-label="Source" />
-            <label className="text-sm"><input type="checkbox" name="unverified" defaultChecked /> Not yet confirmed</label>
-            <Button type="submit" variant="outline">Add to catalog</Button>
+            <div>
+              <Label htmlFor="grant-email">Their email</Label>
+              <Input id="grant-email" name="email" type="email" required />
+              <p className="mt-1 text-sm text-muted">They sign in once at the public sign-in page first, so the account exists.</p>
+            </div>
+            <div>
+              <Label htmlFor="grant-role">Role</Label>
+              <select id="grant-role" name="role" className={select}>
+                <option value="reviewer">Reviewer</option>
+                {current.isSuper ? <option value="agency_admin">Agency admin</option> : null}
+                {current.isSuper ? <option value="super_admin">Super admin</option> : null}
+              </select>
+            </div>
+            <div>
+              <Label htmlFor="grant-agency">Agency</Label>
+              <select id="grant-agency" name="agency_code" className={select}>
+                <option value="">None (super admin only)</option>
+                {(agencies.data ?? []).map((agency) => <option key={agency.code} value={agency.code}>{agency.name}</option>)}
+              </select>
+            </div>
+            <Button type="submit" variant="outline" className="min-h-[48px] w-fit px-6 text-base">Give role</Button>
           </form>
-        </section>
+        </Fold>
+        {current.isSuper ? (
+          <Fold title="Create a staff account">
+            <InviteForm agencies={agencies.data ?? []} />
+          </Fold>
+        ) : null}
+      </Section>
+
+      {current.isSuper ? (
+        <Section title="Catalog" lede="Add a permit to the public list. This writes a row. It does not invent a legal requirement.">
+          <Fold title="Add a catalog permit">
+            <form action={addPermit} className="grid max-w-2xl gap-4">
+              <input type="hidden" name="return_to" value="/admin" />
+              <div><Label htmlFor="cat-name">Permit name</Label><Input id="cat-name" name="name" required /></div>
+              <div><Label htmlFor="cat-group">Group it belongs in</Label><Input id="cat-group" name="group_name" required /></div>
+              <div><Label htmlFor="cat-label">Agency, as printed on the source</Label><Input id="cat-label" name="agency_label" /></div>
+              <div>
+                <Label htmlFor="cat-agency">Agency from the list (optional)</Label>
+                <select id="cat-agency" name="agency_code" className={select}>
+                  <option value="">Not on the list</option>
+                  {(agencies.data ?? []).map((agency) => <option key={agency.code} value={agency.code}>{agency.name}</option>)}
+                </select>
+              </div>
+              <div><Label htmlFor="cat-source">Official link</Label><Input id="cat-source" name="source" type="url" placeholder="https://" /></div>
+              <label className="flex items-center gap-3 text-[0.95rem]"><input type="checkbox" name="unverified" defaultChecked /> Not yet confirmed</label>
+              <Button type="submit" variant="outline" className="min-h-[48px] w-fit px-6 text-base">Add to catalog</Button>
+            </form>
+          </Fold>
+        </Section>
       ) : null}
+
       <QuestionList />
     </div>
   );
@@ -126,28 +227,12 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
 
 function QuestionList() {
   return (
-    <section>
-      <h2 className="font-serif text-3xl font-normal">Still open for Dad</h2>
-      <ol className="mt-3 list-decimal space-y-2 pl-5 text-ink2">
-        {OPEN_QUESTIONS.map((question) => <li key={question}>{question}</li>)}
-      </ol>
-    </section>
-  );
-}
-
-function TemplateList() {
-  return (
-    <section>
-      <h2 className="font-serif text-3xl font-normal">Template, from the public record</h2>
-      <ul className="mt-3 grid gap-2">
-        {STEPS.map((step) => (
-          <li key={step.code} className="rounded-2xl border border-line px-4 py-3 text-sm">
-            <span className="font-medium">{step.name}</span>
-            <span className="text-muted"> · {step.routing.replaceAll("_", " ")}</span>
-            {step.uncertainty ? <p className="mt-1 text-ink2">{step.uncertainty}</p> : null}
-          </li>
-        ))}
-      </ul>
-    </section>
+    <Section title="Still open">
+      <Fold title="Questions for the agencies" note={`${OPEN_QUESTIONS.length}`}>
+        <ol className="grid max-w-[38rem] list-decimal gap-3 pl-5 text-ink2">
+          {OPEN_QUESTIONS.map((question) => <li key={question}>{question}</li>)}
+        </ol>
+      </Fold>
+    </Section>
   );
 }

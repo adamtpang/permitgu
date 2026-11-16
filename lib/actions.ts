@@ -399,6 +399,27 @@ export async function withdraw(formData: FormData) {
   redirect(`/applications/${id}?done=withdrawn`);
 }
 
+// A draft that was never sent can be thrown away. Its uploaded papers are removed.
+// The file itself stays as withdrawn, because the history of a file is never erased.
+export async function discardDraft(formData: FormData) {
+  const id = String(formData.get("application_id") ?? "");
+  const supabase = await client();
+  const { data: application } = await supabase.from("applications").select("status").eq("id", id).maybeSingle();
+  if (!application || application.status !== "draft") {
+    redirect(`/applications/${id}?error=${encodeURIComponent("Only a draft can be discarded. A file that was sent can be withdrawn instead.")}`);
+  }
+  const { data: papers } = await supabase.from("documents").select("id, storage_path").eq("application_id", id);
+  if (papers?.length) {
+    const removed = await supabase.storage.from("application-documents").remove(papers.map((paper) => paper.storage_path));
+    if (removed.error) redirect(`/applications/${id}?error=${encodeURIComponent(removed.error.message)}`);
+    const { error: rowError } = await supabase.from("documents").delete().eq("application_id", id);
+    if (rowError) redirect(`/applications/${id}?error=${encodeURIComponent(rowError.message)}`);
+  }
+  const { error } = await supabase.rpc("withdraw_application", { p_application_id: id, p_memo: "Draft discarded by the applicant before it was sent." });
+  if (error) redirect(`/applications/${id}?error=${encodeURIComponent(error.message)}`);
+  redirect("/applications?done=discarded");
+}
+
 export async function addComment(formData: FormData) {
   const id = String(formData.get("application_id") ?? "");
   const body = String(formData.get("body") ?? "");
@@ -503,6 +524,15 @@ export async function revokeMembership(formData: FormData) {
 export async function updateWorkflow(formData: FormData) {
   await review(formData, "update_workflow_step", {
     p_code: String(formData.get("code") ?? ""),
+    p_routing: String(formData.get("routing") ?? ""),
+    p_uncertainty: String(formData.get("uncertainty") ?? ""),
+  });
+}
+
+export async function updateTypeStep(formData: FormData) {
+  await review(formData, "update_type_step", {
+    p_type_code: String(formData.get("type_code") ?? ""),
+    p_step_code: String(formData.get("step_code") ?? ""),
     p_routing: String(formData.get("routing") ?? ""),
     p_uncertainty: String(formData.get("uncertainty") ?? ""),
   });
