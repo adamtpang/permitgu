@@ -115,6 +115,26 @@ const PUBLISHED: Record<string, { text: string; source: string; label: string }>
     source: "https://dlm.guam.gov/wp-dlm-content/uploads/2026/08/AUG202026-Final.pdf",
     label: "Committee agenda, August 20, 2026",
   },
+  "x_contractor_license:s_examination": {
+    text: "Published: the Board gives the examination on the 2nd and 4th Tuesday of the month.",
+    source: "http://clb.guam.gov/wp-content/uploads/2024/04/Application-Information-Packet-2024-04-25.pdf",
+    label: "Board application packet, April 2024",
+  },
+  "x_contractor_license:s_board_decision": {
+    text: "Published: the Board issues the license or says why not within 45 working days after the application is filed. The law itself says 45 days.",
+    source: "http://clb.guam.gov/wp-content/uploads/2024/04/Application-Information-Packet-2024-04-25.pdf",
+    label: "Board application packet, April 2024",
+  },
+  "x_zone_change:s_commission_decision": {
+    text: "Set by law: the Commission decides a zone change within 40 days of the hearing.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+    label: "21 GCA §61634",
+  },
+  "x_zone_change:s_notice_sign": {
+    text: "Set by law: the notice sign goes up on the lot within 5 days of filing.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+    label: "21 GCA §61633",
+  },
   "x_water_service:issue": {
     text: "Published: once the Job Cost Sheet is paid, Waterworks says the meter is typically installed in 3 to 5 working days.",
     source: "https://guamwaterworks.org/faq/water-sewer-service-application/",

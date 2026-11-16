@@ -1,6 +1,6 @@
 # PermitGU
 
-Unofficial Guam permit guide, plus an unofficial tracker for twelve permits (six more are a repair permit, a permit for work in a public road, a park reservation, water and power connections, and a temporary alcohol license, all added with the permit builder): a one-family building permit and a clearing and grading permit (Public Works), a new business license (Revenue and Taxation), a sanitary permit for a food establishment and a temporary food permit for an event (Public Health), and a zone variance (Land Management). A super admin can add more at `/admin/permits` with no code change.
+Unofficial Guam permit guide, plus an unofficial tracker for fifteen permits (nine more are a contractor's license, a food worker health certificate, a zone change, a repair permit, a permit for work in a public road, a park reservation, water and power connections, and a temporary alcohol license, all added with the permit builder): a one-family building permit and a clearing and grading permit (Public Works), a new business license (Revenue and Taxation), a sanitary permit for a food establishment and a temporary food permit for an event (Public Health), and a zone variance (Land Management). A super admin can add more at `/admin/permits` with no code change.
 
 This is not a Government of Guam website. It does not use a government seal. It does not take payment. Fees, when a reviewer enters them, are paid in person at the Treasurer of Guam.
 

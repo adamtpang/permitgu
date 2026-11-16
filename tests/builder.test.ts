@@ -187,6 +187,8 @@ test("the built permits are seeded, on, and linked to the catalog", async () => 
     from public.application_types t where t.builder order by t.code`));
   assert.deepEqual(types.rows, [
     { code: "x_clearing_grading", noun: "permit", steps: "10", papers: "1", catalog: "clearing-grading-stockpiling-permit-often-with-gepa" },
+    { code: "x_contractor_license", noun: "license", steps: "12", papers: "5", catalog: "contractor-s-license" },
+    { code: "x_health_certificate_food", noun: "certificate", steps: "5", papers: "1", catalog: "health-certificate-food-facility" },
     { code: "x_park_reservation", noun: "approval", steps: "5", papers: "0", catalog: "park-or-pavilion-reservation" },
     { code: "x_power_service", noun: "approval", steps: "5", papers: "1", catalog: "power-service-connection" },
     { code: "x_repair_permit", noun: "permit", steps: "6", papers: "2", catalog: "building-permit-for-a-repair" },
@@ -195,6 +197,7 @@ test("the built permits are seeded, on, and linked to the catalog", async () => 
     { code: "x_temporary_alcohol_license", noun: "license", steps: "5", papers: "0", catalog: "temporary-alcohol-license-for-an-event" },
     { code: "x_temporary_food_event", noun: "permit", steps: "5", papers: "1", catalog: "temporary-food-service-establishment-tfse-sanitary-permit" },
     { code: "x_water_service", noun: "approval", steps: "6", papers: "3", catalog: "water-service-connection" },
+    { code: "x_zone_change", noun: "approval", steps: "10", papers: "2", catalog: "zone-change-gluc-form-02" },
     { code: "x_zone_variance", noun: "approval", steps: "9", papers: "1", catalog: "zone-variance-gluc-form-03" },
   ]);
   // No long dashes are left in what the catalog shows, and the shifted directory row is fixed.
