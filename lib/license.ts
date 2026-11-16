@@ -96,11 +96,40 @@ export const LICENSE_DOCUMENTS = [
 
 export const LICENSE_PIPELINE = ["draft", "submitted", "intake", "clearances_in_progress", "fees_due", "issued"] as const;
 
+// A permit built in the admin page (lib/permit-types.ts), as far as these helpers need it.
+export type BuiltInfo = {
+  builder: boolean;
+  name: string;
+  noun: string;
+  lead: { name: string };
+  fields: { key: string }[];
+  documents: { code: string; name: string }[];
+};
+
 // What each tracked permit calls itself and needs, so pages do not branch on the type everywhere.
-export function permitKind(typeCode: string | null | undefined) {
+export function permitKind(typeCode: string | null | undefined, built?: BuiltInfo | null) {
+  if (built?.builder) {
+    return {
+      license: false,
+      built: true,
+      typeName: built.name,
+      leadName: built.lead.name,
+      noun: built.noun,
+      feeWhere: `${built.lead.name} tells the applicant where to pay. Where the fee is paid is not confirmed.`,
+      pipeline: LICENSE_PIPELINE as readonly string[],
+      pipelineLabel: PIPELINE_LABEL as Record<string, string>,
+      documents: built.documents.map((document) => ({ code: document.code, name: document.name })),
+      numberNote: `This is not an official ${built.lead.name} number.`,
+      submitLabel: `Submit to ${built.lead.name} intake`,
+      submitHint: built.documents.length
+        ? "Submit needs every required answer, the attestation, and each paper on the list."
+        : "Submit needs every required answer and the attestation.",
+    };
+  }
   const license = typeCode === LICENSE_TYPE.code;
   return {
     license,
+    built: false,
     typeName: license ? LICENSE_TYPE.name : APPLICATION_TYPE.name,
     leadName: license ? "Revenue and Taxation" : "DPW",
     // The thing being issued, for sentences and buttons.
@@ -125,7 +154,15 @@ export function permitKind(typeCode: string | null | undefined) {
 }
 
 // The line a file is known by in lists and headings.
-export function fileTitle(typeCode: string | null | undefined, row: { lot?: string | null; details?: unknown }) {
+export function fileTitle(typeCode: string | null | undefined, row: { lot?: string | null; details?: unknown }, built?: BuiltInfo | null) {
+  if (built?.builder) {
+    const details = (row.details ?? {}) as Record<string, unknown>;
+    for (const field of built.fields) {
+      const value = details[field.key];
+      if (typeof value === "string" && value.trim()) return value.trim().slice(0, 80);
+    }
+    return built.name;
+  }
   if (typeCode === LICENSE_TYPE.code) {
     const details = (row.details ?? {}) as Record<string, unknown>;
     const name = typeof details.business_name === "string" ? details.business_name.trim() : "";

@@ -21,7 +21,16 @@ const NOTICES: Record<string, string> = {
   denied: "Application denied.",
   expired: "Application marked expired.",
   reopened: "Step reopened.",
-  test_on: "Marked as a test file. Its timings no longer count toward estimates.",
+  type_created: "Permit created. It is off until you switch it on.",
+  step_added: "Step added.",
+  step_removed: "Step removed.",
+  field_added: "Question added.",
+  field_removed: "Question removed.",
+  paper_added: "Paper added to the list.",
+  paper_removed: "Paper removed from the list.",
+  type_on: "Switched on. People can now start this permit.",
+  type_off: "Switched off. No new files can be started or submitted. Files already submitted keep going.",
+  test_on:"Marked as a test file. Its timings no longer count toward estimates.",
   test_off: "No longer a test file. Its timings count toward estimates.",
 };
 

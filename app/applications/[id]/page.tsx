@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { addComment, downloadDocument, respondToInfo, saveDraft, saveLicenseDraft, submitDraft, uploadDocument, withdraw } from "@/lib/actions";
+import { addComment, downloadDocument, respondToInfo, saveBuiltDraft, saveDraft, saveLicenseDraft, submitDraft, uploadDocument, withdraw } from "@/lib/actions";
 import { ErrorNotice, Fold, Notice, PageHero, Section } from "@/components/layout";
+import { BuiltFields } from "@/components/builder-form";
 import { LicenseFields } from "@/components/license-form";
 import { SetupNotice } from "@/components/shell";
 import { fileTitle, licenseDetails, permitKind } from "@/lib/license";
@@ -9,6 +10,7 @@ import { ClearanceBoard, CurrentStepBanner, EtaCallout, EventTimeline, FeeCallou
 import { Button, Input, Label, Textarea } from "@/components/ui";
 import { estimateEta, publishedTime, stepEstimateLabel, type StepEstimate } from "@/lib/eta";
 import { noticeText } from "@/lib/notices";
+import { builtAnswers, loadType } from "@/lib/permit-types";
 import { requestMeta } from "@/lib/request-meta";
 import { one, session } from "@/lib/session";
 import type { TrackerStep } from "@/lib/tracker-model";
@@ -31,8 +33,10 @@ export default async function ApplicationPage({
 
   const { data: application } = await current.supabase.from("applications").select("*").eq("id", id).maybeSingle();
   if (!application) notFound();
-  const { data: type } = await current.supabase.from("application_types").select("code").eq("id", application.application_type_id).maybeSingle();
-  const kind = permitKind(type?.code);
+  const type = await loadType(current.supabase, { id: application.application_type_id });
+  const built = type?.builder ? type : null;
+  const kind = permitKind(type?.code, built);
+  const answers = built ? builtAnswers(built.fields, application.details) : [];
   const license = licenseDetails(application.details);
   const { data: steps } = await current.supabase.from("application_steps").select("id, status, memo, agency_id, started_at, agencies(acronym, name), workflow_steps(code, name, phase, routing, sort_order, uncertainty)").eq("application_id", id);
   const { data: documents } = await current.supabase.from("documents").select("id, kind, file_name, byte_size, scan_status").eq("application_id", id);
@@ -86,13 +90,15 @@ export default async function ApplicationPage({
     })),
     estimates,
   );
-  const place = kind.license
+  const place = built
+    ? `Led by ${built.lead.name}.`
+    : kind.license
     ? `${[license.street, license.village].filter(Boolean).join(", ") || "No address yet"}. Lot ${application.lot || "not given"}, block ${application.block || "not given"}.`
     : `Tract ${application.tract || "not given"}, block ${application.block || "not given"}, zone ${application.zoning_district || "not given"}.`;
 
   return (
     <div>
-      <PageHero eyebrow={`Unofficial file · ${kind.typeName}`} title={fileTitle(type?.code, application)} lede={place}>
+      <PageHero eyebrow={`Unofficial file · ${kind.typeName}`} title={fileTitle(type?.code, application, built)} lede={place}>
         <StatusBadge status={application.status} />
         {application.is_test ? <span className="rounded-full border border-warnline bg-warn px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-ink">Test file</span> : null}
         {application.permit_number ? <span className="text-[0.95rem] text-ink2">Demo number {application.permit_number}. {kind.numberNote}</span> : null}
@@ -141,7 +147,19 @@ export default async function ApplicationPage({
 
       {draft ? (
         <Section title="Finish your draft" lede={kind.submitHint}>
-          {kind.license ? (
+          {built ? (
+            <form action={saveBuiltDraft} className="grid max-w-2xl gap-4">
+              <input type="hidden" name="application_id" value={id} />
+              <BuiltFields
+                fields={built.fields}
+                noun={built.noun}
+                values={Object.fromEntries(answers.map((answer) => [answer.field.key, answer.value]))}
+                attestation={application.attestation}
+                attestationName={application.attestation_name ?? ""}
+              />
+              <Button type="submit" variant="outline" className="min-h-[48px] w-fit px-6 text-base">Save changes</Button>
+            </form>
+          ) : kind.license ? (
             <form action={saveLicenseDraft} className="grid max-w-2xl gap-4">
               <input type="hidden" name="application_id" value={id} />
               <LicenseFields
@@ -252,6 +270,19 @@ export default async function ApplicationPage({
             })}
           </ol>
         </Fold>
+
+        {built && !draft ? (
+          <Fold title="Your answers" note={`${answers.filter((answer) => answer.value).length}`}>
+            <dl className="grid gap-4">
+              {answers.map((answer) => (
+                <div key={answer.field.key}>
+                  <dt className="text-[0.95rem] text-muted">{answer.field.label}</dt>
+                  <dd className="text-lg">{answer.value || "Not answered"}</dd>
+                </div>
+              ))}
+            </dl>
+          </Fold>
+        ) : null}
 
         <Fold title="Agencies" note={`${new Set(trackerSteps.map((step) => step.agency)).size}`}>
           <ClearanceBoard steps={trackerSteps} heading={false} />

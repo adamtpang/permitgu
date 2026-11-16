@@ -2,10 +2,19 @@ import Link from "next/link";
 import { SetupNotice } from "@/components/shell";
 import { StatusBadge } from "@/components/tracker";
 import { filterQueue, type QueueItem } from "@/lib/queue";
-import { fileTitle, LICENSE_TYPE } from "@/lib/license";
+import { fileTitle } from "@/lib/license";
+import { builtInfo, TYPE_EMBED } from "@/lib/permit-types";
 import { one, staffSession } from "@/lib/session";
 
 export const metadata = { title: "Staff queue" };
+
+// The line a file is known by in the queue, whatever kind of permit it is.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function titled(application: any) {
+  if (!application) return "";
+  const code = one<{ code: string }>(application.application_types)?.code;
+  return fileTitle(code, application, builtInfo(application.application_types));
+}
 
 export default async function ReviewPage({
   searchParams,
@@ -25,7 +34,7 @@ export default async function ReviewPage({
 
   let request = current.supabase
     .from("application_steps")
-    .select("id, status, assignee_id, updated_at, agencies(code, acronym), workflow_steps(name), applications(id, lot, details, status, permit_number, application_types(code), profiles!applications_applicant_id_fkey(full_name))")
+    .select(`id, status, assignee_id, updated_at, agencies(code, acronym), workflow_steps(name), applications(id, lot, details, status, permit_number, ${TYPE_EMBED}, profiles!applications_applicant_id_fkey(full_name))`)
     .neq("status", "not_started");
   if (!current.isSuper) request = request.in("agency_id", current.agencyIds.length ? current.agencyIds : ["00000000-0000-0000-0000-000000000000"]);
   const { data } = await request;
@@ -36,11 +45,11 @@ export default async function ReviewPage({
       applicationId: application?.id ?? "",
       status: step.status,
       agencyCode: one(step.agencies)?.code ?? "",
-      permitType: one(application?.application_types)?.code ?? "",
+      permitType: one<{ code: string }>(application?.application_types as { code: string } | { code: string }[] | null)?.code ?? "",
       assigneeId: step.assignee_id,
       assigneeName: null,
       updatedAt: step.updated_at,
-      lot: one(application?.application_types)?.code === LICENSE_TYPE.code ? fileTitle(LICENSE_TYPE.code, application ?? {}) : application?.lot ?? "",
+      lot: titled(application),
       applicant: one(application?.profiles)?.full_name ?? "",
       permitNumber: application?.permit_number ?? null,
       stepName: one(step.workflow_steps)?.name ?? "",
@@ -103,7 +112,7 @@ export default async function ReviewPage({
               <StatusBadge status={item.status} />
             </div>
             <p className="mt-1 text-sm text-muted">
-              {item.permitType === LICENSE_TYPE.code ? item.lot : `Lot ${item.lot || "—"}`} · {item.applicant || "Applicant"} · {item.permitType}
+              {item.lot} · {item.applicant || "Applicant"} · {item.permitType}
               {item.assigneeId ? "" : " · unassigned"}
             </p>
           </li>

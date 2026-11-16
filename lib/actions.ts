@@ -5,6 +5,7 @@ import { documentKindAllowed, RESIDENTIAL_REQUIRED_DOCUMENTS } from "@/lib/catal
 import { sniffUpload, safeStorageName } from "@/lib/files";
 import { validateLicense, type LicenseInput } from "@/lib/license";
 import { staffNotice, withNotice } from "@/lib/notices";
+import { loadType, validateBuilt } from "@/lib/permit-types";
 import { requestMeta } from "@/lib/request-meta";
 import { createClient, createServiceClient } from "@/lib/supabase/server";
 import { validateDraft, type DraftInput } from "@/lib/workflow";
@@ -183,6 +184,126 @@ export async function saveLicenseDraft(formData: FormData) {
   const { error: dbError } = await supabase.rpc("save_license_draft", { p_application_id: id, ...licenseArgs(input) });
   if (dbError) redirect(`/applications/${id}?error=${encodeURIComponent(dbError.message)}`);
   redirect(`/applications/${id}?done=saved`);
+}
+
+// A permit built in the admin page: its answers come from the questions the permit declares.
+async function builtFromForm(supabase: Awaited<ReturnType<typeof client>>, by: { code: string } | { id: string }, formData: FormData, mode: "save" | "submit") {
+  const type = await loadType(supabase, by);
+  if (!type || !type.builder) return { type: null, values: {}, attestation: { checked: false, name: "" }, problem: "That permit is not available." };
+  const values: Record<string, string> = {};
+  for (const field of type.fields) values[field.key] = String(formData.get(`f_${field.key}`) ?? "").trim();
+  const attestation = { checked: formData.get("attestation") === "on", name: String(formData.get("attestation_name") ?? "").trim() };
+  return { type, values, attestation, problem: validateBuilt(type.fields, values, attestation, mode) };
+}
+
+export async function createBuiltDraft(formData: FormData) {
+  const supabase = await client();
+  const code = String(formData.get("type_code") ?? "");
+  const { type, values, attestation, problem } = await builtFromForm(supabase, { code }, formData, "save");
+  if (problem || !type) return { error: problem ?? "That permit is not available." };
+  const { data, error: dbError } = await supabase.rpc("create_builder_draft", {
+    p_type_code: type.code,
+    p_details: values,
+    p_attestation: attestation.checked,
+    p_attestation_name: attestation.name,
+  });
+  if (dbError) return { error: dbError.message };
+  redirect(`/applications/${data}`);
+}
+
+export async function saveBuiltDraft(formData: FormData) {
+  const id = String(formData.get("application_id") ?? "");
+  const supabase = await client();
+  const owned = await supabase.from("applications").select("application_type_id").eq("id", id).maybeSingle();
+  if (!owned.data) redirect(`/applications/${id}?error=${encodeURIComponent("That file is not available.")}`);
+  const { values, attestation, problem } = await builtFromForm(supabase, { id: owned.data.application_type_id }, formData, "save");
+  if (problem) redirect(`/applications/${id}?error=${encodeURIComponent(problem)}`);
+  const { error: dbError } = await supabase.rpc("save_builder_draft", {
+    p_application_id: id,
+    p_details: values,
+    p_attestation: attestation.checked,
+    p_attestation_name: attestation.name,
+  });
+  if (dbError) redirect(`/applications/${id}?error=${encodeURIComponent(dbError.message)}`);
+  redirect(`/applications/${id}?done=saved`);
+}
+
+// The permit builder, for a super admin. Each action returns to the permit's editor.
+async function builder(formData: FormData, rpc: string, args: Record<string, unknown>, done: string) {
+  const code = String(formData.get("type_code") ?? "");
+  const back = code ? `/admin/permits/${code}` : "/admin/permits";
+  const supabase = await staffClient();
+  const { data, error } = await supabase.rpc(rpc, args);
+  if (error) redirect(`${back}?error=${encodeURIComponent(error.message)}`);
+  redirect(`${rpc === "create_permit_type" ? `/admin/permits/${data}` : back}?done=${done}`);
+}
+
+export async function createPermitType(formData: FormData) {
+  await builder(formData, "create_permit_type", {
+    p_name: String(formData.get("name") ?? ""),
+    p_noun: String(formData.get("noun") ?? "permit"),
+    p_lead_agency_code: String(formData.get("lead_agency_code") ?? ""),
+    p_summary: String(formData.get("summary") ?? ""),
+    p_source: String(formData.get("source") ?? ""),
+  }, "type_created");
+}
+
+export async function addTypeStep(formData: FormData) {
+  await builder(formData, "add_type_step", {
+    p_type_code: String(formData.get("type_code") ?? ""),
+    p_name: String(formData.get("name") ?? ""),
+    p_agency_code: String(formData.get("agency_code") ?? ""),
+    p_routing: String(formData.get("routing") ?? ""),
+    p_note: String(formData.get("note") ?? ""),
+  }, "step_added");
+}
+
+export async function removeTypeStep(formData: FormData) {
+  await builder(formData, "remove_type_step", {
+    p_type_code: String(formData.get("type_code") ?? ""),
+    p_step_code: String(formData.get("step_code") ?? ""),
+  }, "step_removed");
+}
+
+export async function addTypeField(formData: FormData) {
+  await builder(formData, "add_type_field", {
+    p_type_code: String(formData.get("type_code") ?? ""),
+    p_label: String(formData.get("label") ?? ""),
+    p_kind: String(formData.get("kind") ?? "text"),
+    p_required: formData.get("required") === "on",
+    p_help: String(formData.get("help") ?? ""),
+    p_choices: String(formData.get("choices") ?? "").split(/\r?\n|,/).map((choice) => choice.trim()).filter(Boolean),
+  }, "field_added");
+}
+
+export async function removeTypeField(formData: FormData) {
+  await builder(formData, "remove_type_field", {
+    p_type_code: String(formData.get("type_code") ?? ""),
+    p_key: String(formData.get("key") ?? ""),
+  }, "field_removed");
+}
+
+export async function addTypeDocument(formData: FormData) {
+  await builder(formData, "add_type_document", {
+    p_type_code: String(formData.get("type_code") ?? ""),
+    p_name: String(formData.get("name") ?? ""),
+    p_notes: String(formData.get("notes") ?? ""),
+  }, "paper_added");
+}
+
+export async function removeTypeDocument(formData: FormData) {
+  await builder(formData, "remove_type_document", {
+    p_type_code: String(formData.get("type_code") ?? ""),
+    p_code: String(formData.get("code") ?? ""),
+  }, "paper_removed");
+}
+
+export async function setTypeActive(formData: FormData) {
+  const on = formData.get("active") === "true";
+  await builder(formData, "set_type_active", {
+    p_type_code: String(formData.get("type_code") ?? ""),
+    p_active: on,
+  }, on ? "type_on" : "type_off");
 }
 
 export async function submitDraft(formData: FormData) {

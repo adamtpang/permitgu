@@ -7,6 +7,7 @@ import { ClearanceBoard, EventTimeline, FeeCallout, PizzaTracker, StatusBadge } 
 import { Button, Input, Label, Textarea } from "@/components/ui";
 import { fileTitle, licenseDetails, permitKind } from "@/lib/license";
 import { noticeText } from "@/lib/notices";
+import { builtAnswers, loadType } from "@/lib/permit-types";
 import { requestMeta } from "@/lib/request-meta";
 import { one, staffSession } from "@/lib/session";
 import type { TrackerStep } from "@/lib/tracker-model";
@@ -34,7 +35,10 @@ export default async function ReviewDetailPage({
   const { data: application } = await current.supabase.from("applications").select("*").eq("id", id).maybeSingle();
   if (!application) notFound();
   const { data: type } = await current.supabase.from("application_types").select("code, lead_agency_id").eq("id", application.application_type_id).maybeSingle();
-  const kind = permitKind(type?.code);
+  const loaded = await loadType(current.supabase, { id: application.application_type_id });
+  const built = loaded?.builder ? loaded : null;
+  const kind = permitKind(type?.code, built);
+  const answers = built ? builtAnswers(built.fields, application.details) : [];
   const license = licenseDetails(application.details);
   // The lead agency runs the file: DPW for the house permit, Revenue and Taxation for the license.
   const isLead = current.staff.some((member) => member.agency_id === type?.lead_agency_id && (member.role === "reviewer" || member.role === "agency_admin"));
@@ -92,15 +96,25 @@ export default async function ReviewDetailPage({
       <header className="pb-8 pt-8">
         <p className="text-[0.95rem]"><Link href="/review">Back to the queue</Link></p>
         <p className="mt-6 text-sm font-medium uppercase tracking-wider text-muted">{kind.typeName}</p>
-        <h1 className="display-sm mt-3">{fileTitle(type?.code, application)}</h1>
+        <h1 className="display-sm mt-3">{fileTitle(type?.code, application, built)}</h1>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <StatusBadge status={application.status} />
           {application.is_test ? <span className="rounded-full border border-warnline bg-warn px-3 py-0.5 text-xs font-semibold uppercase tracking-wider text-ink">Test file</span> : null}
           {application.permit_number ? <span className="text-[0.95rem] text-ink2">Demo number {application.permit_number}</span> : null}
         </div>
         <p className="mt-4 max-w-[38rem] text-lg text-ink2">{application.scope}</p>
+        {built ? (
+          <dl className="mt-2 grid max-w-[38rem] gap-3">
+            {answers.map((answer) => (
+              <div key={answer.field.key}>
+                <dt className="text-[0.95rem] text-muted">{answer.field.label}</dt>
+                <dd>{answer.value || "Not answered"}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
         <p className="mt-2 max-w-[38rem] text-[0.95rem] text-ink2">
-          {kind.license
+          {built ? `Attested by ${application.attestation_name || "no one yet"}.` : kind.license
             ? `${license.entityType.replaceAll("_", " ")}${license.tradeName ? `, trading as ${license.tradeName}` : ""}${license.registrationNumber ? `, registration ${license.registrationNumber}` : ""}. ${[license.street, license.village].filter(Boolean).join(", ")}. Lot ${application.lot}, block ${application.block}.`
             : `Lot ${application.lot}, tract ${application.tract}, block ${application.block}. Zone ${application.zoning_district}. Contractor ${application.contractor_license || "not given"}.`}
         </p>
