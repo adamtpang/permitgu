@@ -177,7 +177,7 @@ test("a super admin builds a permit, and a file runs through it to issued", asyn
   assert.equal(logged.rows[0].n, "13");
 });
 
-test("the first two built permits are seeded, on, and linked to the catalog", async () => {
+test("the built permits are seeded, on, and linked to the catalog", async () => {
   const db = await database();
   const types = await as(db, null, "", () => db.query<{ code: string; noun: string; steps: string; papers: string; catalog: string }>(`
     select t.code, t.noun,
@@ -186,7 +186,9 @@ test("the first two built permits are seeded, on, and linked to the catalog", as
       (select c.code from public.permit_catalog c where c.application_type_code = t.code and c.trackable) as catalog
     from public.application_types t where t.builder order by t.code`));
   assert.deepEqual(types.rows, [
+    { code: "x_clearing_grading", noun: "permit", steps: "10", papers: "1", catalog: "clearing-grading-stockpiling-permit-often-with-gepa" },
     { code: "x_sanitary_permit_food", noun: "permit", steps: "6", papers: "2", catalog: "sanitary-permit-form-a-new-establishment" },
+    { code: "x_temporary_food_event", noun: "permit", steps: "5", papers: "1", catalog: "temporary-food-service-establishment-tfse-sanitary-permit" },
     { code: "x_zone_variance", noun: "approval", steps: "9", papers: "1", catalog: "zone-variance-gluc-form-03" },
   ]);
   // No long dashes are left in what the catalog shows, and the shifted directory row is fixed.

@@ -1,4 +1,4 @@
--- Sample files for the demo. Run once, by hand, after the migrations:
+-- Sample files for the demo. Run by hand after the migrations, and again after a new permit is added:
 --   npx supabase db query --remote --yes -f supabase/seeds/sample_files.sql
 -- It makes five sample applicants, one sample reviewer per agency that has a step, and
 -- five files for every tracked permit that is switched on: three finished and two in
@@ -31,10 +31,6 @@ declare
   v_days numeric;
   v_cents bigint;
 begin
-  if exists (select 1 from public.applications where is_sample) then
-    raise notice 'Sample files already exist. Nothing was changed.';
-    return;
-  end if;
 
   -- 1. People.
   for v_i in 1..5 loop
@@ -61,6 +57,9 @@ begin
   for v_type in
     select t.id, t.code, t.builder, t.fields, t.lead_agency_id from public.application_types t where t.active order by t.code
   loop
+    -- A permit that already has sample files is left alone, so the seed can be run
+    -- again after a new permit is added.
+    continue when exists (select 1 from public.applications a where a.is_sample and a.application_type_id = v_type.id);
     for v_i in 1..5 loop
       select id into v_applicant from auth.users where email = 'sample.applicant' || v_i || '@example.com';
       perform set_config('request.jwt.claims', json_build_object('sub', v_applicant, 'aal', 'aal1', 'role', 'authenticated')::text, true);

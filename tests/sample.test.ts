@@ -6,7 +6,7 @@ import { PGlite } from "@electric-sql/pglite";
 const prelude = fs.readFileSync("tests/rls.test.ts", "utf8").match(/const prelude = `([\s\S]*?)`;/)?.[1];
 const ADMIN = "33333333-3333-4333-8333-333333333333";
 const CITIZEN = "11111111-1111-4111-8111-111111111111";
-const TYPES = ["building_permit_residential_one_family", "business_license_new", "x_sanitary_permit_food", "x_zone_variance"];
+const TYPES = ["building_permit_residential_one_family", "business_license_new", "x_clearing_grading", "x_sanitary_permit_food", "x_temporary_food_event", "x_zone_variance"];
 
 async function as<T>(db: PGlite, uid: string, aal: string, fn: () => Promise<T>) {
   await db.exec("begin");
@@ -81,11 +81,11 @@ test("the sample seed gives every tracked permit finished files, open work, and 
 
   // Running the seed again changes nothing.
   await db.exec(seed);
-  assert.equal((await db.query<{ n: string }>("select count(*)::text as n from public.applications")).rows[0].n, "20");
+  assert.equal((await db.query<{ n: string }>("select count(*)::text as n from public.applications")).rows[0].n, "30");
 
   // A super admin retires them in one step. Estimates then have nothing to stand on.
   await assert.rejects(as(db, CITIZEN, "aal1", () => db.query("select public.retire_sample_files()")), /mfa_required/);
   const retired = await as(db, ADMIN, "aal2", () => db.query<{ n: number }>("select public.retire_sample_files() as n"));
-  assert.equal(retired.rows[0].n, 20);
+  assert.equal(retired.rows[0].n, 30);
   assert.equal((await as(db, CITIZEN, "aal1", () => db.query("select * from public.step_estimates_for('business_license_new')"))).rows.length, 0);
 });
