@@ -81,7 +81,8 @@ export default async function ReviewDetailPage({
   };
   const needsMe = ordered.filter((step) => isMine(step) && ACTIVE.includes(step.status) && !leadWorked.has(phaseOf(step)));
   const elsewhere = ordered.filter((step) => !isMine(step) && ACTIVE.includes(step.status));
-  const unrouted = ordered.filter((step) => step.status === "not_started");
+  // Only steps a reviewer adds by hand. Steps on every file queue themselves when their stage opens.
+  const unrouted = ordered.filter((step) => step.status === "not_started" && ["as_indicated", "gated"].includes(one(step.workflow_steps)?.routing ?? ""));
   const finished = ordered.filter((step) => FINISHED.includes(step.status));
   const canAssign = (step: (typeof ordered)[number]) =>
     runs || current.staff.some((member) => member.role === "agency_admin" && member.agency_id === step.agency_id);
@@ -251,7 +252,7 @@ export default async function ReviewDetailPage({
         ) : null}
 
         {canRoute && unrouted.length ? (
-          <Fold title="Route another agency" note={`${unrouted.length} not started`}>
+          <Fold title="Route another agency" note={`${unrouted.length} optional`}>
             <ol className="grid gap-6">
               {unrouted.map((step) => {
                 const workflow = one(step.workflow_steps);

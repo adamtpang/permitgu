@@ -157,12 +157,13 @@ begin
           select s.id, w.code from public.application_steps s join public.workflow_steps w on w.id = s.workflow_step_id
           where s.application_id = v_app and w.phase = v_phase and s.status = 'approved' order by w.sort_order
         loop
-          v_days := v_factor[v_i] * case v_phase
+          -- Where the law sets a limit, the sample stays inside it: the notice sign is due in 5 days.
+          v_days := case when v_step.code = 's_notice_sign' then 2 + abs(hashtext(v_app::text)) % 3 else v_factor[v_i] end * case when v_step.code = 's_notice_sign' then 1 else case v_phase
             when 'intake' then 2
             when 'plan_review' then 5 + abs(hashtext(v_step.code)) % 8
             when 'clearance' then 4 + abs(hashtext(v_step.code)) % 14
             when 'fees' then 1 + abs(hashtext(v_step.code)) % 3
-            else 1 end;
+            else 1 end end;
           update public.application_steps
           set started_at = v_t, decided_at = v_t + v_days * interval '1 day', updated_at = v_t + v_days * interval '1 day'
           where id = v_step.id;
@@ -175,9 +176,12 @@ begin
         end loop;
         v_t := v_phase_end;
       end loop;
-      -- Steps still open have been waiting since the last one finished.
+      -- Steps still open have been waiting since the last one finished. On a finished
+      -- house file the open steps are inspections, which wait on the builder, so they
+      -- show as recent instead of as months of agency backlog.
       update public.application_steps
-      set started_at = case when started_at is null then null else v_t end, updated_at = v_t
+      set started_at = case when started_at is null then null else (case when v_i <= 3 then now() - (v_i + 1) * interval '1 day' else v_t end) end,
+          updated_at = case when v_i <= 3 then now() - (v_i + 1) * interval '1 day' else v_t end
       where application_id = v_app and status in ('queued', 'in_progress');
     end loop;
   end loop;
