@@ -28,7 +28,7 @@ export type BuiltType = {
   documents: { code: string; name: string; notes: string | null }[];
 };
 
-export const NOUNS = ["permit", "license", "certificate", "clearance", "registration"] as const;
+export const NOUNS = ["permit", "license", "certificate", "clearance", "registration", "approval"] as const;
 export const FIELD_KINDS = [
   { value: "text", label: "Short answer" },
   { value: "long", label: "Long answer" },

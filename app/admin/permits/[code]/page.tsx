@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { addTypeDocument, addTypeField, addTypeStep, removeTypeDocument, removeTypeField, removeTypeStep, setTypeActive } from "@/lib/actions";
+import { addTypeDocument, addTypeField, addTypeStep, linkTypeCatalog, removeTypeDocument, removeTypeField, removeTypeStep, setTypeActive } from "@/lib/actions";
 import { ErrorNotice, Fold, Glance, Notice, PageHero, Section } from "@/components/layout";
 import { SetupNotice } from "@/components/shell";
 import { Button, Input, Label, Textarea } from "@/components/ui";
@@ -38,6 +38,10 @@ export default async function PermitEditorPage({
   const type = await loadType(current.supabase, { code });
   if (!type || !type.builder) notFound();
   const { data: agencies } = await current.supabase.from("agencies").select("code, acronym, name").order("name");
+  // Rows already taken by another permit are left out.
+  const { data: catalogRows } = await current.supabase.from("permit_catalog").select("code, name, application_type_code").order("name");
+  const catalog = (catalogRows ?? []).filter((row) => !row.application_type_code || row.application_type_code === type.code);
+  const linked = catalog.find((row) => row.application_type_code === type.code)?.code;
   const missing = readiness(type);
   const review = type.steps.filter((step) => step.phase === "clearance");
   const fixed = type.steps.filter((step) => step.phase !== "clearance");
@@ -209,6 +213,20 @@ export default async function PermitEditorPage({
             <Button type="submit" variant="outline" className="min-h-[48px] w-fit px-6 text-base">Add paper</Button>
           </form>
         </Fold>
+      </Section>
+
+      <Section title="Catalog" lede="Link this permit to its row in the catalog, so the catalog offers the tracker.">
+        <form action={linkTypeCatalog} className="grid max-w-2xl gap-4">
+          <input type="hidden" name="type_code" value={type.code} />
+          <div>
+            <Label htmlFor="catalog_code">Catalog row</Label>
+            <select id="catalog_code" name="catalog_code" className={select} defaultValue={linked ?? ""}>
+              <option value="">Not in the catalog</option>
+              {(catalog ?? []).map((row) => <option key={row.code} value={row.code}>{row.name}</option>)}
+            </select>
+          </div>
+          <Button type="submit" variant="outline" className="min-h-[48px] w-fit px-6 text-base">Save link</Button>
+        </form>
       </Section>
 
       {type.source ? (

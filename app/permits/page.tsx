@@ -6,7 +6,7 @@ import { loadCatalog } from "@/lib/catalog-data";
 export const metadata = { title: "Permit catalog" };
 
 export default async function PermitsPage() {
-  const { permits, directory, agencyCount } = await loadCatalog();
+  const { permits, built, directory, agencyCount } = await loadCatalog();
   const sections = groupPermits(permits);
   const shared = permits.filter((permit) => permit.agencyCodes.length > 1).length;
   const tracked = permits.filter((permit) => permit.trackable).length;
@@ -33,6 +33,11 @@ export default async function PermitsPage() {
         <div className="grid gap-4 sm:grid-cols-2">
           <ActionCard href="/apply" label="Public Works leads" title="Build a house">A one-family building permit, step by step.</ActionCard>
           <ActionCard href="/apply/business-license" label="Revenue and Taxation leads" title="Open a business">A new general business license, step by step.</ActionCard>
+          {built.map((type) => (
+            <ActionCard key={type.code} href={`/apply/${type.code}`} label={`${type.lead.name} leads`} title={type.name}>
+              Track this {type.noun}, step by step.
+            </ActionCard>
+          ))}
         </div>
       </Section>
 
@@ -72,7 +77,7 @@ export default async function PermitsPage() {
                   {item.unverified ? <p className="mt-1 text-[0.95rem] text-ink2">Not yet confirmed from a single official page.</p> : null}
                   {item.trackable ? (
                     <p className="mt-2">
-                      <Link href={formAgencies(item.code) ? "/apply/business-license" : "/apply"}>Open the tracker</Link>
+                      <Link href={item.trackerPath ?? "/apply"}>Open the tracker</Link>
                     </p>
                   ) : null}
                 </li>

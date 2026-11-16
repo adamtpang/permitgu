@@ -107,7 +107,7 @@ declare
 begin
   perform private.require_super();
   if char_length(v_name) < 3 or char_length(v_name) > 120 then raise exception 'bad_name'; end if;
-  if v_noun not in ('permit', 'license', 'certificate', 'clearance', 'registration') then raise exception 'bad_noun'; end if;
+  if v_noun not in ('permit', 'license', 'certificate', 'clearance', 'registration', 'approval') then raise exception 'bad_noun'; end if;
   if char_length(coalesce(p_summary, '')) > 600 then raise exception 'too_long'; end if;
   if v_source is not null and v_source !~* '^https?://' then raise exception 'bad_source'; end if;
   select id into v_lead from public.agencies where code = p_lead_agency_code;

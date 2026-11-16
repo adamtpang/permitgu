@@ -321,12 +321,12 @@
       "notes": null
     },
     {
-      "code": "governmentofguamretirementfund",
-      "name": "41–42",
-      "acronym": "Government of Guam Retirement Fund (retiree/survivor + staff rows)",
+      "code": "ggrf",
+      "name": "Government of Guam Retirement Fund (retiree/survivor + staff rows)",
+      "acronym": "GGRF",
       "website": null,
       "groupName": "B. Autonomous / semi-autonomous agencies & public corporations (DOA listing #41–58)",
-      "notes": "listed on directories"
+      "notes": null
     },
     {
       "code": "gcc",
@@ -467,7 +467,7 @@
     {
       "code": "districtcourtofguamfederal",
       "name": "District Court of Guam (federal)",
-      "acronym": "—",
+      "acronym": "District Court of Guam",
       "website": null,
       "groupName": "C. Legislative & judicial branches (and related)",
       "notes": "Federal, not GovGuam; listed in older Protocol Directory"
@@ -475,10 +475,10 @@
     {
       "code": "officeofthedelegatecongressmanmo",
       "name": "Office of the Delegate (Congressman Moylan)",
-      "acronym": "—",
+      "acronym": "Office of the Delegate",
       "website": null,
       "groupName": "C. Legislative & judicial branches (and related)",
-      "notes": "Federal delegate — not a GovGuam agency"
+      "notes": "Federal delegate: not a GovGuam agency"
     },
     {
       "code": "gluc",
@@ -547,7 +547,7 @@
     {
       "code": "guamrealestatecommission",
       "name": "Guam Real Estate Commission",
-      "acronym": "—",
+      "acronym": "Guam Real Estate Commission",
       "website": "https://guamrealestatecommission.com/",
       "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
       "notes": "Real estate licenses"
@@ -555,7 +555,7 @@
     {
       "code": "commissionondecolonizationselfde",
       "name": "Commission on Decolonization / Self-Determination",
-      "acronym": "—",
+      "acronym": "Commission on Decolonization / Self-Determination",
       "website": null,
       "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
       "notes": "Policy commission"
@@ -563,7 +563,7 @@
     {
       "code": "kumisionifinochamoru",
       "name": "Kumision i Fino' CHamoru",
-      "acronym": "—",
+      "acronym": "Kumision i Fino' CHamoru",
       "website": null,
       "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
       "notes": "CHamoru language"
@@ -611,7 +611,7 @@
     {
       "code": "guamstateclearinghouse",
       "name": "Guam State Clearinghouse",
-      "acronym": "—",
+      "acronym": "Guam State Clearinghouse",
       "website": null,
       "groupName": "E. Boards, commissions & permit-issuing bodies (beyond DOA numbered list)",
       "notes": "Federal consistency routing"
@@ -983,7 +983,7 @@
     },
     {
       "code": "sanitary-permit-form-a-new-establishment",
-      "name": "Sanitary Permit (Form A) — new establishment",
+      "name": "Sanitary Permit (Form A): new establishment",
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
@@ -996,7 +996,7 @@
     },
     {
       "code": "supplemental-form-b-food-establishment",
-      "name": "Supplemental Form B — food establishment",
+      "name": "Supplemental Form B: food establishment",
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
@@ -1061,7 +1061,7 @@
     },
     {
       "code": "health-certificate-food-facility",
-      "name": "Health Certificate — food facility",
+      "name": "Health Certificate: food facility",
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
@@ -1074,7 +1074,7 @@
     },
     {
       "code": "health-certificate-cosmetology-tattoo-therapeutic-massage",
-      "name": "Health Certificate — cosmetology / tattoo / therapeutic massage",
+      "name": "Health Certificate: cosmetology / tattoo / therapeutic massage",
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
@@ -1087,7 +1087,7 @@
     },
     {
       "code": "health-certificate-institutional-child-care-nursing-home-etc",
-      "name": "Health Certificate — institutional (child care, nursing home, etc.)",
+      "name": "Health Certificate: institutional (child care, nursing home, etc.)",
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
@@ -1100,7 +1100,7 @@
     },
     {
       "code": "health-certificate-laundry-dry-cleaning",
-      "name": "Health Certificate — laundry / dry cleaning",
+      "name": "Health Certificate: laundry / dry cleaning",
       "groupName": "3. Food / health establishments",
       "agencyLabel": "DPHSS DEH",
       "agencyCode": "dphss",
@@ -1872,7 +1872,7 @@
       "agencyLabel": "U.S. Department of State (federal)",
       "agencyCode": null,
       "agencyCodes": [],
-      "source": "Not GovGuam — listed only as related life-event",
+      "source": "Not GovGuam: listed only as related life-event",
       "unverified": false,
       "trackable": false
     },

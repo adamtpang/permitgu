@@ -156,6 +156,23 @@ test("a super admin builds a permit, and a file runs through it to issued", asyn
   assert.equal(logged.rows[0].n, "13");
 });
 
+test("the first two built permits are seeded, on, and linked to the catalog", async () => {
+  const db = await database();
+  const types = await as(db, null, "", () => db.query<{ code: string; noun: string; steps: string; papers: string; catalog: string }>(`
+    select t.code, t.noun,
+      (select count(*)::text from public.workflow_steps w where w.application_type_id = t.id) as steps,
+      (select count(*)::text from public.required_documents r where r.application_type_id = t.id) as papers,
+      (select c.code from public.permit_catalog c where c.application_type_code = t.code and c.trackable) as catalog
+    from public.application_types t where t.builder order by t.code`));
+  assert.deepEqual(types.rows, [
+    { code: "x_sanitary_permit_food", noun: "permit", steps: "6", papers: "2", catalog: "sanitary-permit-form-a-new-establishment" },
+    { code: "x_zone_variance", noun: "approval", steps: "9", papers: "1", catalog: "zone-variance-gluc-form-03" },
+  ]);
+  // No long dashes are left in what the catalog shows, and the shifted directory row is fixed.
+  const dashes = await db.query<{ n: string }>("select ((select count(*) from public.permit_catalog where name like U&'%\\2014%') + (select count(*) from public.agencies where acronym like U&'%\\2014%' or name ~ '^[0-9]'))::text as n");
+  assert.equal(dashes.rows[0].n, "0");
+});
+
 test("the house and license papers still pass the paper check", async () => {
   const db = await database();
   await db.exec(`insert into auth.users (id, email, raw_user_meta_data) values ('${CITIZEN}', 'owner.demo@example.com', '{"full_name":"Owner Demo"}')`);

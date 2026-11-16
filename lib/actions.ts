@@ -298,6 +298,13 @@ export async function removeTypeDocument(formData: FormData) {
   }, "paper_removed");
 }
 
+export async function linkTypeCatalog(formData: FormData) {
+  await builder(formData, "link_type_catalog", {
+    p_type_code: String(formData.get("type_code") ?? ""),
+    p_catalog_code: String(formData.get("catalog_code") ?? ""),
+  }, "catalog_linked");
+}
+
 export async function setTypeActive(formData: FormData) {
   const on = formData.get("active") === "true";
   await builder(formData, "set_type_active", {

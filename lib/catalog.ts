@@ -19,7 +19,17 @@ export type CatalogPermit = {
   source: string;
   unverified: boolean;
   trackable: boolean;
+  // Where its tracker starts, when it has one that is switched on.
+  trackerPath?: string;
 };
+
+// The start page for a tracked permit, from its type code.
+export function trackerPath(typeCode: string | null | undefined) {
+  if (!typeCode) return undefined;
+  if (typeCode === "building_permit_residential_one_family") return "/apply";
+  if (typeCode === "business_license_new") return "/apply/business-license";
+  return `/apply/${typeCode}`;
+}
 
 export type RequiredDocument = {
   applicationTypeCode: string;
@@ -75,7 +85,8 @@ function cells(line: string) {
     .replace(/^\|/, "")
     .replace(/\|$/, "")
     .split("|")
-    .map((cell) => cell.trim());
+    // A dash inside a phrase becomes a colon. A lone dash still means "none".
+    .map((cell) => cell.trim().replace(/\s+—\s+/g, ": "));
 }
 
 function isDivider(line: string) {
@@ -110,7 +121,7 @@ export function parseAgencies(markdown: string): DirectoryAgency[] {
     let acronym = "";
     let site = "";
     let notes = "";
-    if (/^\d+$/.test(column[0])) {
+    if (/^\d+(?:[–-]\d+)?$/.test(column[0])) {
       name = column[1] ?? "";
       acronym = column[2] ?? "";
       site = column[3] ?? "";
@@ -127,7 +138,8 @@ export function parseAgencies(markdown: string): DirectoryAgency[] {
     rows.push({
       code,
       name: name.replace(/\*\*/g, ""),
-      acronym: acronym.replace(/\*\*/g, "") || code,
+      // An agency with no acronym is shown by its name.
+      acronym: acronym.replace(/\*\*/g, "").replace(/^[—-]$/, "") || name.replace(/\*\*/g, "").replace(/\s*\([^)]*\)/g, ""),
       website: websiteOf(site),
       groupName: group,
       notes: notes.replace(/\*\*/g, "").trim() || null,
