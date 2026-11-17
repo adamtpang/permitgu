@@ -6,3 +6,8 @@ node_modules
 .next
 .supabase
 tsconfig.tsbuildinfo
+
+# Private local agent transcripts (never commit or deploy)
+docs/grokbot/
+docs/sessions/
+SESSION_DIGEST.md

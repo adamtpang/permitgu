@@ -11,3 +11,8 @@ tools/
 evals/
 kb/
 repos.yaml
+
+# Private local agent transcripts (never commit or deploy)
+docs/grokbot/
+docs/sessions/
+SESSION_DIGEST.md
