@@ -192,9 +192,19 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
             <Button type="submit" variant="outline" className="min-h-[48px] w-fit px-6 text-base">Give role</Button>
           </form>
         </Fold>
-        {current.isSuper ? (
+        {current.isSuper && process.env.SUPABASE_SERVICE_ROLE_KEY ? (
           <Fold title="Create a staff account">
             <InviteForm agencies={agencies.data ?? []} />
+          </Fold>
+        ) : null}
+        {current.isSuper && !process.env.SUPABASE_SERVICE_ROLE_KEY ? (
+          <Fold title="How to add a new staff member">
+            <ol className="grid max-w-2xl list-decimal gap-2 pl-5 text-[0.95rem] text-ink2">
+              <li>They sign in once with an email link at the public sign-in page. That creates their account.</li>
+              <li>You give them a role above, with the email they used.</li>
+              <li>Signed in from that email link, they set a password at the staff set-password page.</li>
+              <li>They sign in at the staff sign-in page with that password. The first time, it asks them to add an authenticator app.</li>
+            </ol>
           </Fold>
         ) : null}
       </Section>

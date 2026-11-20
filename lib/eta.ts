@@ -1,6 +1,6 @@
 // Tracker ETA. Estimates come only from this tracker's own finished steps
 // (see supabase/migrations/20261113230000_step_eta.sql). No agency has published
-// timelines for these steps, so a step with too little history has no estimate.
+// timelines for most steps, so a step with too little history has no estimate.
 
 // sampleFiles is how many of the finished files behind an estimate are made-up sample files.
 export type StepEstimate = { code: string; samples: number; medianSeconds: number; sampleFiles?: number };
@@ -111,9 +111,69 @@ const PUBLISHED: Record<string, { text: string; source: string; label: string }>
     label: "Public Auditor report 25-05",
   },
   "x_zone_variance:s_arc_review": {
-    text: "Published: a Land Management agenda shows the Application Review Committee setting a 30-day timeline once an application is on its agenda. That is one agenda, not a rule.",
-    source: "https://dlm.guam.gov/wp-dlm-content/uploads/2026/08/AUG202026-Final.pdf",
-    label: "Committee agenda, August 20, 2026",
+    text: "Set by law: the review committee should send its reports within 30 days of filing, where possible. That is a target, not a hard limit. One 2026 committee agenda also set a 30-day timeline.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+    label: "21 GCA §61106(b)",
+  },
+  "x_zone_change:s_arc_review": {
+    text: "Set by law: the review committee should send its reports within 30 days of filing, where possible. That is a target, not a hard limit.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+    label: "21 GCA §61106(b)",
+  },
+  "x_zone_change:s_mailed_and_newspaper_notice": {
+    text: "Set by law: the hearing notice runs in a newspaper at least 10 days before the hearing, and is mailed to the mayor and to owners within 500 feet.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+    label: "21 GCA §61633(a)",
+  },
+  "x_zone_variance:s_village_council": {
+    text: "Set by law: the village planning council sends its resolution to the Commission within 20 days of its public hearing.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+    label: "21 GCA §61623(a)",
+  },
+  "x_sanitary_permit_food:intake": {
+    text: "Published: submit the application and papers at least 30 days before you plan to open.",
+    source: "https://web.archive.org/web/20250903054533id_/https://dphss.guam.gov/wp-content/uploads/2023/05/Sanitary-Permit.FORM_.A_2023.pdf",
+    label: "Public Health Form A, 2023",
+  },
+  "x_sanitary_permit_food:issue": {
+    text: "Published: once every requirement is met, including the inspection, you can ask for processing within 24 hours for an extra $100. From rules dated November 2021. We did not confirm they were formally adopted.",
+    source: "https://web.archive.org/web/20250903054457id_/https://dphss.guam.gov/wp-content/uploads/2022/04/SPRR_11.09.21.pdf",
+    label: "Public Health sanitary permit rules, 2021",
+  },
+  "x_temporary_food_event:intake": {
+    text: "Published: an application filed one day or less before the event pays a $50 expedited fee. From rules dated November 2021. We did not confirm they were formally adopted.",
+    source: "https://web.archive.org/web/20250903054457id_/https://dphss.guam.gov/wp-content/uploads/2022/04/SPRR_11.09.21.pdf",
+    label: "Public Health sanitary permit rules, 2021",
+  },
+  "x_temporary_alcohol_license:intake": {
+    text: "Published: the application says to submit it within 30 days before the event. That may mean no later than 30 days before, so apply early.",
+    source: "https://www.govguamdocs.com/revtax/docs/AlcoholicBeverageLicenseApplication(2023.11).pdf",
+    label: "Alcoholic Beverage License application, 2023",
+  },
+  "x_park_reservation:intake": {
+    text: "Published: reservations open 3 months before the date.",
+    source: "https://dpr.guam.gov/3687-2/",
+    label: "Parks and Recreation reservations",
+  },
+  "x_road_work:s_gwa_clearance": {
+    text: "Published: Waterworks needs the start date at least 3 full working days before work starts. Its clearance is valid for 10 days.",
+    source: "https://guamwaterworks.org/wp-content/uploads/2021/05/ENGP-009-5-17-21-Updated-Utility-Clearance-Request-Form-Fillable.pdf",
+    label: "Waterworks form ENGP-009",
+  },
+  "x_power_service:intake": {
+    text: "Published: for a new building, apply 8 months before you need power (12 months for a pad-mounted transformer), so the Power Authority can order materials.",
+    source: "https://www.guampowerauthority.com/residential/residential-forms-and-permits",
+    label: "Power Authority forms and permits",
+  },
+  "x_power_service:issue": {
+    text: "Published: same-day connection is available for a $9 fee. It appears to cover a place that already has a meter, not a new building.",
+    source: "https://www.guampowerauthority.com/how-do-i/start-stop-move-services",
+    label: "Power Authority start, stop, and move",
+  },
+  gpa_clearance: {
+    text: "Published: for a new building, apply for power 8 months before you need it (12 months for a pad-mounted transformer), so the Power Authority can order materials.",
+    source: "https://www.guampowerauthority.com/residential/residential-forms-and-permits",
+    label: "Power Authority forms and permits",
   },
   "x_contractor_license:s_examination": {
     text: "Published: the Board gives the examination on the 2nd and 4th Tuesday of the month.",

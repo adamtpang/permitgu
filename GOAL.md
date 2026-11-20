@@ -65,6 +65,21 @@ When 1-7 hold, or only Blockers remain: stop and report.
 - [ ] Rename to permitgu everywhere (folder, repo, Vercel project). Spun off as
       a separate task.
 
+## Saved for later (Adam, 2026-11-20)
+- Email updates to applicants and staff. Needs a mail service key. Until then,
+  updates show on the site only.
+- Online payment through Stripe. The fee steps are tracked, nothing is charged.
+  Do not build either until Adam restarts it.
+
+## Published-time research, 2026-11-20 (no figure found)
+Searched and found no processing time: 21 GCA ch. 66 (plan review is only
+"promptly"), 21 GCA §61620 (variance decision "within a reasonable time"),
+11 GCA ch. 70 and 3 (business and alcohol licenses), 12 GCA ch. 14 (Waterworks),
+5 GCA ch. 53 (road work review), OPA report 11-05, and the clearance pages of Land
+Management, Guam EPA, Fire, Public Health, Parks, and Agriculture. The 2022 BSP
+Guidebook and the 1994 checklist manual return 404. Do not repeat these searches.
+These waits have to come from Dad, the agencies, or real files.
+
 ## Questions for Dad (and EJ's team)
 Everything else on this list was answered from official sources on 2026-10-04.
 - Food truck: where can a truck park and sell, and who approves the spot?
