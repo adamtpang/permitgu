@@ -214,14 +214,19 @@ export function parsePermits(markdown: string, agencies: DirectoryAgency[] = [])
     const source = column[2] ?? "";
     const house = /application for permit and plan review/i.test(name);
     const trackable = house || code === "new-business-license-form-bl-01";
+    const label = column[1] ?? "";
+    const agencyCodes = house ? workflowAgencyCodes() : (formAgencies(code)?.codes ?? agencyCodesFor(label, agencies));
+    // The lead is the first agency the label names, matched as a whole word, so
+    // "Government Ethics Commission" is not read as the Governor (GOV).
+    const lead = house ? "dpw" : (agencyCodesFor(label, agencies)[0] ?? matchAgencyCode(label, agencies));
     rows.push({
       code,
       name,
       groupName: group,
       agencyLabel: (column[1] ?? "").replace(/\*\*/g, "").trim(),
-      agencyCode: matchAgencyCode(column[1] ?? "", agencies),
+      agencyCode: lead,
       // The tracked permit touches every agency on its workflow, not only the one in its label.
-      agencyCodes: house ? workflowAgencyCodes() : (formAgencies(code)?.codes ?? agencyCodesFor(column[1] ?? "", agencies)),
+      agencyCodes,
       source: source.replace(/\*\*/g, "").trim(),
       unverified: groupUnverified || /unverified/i.test(source),
       trackable,
@@ -311,7 +316,12 @@ export function groupPermits(permits: CatalogPermit[]) {
     list.push(permit);
     groups.set(permit.groupName, list);
   }
-  return [...groups.entries()].map(([groupName, items]) => ({ groupName, items }));
+  // Groups are numbered in the catalog ("12. Housing"). The database returns rows in
+  // no fixed order, so sort by that number.
+  const rank = (name: string) => Number.parseInt(name, 10) || Number.MAX_SAFE_INTEGER;
+  return [...groups.entries()]
+    .sort(([a], [b]) => rank(a) - rank(b) || a.localeCompare(b))
+    .map(([groupName, items]) => ({ groupName, items }));
 }
 
 export function documentKindAllowed(kind: string, documents: { code: string }[]) {

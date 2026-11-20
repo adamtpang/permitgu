@@ -12,7 +12,7 @@ For the call with Dad. Written 2026-11-15. Site: https://permitgu.vercel.app
 
 | # | He asked for | Where to show it | State |
 |---|---|---|---|
-| 1 | Apply across the ~51 agencies | `/permits` (102 permits, 79 agencies listed), then "Track one now" | 18 permits can be started and tracked. More are added in an admin page with no code change |
+| 1 | Apply across the ~51 agencies | `/permits` (331 permits and applications, 71 agencies leading at least one; the 9 with none are listed in the catalog's Gaps), then "Track one now" | 18 permits can be started and tracked. More are added in an admin page with no code change |
 | 2 | Pizza tracker with an ETA | Any file page: the stage bar, "Where it is now", "Estimated time" | Works. ETA is from sample files, labeled as sample |
 | 3 | Which agencies, which steps | `/apply`, `/apply/business-license`, `/apply/x_zone_variance`: "Who touches it" and "The steps" | Works for the 18 tracked permits |
 | 4 | Verbose logging | A file page, "History". Staff: `/admin/audit` | Works. Every action, who, when |
@@ -44,7 +44,7 @@ For the call with Dad. Written 2026-11-15. Site: https://permitgu.vercel.app
 - No virus scan on uploads.
 - No payment. Fees are entered by staff and paid in person.
 - Only one real staff account exists (Adam's). Sample reviewers cannot sign in. A new staff member signs in once with an email link, gets a role on `/admin`, then sets a password and an authenticator app.
-- 18 of 102 cataloged permits are trackable. Every step comes from an official form or the law. Where an agency does not publish what it checks, the step says so on the page.
+- 18 of 331 cataloged permits are trackable. Every agency was researched on 2026-11-20; 84 entries are marked unverified, and few fees are confirmed. Every step comes from an official form or the law. Where an agency does not publish what it checks, the step says so on the page.
 
 ## Questions for him
 
