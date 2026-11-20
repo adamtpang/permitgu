@@ -59,7 +59,11 @@ Sources:
 Who: Public Health (DPHSS)
 
 - Each food handler applies for a health certificate
-- Study the food safety course manual first
+- Study the food safety course manual first. The examination has 25 multiple choice questions, and the passing score is 70%
+- A first-time applicant takes the food safety course and a renewal takes a refresher course. A first-time applicant also shows a tuberculosis skin test result from the last six months
+- A May 2022 news report lists the fee for a food worker as $25: $10 for the certificate and $15 for the course
+
+UNCONFIRMED: Not yet confirmed: the course, the tuberculosis test, and the $25 fee come from a May 2022 news report (Pacific Daily News (https://www.guampdn.com/lifestyle/ayuda-line-how-do-i-obtain-a-health-certificate/article_fc4f6b66-dfaf-11ec-ae10-d3a558a9da8b.html)), not a current Public Health page. We also did not find how long a certificate stays valid. Confirm with Environmental Health at (671) 922-2533.
 
 Sources:
 - [Health certificate application (archived)](https://web.archive.org/web/20260711205916/https://dphss.guam.gov/sites/default/files/HEALTH%20CERTIFICATE%20CLEARANCE%20APPLICATION%202025.pdf)

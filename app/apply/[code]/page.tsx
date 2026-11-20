@@ -65,7 +65,7 @@ export default async function BuiltApplyPage({ params }: { params: Promise<{ cod
       ) : null}
 
       <Section title="The steps" lede="Open a stage to see what happens in it.">
-        <StepsByPhase steps={type.steps} />
+        <StepsByPhase steps={type.steps} typeCode={type.code} />
       </Section>
 
       <Section title="Good to know">

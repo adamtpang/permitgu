@@ -46,6 +46,10 @@ Who: DPW Building Inspection and Permits Section, at the Business License and Pe
 - If the property is in a flood zone, attach a topographic map and a flood elevation certificate
 - Roofing counts in the valuation that sets your permit fee, and fees double if work starts before the permit (21 GCA §66408)
 - Someone applying for the owner must include the owner's verified affidavit authorizing them
+- When plans are needed, bring one hard copy and five digital sets. For a renovation, give the scope of work and the total square footage
+- The application routes to Public Works plan reviews and to other agencies (Land Management zoning, the Contractors License Board, the engineer and architect board, and others). The 2022 development guidebook says each applies "for what the project entails," so a small repair may need only some
+
+UNCONFIRMED: Not yet confirmed: which reviews and clearances Public Works requires for a typical repair, and how long they take. We found no published processing time and no typhoon fast-track rule.
 
 Sources:
 - [Permit application](https://bsp.guam.gov/wp-content/uploads/2026/08/DPW-Application-for-Permit-and-Plan-Review-Fillable.pdf)
@@ -79,4 +83,4 @@ Sources:
 
 ## Built from
 
-Built from Guam's Building Law (21 GCA Chapter 66, §§66104, 66106, 66201-66202.1), DPW's Application for Permit and Plan Review, and the Contractors License Board site. Source research updated 4 Oct 2026. This is an unofficial demo, not legal advice.
+Built from Guam's Building Law (21 GCA Chapter 66, §§66104, 66106, 66201-66202.1), DPW's Application for Permit and Plan Review, and the Contractors License Board site. Source research updated 20 Nov 2026. This is an unofficial demo, not legal advice.

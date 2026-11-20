@@ -170,6 +170,41 @@ const PUBLISHED: Record<string, { text: string; source: string; label: string }>
     source: "https://www.guampowerauthority.com/how-do-i/start-stop-move-services",
     label: "Power Authority start, stop, and move",
   },
+  "x_conditional_use:intake": {
+    text: "Published: Land Management's process chart shows a preliminary application interview of about ten working days.",
+    source: "https://dlm.guam.gov/wp-dlm-content/uploads/2024/01/GLUC-Form-01_ConditionalUse-2020.pdf",
+    label: "Conditional use form, process chart",
+  },
+  "x_conditional_use:s_arc_review": {
+    text: "Set by law: the review committee should send its reports within 30 days of filing, where possible. That is a target, not a hard limit. Land Management's process chart shows a 60 calendar day review period.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+    label: "21 GCA §61106(b)",
+  },
+  "x_conditional_use:s_notice_sign": {
+    text: "Set by law: the sign stays up with current information for at least 10 days in a row before each hearing or meeting.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+    label: "21 GCA §61303(c)(1)",
+  },
+  "x_conditional_use:s_mailed_notice": {
+    text: "Set by law: written notice reaches owners within 500 feet at least 10 days before the hearing in person, or at least 25 days before by certified mail.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf",
+    label: "21 GCA §61303(c)(1)",
+  },
+  "x_seashore_clearance:s_public_hearing": {
+    text: "Set by law: the hearing is set no less than 21 and no more than 90 days after filing.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc063.pdf",
+    label: "21 GCA §63108(b)(2), 2007 copy",
+  },
+  "x_seashore_clearance:s_commission_decision": {
+    text: "Set by law: the Commission acts within 60 days after the hearing ends.",
+    source: "https://col.guamcourts.gov/sites/default/files/21gc063.pdf",
+    label: "21 GCA §63108(b)(3), 2007 copy",
+  },
+  "x_business_license_renewal:intake": {
+    text: "Set by law: renew by one year after the license was issued. After that, $1 a day is added, and after 30 days the business must stop until it renews.",
+    source: "https://col.guamcourts.gov/sites/default/files/11gc070.pdf",
+    label: "11 GCA §70117(b)",
+  },
   gpa_clearance: {
     text: "Published: for a new building, apply for power 8 months before you need it (12 months for a pad-mounted transformer), so the Power Authority can order materials.",
     source: "https://www.guampowerauthority.com/residential/residential-forms-and-permits",

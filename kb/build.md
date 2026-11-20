@@ -86,6 +86,20 @@ Sources:
 - [Guam EPA forms](https://epa.guam.gov/applications/)
 - [Septic rules](https://epa.guam.gov/toilets/)
 
+## Also: Becoming a licensed contractor?
+
+Who: Contractors License Board · 671-649-9676
+
+- You need at least four years of experience in the last ten as a foreman, supervising employee, or contractor in the same field, and must be 18 or older. A company qualifies through its Responsible Management Employee
+- File the Application for Examination with three certificates of experience, sworn statements from two people, a financial statement, and a project listing. The fee is $50 for each examination part, paid when you file
+- The examination has two parts: the law as applied to construction, and your classification. You need 75% or higher on each. It is given on the 2nd and 4th Tuesday of the month
+- After you pass, Revenue and Taxation, the Department of Labor, Land Management, and Public Works clear the license application. Public Health clears it only if you have alien labor, and the PEALS Board only for classification A
+- The Board investigates and issues the license, or says in writing why not, within 45 working days after the application is filed. The first license fee is pro-rated by quarter, from $400 (July) down to $100 (April). The annual fee is due by June 30
+
+Sources:
+- [Board application packet (April 2024)](http://clb.guam.gov/wp-content/uploads/2024/04/Application-Information-Packet-2024-04-25.pdf)
+- [Track an application](/apply/x_contractor_license)
+
 ## Still unknown (do not answer these; send the person to the agency)
 
 - UNCONFIRMED: Typical total cost and real wait time for a house permit at the permit center today

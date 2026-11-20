@@ -81,11 +81,11 @@ test("the sample seed gives every tracked permit finished files, open work, and 
 
   // Running the seed again changes nothing.
   await db.exec(seed);
-  assert.equal((await db.query<{ n: string }>("select count(*)::text as n from public.applications")).rows[0].n, "75");
+  assert.equal((await db.query<{ n: string }>("select count(*)::text as n from public.applications")).rows[0].n, "90");
 
   // A super admin retires them in one step. Estimates then have nothing to stand on.
   await assert.rejects(as(db, CITIZEN, "aal1", () => db.query("select public.retire_sample_files()")), /mfa_required/);
   const retired = await as(db, ADMIN, "aal2", () => db.query<{ n: number }>("select public.retire_sample_files() as n"));
-  assert.equal(retired.rows[0].n, 75);
+  assert.equal(retired.rows[0].n, 90);
   assert.equal((await as(db, CITIZEN, "aal1", () => db.query("select * from public.step_estimates_for('business_license_new')"))).rows.length, 0);
 });

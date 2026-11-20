@@ -1,4 +1,5 @@
 import { Fold } from "@/components/layout";
+import { publishedTime } from "@/lib/eta";
 
 export type OverviewStep = {
   code: string;
@@ -84,7 +85,7 @@ export function AgencyHub({ title, lead, steps }: { title: string; lead: string;
 }
 
 // Every step, grouped by stage, one stage open at a time.
-export function StepsByPhase({ steps }: { steps: OverviewStep[] }) {
+export function StepsByPhase({ steps, typeCode }: { steps: OverviewStep[]; typeCode?: string }) {
   return (
     <div>
       {PHASES.filter((entry) => steps.some((step) => step.phase === entry.phase)).map((entry, index) => {
@@ -92,17 +93,25 @@ export function StepsByPhase({ steps }: { steps: OverviewStep[] }) {
         return (
           <Fold key={entry.phase} title={entry.label} note={`${inPhase.length} ${inPhase.length === 1 ? "step" : "steps"}`} open={index === 0}>
             <ol className="grid gap-5">
-              {inPhase.map((step) => (
-                <li key={step.code}>
-                  <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                    <span className="text-lg font-medium">{step.name}</span>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-muted">
-                      {step.agency} · {step.routing === "provisional" ? "list not confirmed" : EVERY_FILE.has(step.routing) ? "every file" : "when routed"}
-                    </span>
-                  </div>
-                  {step.uncertainty ? <p className="mt-1 max-w-[38rem] text-[0.95rem] leading-relaxed text-ink2">{step.uncertainty}</p> : null}
-                </li>
-              ))}
+              {inPhase.map((step) => {
+                const published = publishedTime(step.code, typeCode);
+                return (
+                  <li key={step.code}>
+                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <span className="text-lg font-medium">{step.name}</span>
+                      <span className="text-xs font-semibold uppercase tracking-wider text-muted">
+                        {step.agency} · {step.routing === "provisional" ? "list not confirmed" : EVERY_FILE.has(step.routing) ? "every file" : "when routed"}
+                      </span>
+                    </div>
+                    {published ? (
+                      <p className="mt-1 max-w-[38rem] text-[0.95rem] font-medium leading-relaxed text-ink" data-published>
+                        {published.text} <a href={published.source} target="_blank" rel="noopener noreferrer">{published.label}</a>
+                      </p>
+                    ) : null}
+                    {step.uncertainty ? <p className="mt-1 max-w-[38rem] text-[0.95rem] leading-relaxed text-ink2">{step.uncertainty}</p> : null}
+                  </li>
+                );
+              })}
             </ol>
           </Fold>
         );

@@ -186,7 +186,9 @@ test("the built permits are seeded, on, and linked to the catalog", async () => 
       (select c.code from public.permit_catalog c where c.application_type_code = t.code and c.trackable) as catalog
     from public.application_types t where t.builder order by t.code`));
   assert.deepEqual(types.rows, [
+    { code: "x_business_license_renewal", noun: "license", steps: "6", papers: "2", catalog: "business-license-renewal-amendment-relocation-cancellation" },
     { code: "x_clearing_grading", noun: "permit", steps: "10", papers: "1", catalog: "clearing-grading-stockpiling-permit-often-with-gepa" },
+    { code: "x_conditional_use", noun: "permit", steps: "9", papers: "4", catalog: "conditional-use-gluc-form-01" },
     { code: "x_contractor_license", noun: "license", steps: "12", papers: "5", catalog: "contractor-s-license" },
     { code: "x_health_certificate_food", noun: "certificate", steps: "5", papers: "1", catalog: "health-certificate-food-facility" },
     { code: "x_park_reservation", noun: "approval", steps: "5", papers: "0", catalog: "park-or-pavilion-reservation" },
@@ -194,6 +196,7 @@ test("the built permits are seeded, on, and linked to the catalog", async () => 
     { code: "x_repair_permit", noun: "permit", steps: "9", papers: "4", catalog: "building-permit-for-a-repair" },
     { code: "x_road_work", noun: "permit", steps: "7", papers: "3", catalog: "permit-for-work-in-a-public-road" },
     { code: "x_sanitary_permit_food", noun: "permit", steps: "6", papers: "2", catalog: "sanitary-permit-form-a-new-establishment" },
+    { code: "x_seashore_clearance", noun: "clearance", steps: "8", papers: "5", catalog: "seashore-clearance-gspc-form-01" },
     { code: "x_temporary_alcohol_license", noun: "license", steps: "8", papers: "0", catalog: "temporary-alcohol-license-for-an-event" },
     { code: "x_temporary_food_event", noun: "permit", steps: "6", papers: "2", catalog: "temporary-food-service-establishment-tfse-sanitary-permit" },
     { code: "x_water_service", noun: "approval", steps: "6", papers: "3", catalog: "water-service-connection" },

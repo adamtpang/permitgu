@@ -29,7 +29,7 @@ select pg_temp.put_step('x_road_work', 's_gwa_clearance', 'Waterworks utility cl
 select pg_temp.put_step('x_road_work', 's_gpa_clearance', 'Power Authority utility clearance', 'gpa', 'clearance', 'as_indicated', 120,
   'The Power Authority publishes clearance guidelines for digging near its lines. We did not confirm its steps, so this stays off until a reviewer adds it. We found nothing for the phone company.');
 select pg_temp.put_step('x_road_work', 'issue', 'Permit issued', 'dpw', 'issuance', 'always', 920,
-  'The number shown is a demo number. After it is issued: tell the village mayor the next working day, restore the road by the date on the permit, and fix a failed repair within 14 days. Public Works keeps the deposit for up to 3 months after the repair while it inspects. Paved repairs carry a 1-year warranty, unpaved 90 days (5 GCA §53105). This tracker stops at issue.');
+  'The number shown is a demo number. After it is issued: tell the village mayor before digging starts and again when the road is restored (the next working day after an emergency dig), restore the road by the date on the permit, and fix a failed repair within 14 days. Public Works keeps the deposit for up to 3 months after the repair while it inspects. Paved repairs carry a 1-year warranty, unpaved 90 days (5 GCA §53105). This tracker stops at issue.');
 select pg_temp.put_doc('x_road_work', 'gwa_utility_clearance', 'Waterworks utility clearance request (ENGP-009)', false,
   'Only for an excavation. Include an aerial photo or engineering plans, and stake or mark the area in the field.');
 select pg_temp.put_doc('x_road_work', 'deposit_or_bond', 'Road deposit or performance bond', false,

@@ -32,12 +32,14 @@ Who: You or your contractor, at DPW Highways
 - Every application to excavate a road needs a schedule of work with a deadline for restoring the road to its original condition or better (§53105(a))
 - Deposit: on top of the application fee, an excavation needs a deposit of $500 or 5% of the cost of the work affecting the road, whichever is more. A performance bond from a surety licensed on Guam can stand in its place (§53105(b))
 - DPW may also require a bond and may supervise the work, at your cost (§§53104, 53105(e))
+- Utility clearance: before you dig, file Waterworks form ENGP-009 with your DPW encroachment permit number and an aerial photo or engineering plans, and stake or mark the area. Waterworks needs your start date at least 3 full working days ahead, and its clearance is valid for 10 days. The Power Authority publishes its own clearance guidelines for digging near its lines
 - Permits can be revoked for cause on 30 days' written notice (§53103)
 
 UNCONFIRMED: Not yet confirmed: the DPW permit application fee, the form, and how long approval takes. The law mentions an application fee but does not set an amount. Also, the online copy of Chapter 53 was last compiled in 2014, so later amendments may be missing. Confirm with DPW at (671) 649-3159.
 
 Sources:
 - [5 GCA §53105](https://col.guamcourts.gov/sites/default/files/5gc053.pdf)
+- [Waterworks utility clearance form](https://guamwaterworks.org/wp-content/uploads/2021/05/ENGP-009-5-17-21-Updated-Utility-Clearance-Request-Form-Fillable.pdf)
 
 ## Step 3: Do the work, tell the mayor, and restore the road
 
@@ -62,6 +64,8 @@ Who: Guam Waterworks Authority (GWA) and Guam Power Authority (GPA)
 - GWA sewer: the same steps, with a Wastewater Connection Permit and 48 hours' notice before trenching and connecting
 - GWA Permits, Inspection and Enforcement: (671) 300-6058. Customer Service: (671) 647-7800
 - GPA power: apply at the GPA payment center in Fadian, the Hagåtña satellite office, or GWA in upper Tumon, or by email. Bring the application, a photo ID, your deed, title, or lease with authorization, and a security deposit. The application fee is $25, and residential deposits run $125 to $500. GPA: (671) 647-5787
+- New building? GPA asks you to apply 8 months before you need power (12 months for a pad-mounted transformer) so it can order materials. The plans need a load calculation and an engineer's seal, GPA engineering visits the site, and a DPW electrical inspection must pass before GPA sets the meter and energizes the service
+- A place that already has a meter can be reconnected the same day for a $9 fee
 
 UNCONFIRMED: Not yet confirmed: whether a utility line crossing a public road also needs a separate DPW highway permit when the property owner, not GWA or GPA, does the trenching. The law covers any opening in a highway, so ask DPW at (671) 649-3159.
 
@@ -69,6 +73,7 @@ Sources:
 - [GWA service steps](https://guamwaterworks.org/faq/water-sewer-service-application/)
 - [GWA customer form](http://guamwaterworks.org/wp-content/uploads/2025/10/CustomerInfoForm10-01-25-Fillable.pdf)
 - [GPA start service](https://www.guampowerauthority.com/how-do-i/start-stop-move-services)
+- [GPA forms and permits](https://www.guampowerauthority.com/residential/residential-forms-and-permits)
 
 ## Also: Closing a road, or putting something on it?
 

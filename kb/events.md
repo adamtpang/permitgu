@@ -18,10 +18,12 @@ Who: Public Health (DPHSS), Division of Environmental Health, Plans and Specific
 
 - Every food seller at an island event needs a Temporary Food Service Establishment (TFSE) sanitary permit
 - You need a separate permit for the location of each event
-- Apply as early as you can so the permit is issued before the event
+- File Form A and Form B with the menu, floor plan, and vicinity map. Public Health checks the menu, equipment, handwash station, and three-compartment sink, briefs you on food safety, and does a pre-operational inspection
+- The fee rule (26 GAR §4506) sets $50 for one day, $125 for up to 7 days, $155 for weekends, $200 for up to 180 days, and $25 for a village Planning Council event
+- An application filed one day or less before the event pays a $50 expedited fee, so apply as early as you can
 - Selling without a valid permit can lead to a fine and closure of your booth
 
-UNCONFIRMED: Not yet confirmed: the rules above come from a Guam Daily Post report of a DPHSS notice (Nov 14, 2022, updated Feb 2025). It lists office hours of Monday, Wednesday and Friday, 8 a.m. to noon and 1 to 5 p.m., and the numbers 671-646-1276 and 671-300-9570/75. The TFSE form is a 2019 file kept by archive.org because DPHSS is rebuilding its website. We did not find the TFSE fee or how many days ahead to apply. Confirm the current form, fee, and hours with DEH at (671) 922-2533.
+UNCONFIRMED: Not yet confirmed: the rules above come from a Guam Daily Post report of a DPHSS notice (Nov 14, 2022, updated Feb 2025). It lists office hours of Monday, Wednesday and Friday, 8 a.m. to noon and 1 to 5 p.m., and the numbers 671-646-1276 and 671-300-9570/75. The TFSE form is a 2019 file kept by archive.org because DPHSS is rebuilding its website. The fees and the expedited fee come from Public Health rules dated November 2021 (archived rules (https://web.archive.org/web/20250903054457id_/https://dphss.guam.gov/wp-content/uploads/2022/04/SPRR_11.09.21.pdf)). We did not confirm they were formally adopted, or whether the inspection happens before or on the event day. Confirm the current form, fee, and hours with DEH at (671) 922-2533.
 
 Sources:
 - [TFSE application (archived)](https://web.archive.org/web/20250903054503/http://dphss.guam.gov/wp-content/uploads/2019/05/TFSE-Application-Fillable.pdf)
@@ -83,9 +85,16 @@ Sources:
 
 Who: Alcoholic Beverage Control (ABC) Board, Department of Revenue and Taxation
 
-- Ask Rev & Tax about a temporary alcoholic beverage license for your event before you plan any alcohol sales
+- File the Temporary Alcoholic Beverage License (TABL) application with Rev & Tax. A business license is not needed. Nonprofits and clubs can apply for fundraisers, and existing licensees for temporary beer
+- Rev & Tax clears business privilege tax, income tax, and collections, then the ABC Board approves the license at a meeting
+- Fees: temporary beer (Class 7) $20 a day, temporary general (Class 10) $50 a day, each capped at $100 per event
+- A temporary license lasts no more than 10 days, and temporary beer no more than 3 (11 GCA §§3209, 3221)
 
-UNCONFIRMED: Not yet confirmed: ABC Board meeting agendas on guamtax.com show event organizers applying for temporary on-sale beer licenses, each naming the dates, hours, and a fenced or cordoned area where people may drink, but we did not find the current application form, fee, or lead time (ABC agenda, Apr 2016 (https://www.guamtax.com/abc/ABCAgenda-04-27-2016.pdf)). Applications appear to go before the Board at its meetings, so start early. Confirm with Rev & Tax.
+UNCONFIRMED: Not yet confirmed: the application says to submit it "within 30 days prior to the event," which may mean no later than 30 days before, so apply early. We found no police, mayor, or Public Health sign-off for a temporary license. Those are listed for regular licenses. Confirm with Rev & Tax.
+
+Sources:
+- [Alcoholic beverage license application (2023)](https://www.govguamdocs.com/revtax/docs/AlcoholicBeverageLicenseApplication(2023.11).pdf)
+- [ABC fees](https://www.guamtax.com/fees/ABCFees_201303.pdf)
 
 ## Step 7: Fireworks
 
@@ -97,9 +106,9 @@ UNCONFIRMED: Not yet confirmed: in December 2023, officials told KUAM that resid
 
 ## Still unknown (do not answer these; send the person to the agency)
 
-- UNCONFIRMED: The TFSE permit fee and how many days ahead to apply
+- UNCONFIRMED: Whether the 2021 Public Health fee rules for temporary food permits were formally adopted
 - UNCONFIRMED: Who issues road closure and parade permits, and how far ahead
-- UNCONFIRMED: The current temporary liquor license form and fee
+- UNCONFIRMED: Exactly how far ahead to file a temporary liquor license
 - UNCONFIRMED: Whether Guam has a noise or amplified sound permit for events
 - UNCONFIRMED: The current rules for fireworks displays
 

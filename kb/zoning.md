@@ -72,13 +72,13 @@ Sources:
 Who: You, DLM, and the Commission
 
 - Sign: put up a sign on the lot at least 4 ft by 8 ft. For zone changes and variances it reads "Notice to Rezone" in red letters at least 12 in high, and goes up within 5 days of filing (§§61619, 61633)
-- Mail: for zone changes and conditional uses, owners within 500 ft of the lot are notified. For zone changes, a newspaper notice runs at least 10 days before the hearing, and the village mayor is told (§61633). For conditional uses, notice goes out at least 10 days before the hearing (§61303)
+- Mail: for zone changes and conditional uses, owners within 500 ft of the lot are notified. For zone changes, a newspaper notice runs at least 10 days before the hearing, and the village mayor is told (§61633). For conditional uses, written notice reaches those owners at least 10 days before the hearing in person, or at least 25 days before by certified mail, and the sign stays up with current information for at least 10 days in a row before each hearing (§61303(c))
 - Missing a notice step makes any approval null and void (§§61303, 61619, 61633)
 - Hearings are held in your village, and at least one variance hearing must be after 6:00 p.m. (§61619)
 - Filing fees: zone change $50, conditional use $50, zone variance $75, setback variance $75, summary or split zone change $25, appeal $50, plus $0.25 a page after the first 5 pages (§61660)
 - You also pay the cost of mailing notices (postage, paper, envelopes, research, equipment) and the newspaper ad at its current rate (§§61303(d), 61660(b))
 
-UNCONFIRMED: Not yet confirmed: how long the whole process takes. The law sets some deadlines, but no total. DLM agendas show the Application Review Committee setting a 30-day timeline after an application is placed on its agenda (ARC agenda, Aug 20, 2026 (https://dlm.guam.gov/wp-dlm-content/uploads/2026/08/AUG202026-Final.pdf)). Ask DLM Planning for a realistic timeline.
+UNCONFIRMED: Not yet confirmed: how long the whole process takes. The law sets some deadlines, but no total. The review committee should report within 30 days of filing where possible (§61106(b)), while DLM's own process chart shows a 60-day review period. DLM agendas show the Application Review Committee setting a 30-day timeline after an application is placed on its agenda (ARC agenda, Aug 20, 2026 (https://dlm.guam.gov/wp-dlm-content/uploads/2026/08/AUG202026-Final.pdf)). Ask DLM Planning for a realistic timeline.
 
 Sources:
 - [21 GCA §§61633, 61660](https://col.guamcourts.gov/sites/default/files/21gc061_Q.pdf)

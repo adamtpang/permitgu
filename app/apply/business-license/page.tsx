@@ -57,7 +57,7 @@ export default async function BusinessLicensePage() {
       ) : null}
 
       <Section title="The steps" lede="Open a stage to see what happens in it.">
-        <StepsByPhase steps={LICENSE_STEPS} />
+        <StepsByPhase steps={LICENSE_STEPS} typeCode="business_license_new" />
       </Section>
 
       <Section title="Good to know">
